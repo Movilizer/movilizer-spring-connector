@@ -14,8 +14,8 @@ Acceptance
 
 Story: App definition - version robustness
 ==========================================
-It should be easily enhanced and app objects should be able to survive version
-changes without having to adjust to newer APIs.
+It should be easily enhanced and app objects should be able to survive version changes without having to adjust to newer
+APIs.
 
 Acceptance
 ----------
