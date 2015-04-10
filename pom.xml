@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.movilizer.connectors</groupId>
+    <artifactId>movilizer-spring-connector</artifactId>
+    <packaging>war</packaging>
+    <version>0.1</version>
+
+    <name>Movilizer Spring Connector</name>
+    <description>Standalone connector to create Movilizer Apps.
+    </description>
+    <url>http://movilizer.github.io/movilizer-spring-connector</url>
+
+    <organization>
+        <name>Movilizer GmbH</name>
+        <url>http://www.movilizer.com</url>
+    </organization>
+
+    <issueManagement>
+        <url>https://github.com/Movilizer/movilizer-spring-connector/issues</url>
+        <system>GitHub</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/Movilizer/movilizer-spring-connector</url>
+        <connection>scm:git:git://github.com/Movilizer/movilizer-spring-connector.git</connection>
+        <developerConnection>scm:git:git@github.com:Movilizer/movilizer-spring-connector.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Jesús de Mula</name>
+            <email>jesus.demula@movilizer.com</email>
+        </developer>
+    </developers>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.1.RELEASE</version>
+    </parent>
+
+    <properties>
+        <start-class>com.movilizer.connectors.spring.MovilzerAppServer</start-class>
+
+        <java.version>1.7</java.version>
+        <maven-plugins.version>3.2</maven-plugins.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Movilizer webservice -->
+        <movilizer.version>12.11.1.1</movilizer.version>
+        <!-- Upload documents -->
+        <httpclient.version>4.4</httpclient.version>
+        <!-- Online sync -->
+        <cxf.version>3.0.4</cxf.version>
+        <!-- Test -->
+        <junit.version>4.12</junit.version>
+        <mockito.version>2.0.4-beta</mockito.version>
+        <hamcrest.version>1.3</hamcrest.version>
+    </properties>
+
+    <reporting>
+        <outputDirectory>target/site</outputDirectory>
+    </reporting>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-plugins.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <addResources>false</addResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Spring boot framework -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Movilizer Web Service -->
+        <dependency>
+            <groupId>com.movilizer.mds</groupId>
+            <artifactId>movilizer-webservice</artifactId>
+            <version>${movilizer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>fluent-hc</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <!-- Online sync -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
