@@ -35,16 +35,6 @@ Acceptance
 - Documentation with the explanation of how to create a need app with just one class.
 
 
-Story: App definition - modularity
-==================================
-Apps should be able to handle simple cases in a simple manner and more complicated cases in a modular fashion.
-
-Acceptance
-----------
-- Multiple and configurable entry points for business logic that can live in different objects.
-- Documentation for business logic modularization.
-
-
 Story: App definition - multi system ids
 ========================================
 Apps should be able to handle multi system ids cases.

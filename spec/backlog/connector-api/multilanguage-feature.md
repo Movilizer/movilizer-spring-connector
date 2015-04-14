@@ -1,0 +1,1 @@
+make multilingual management easier (masterdata, documents, movelets...)
