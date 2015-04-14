@@ -1,0 +1,13 @@
+site_name: Movilizer Spring Connector
+site_url: http://open.movilizer.com/movilizer-spring-connector/
+repo_url: https://github.com/Movilizer/movilizer-spring-connector/
+site_description: The Movilizer Spring connector site
+site_author: Jesús de Mula Cano
+site_favicon: favicon.ico
+#google_analytics: ['UA-36723568-3', 'mkdocs.org']
+theme: readthedocs
+site_dir: target/site
+pages:
+- [index.md, Home]
+- [basics/app-model-structure.md, Basics/App model structure]
+- [about.md, About]
