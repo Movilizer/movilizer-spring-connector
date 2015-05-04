@@ -1,15 +1,13 @@
 Story: Config requirements - easy to use
 ========================================
-The configuration of an app can be done via .properties file, .yml file or java class.
+The configuration of an app can be done via .properties file or .yml file.
 
 Acceptance
 ----------
 - Can be configured with .properties file.
 - Can be configured with .yml file.
-- Can be configured with java class.
 - Documentation for config with .properties file.
 - Documentation for config with .yml file.
-- Documentation for config java class.
 
 
 Story: Config requirements - accessibility
@@ -21,16 +19,6 @@ Acceptance
 - Can be reach within the business logic of a Movilizer App.
 - Can be reach from outside a Movilizer App.
 - Documentation for config access within and outside the Movilizer app.
-
-
-Story: Config requirements - modularity
-=======================================
-The configuration of an app should be capable of living in different files in case the configuration is extensive.
-
-Acceptance
-----------
-- Multiple config files consolidated in one config instance.
-- Documentation for config modularization.
 
 
 Story: Config requirements - threadsafe access
