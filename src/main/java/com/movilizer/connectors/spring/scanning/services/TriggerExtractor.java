@@ -81,7 +81,7 @@ public class TriggerExtractor {
     return connectTriggersToEndpoints(endpoints, classTriggers);
   }
 
-  private Map<Class<?>, List<MovilizerTrigger>> getTriggersForBasePackage(String basePackage,
+  protected Map<Class<?>, List<MovilizerTrigger>> getTriggersForBasePackage(String basePackage,
       List<MovilizerAppEndpoint> endpoints) {
     Set<Class<?>> movilizerComponents =
         classFinder.findClassesAnnotatedWith(MovilizerComponent.class, basePackage);
@@ -93,11 +93,11 @@ public class TriggerExtractor {
     return classTriggers;
   }
 
-  private List<MovilizerTrigger> extractTriggersFromClass(Class<?> movilizerComponent,
+  protected List<MovilizerTrigger> extractTriggersFromClass(Class<?> movilizerComponent,
       List<MovilizerAppEndpoint> endpoints) {
     List<MovilizerTrigger> triggers = new ArrayList<>();
-    for (Method method : movilizerComponent.getMethods()) {
-      List<Annotation> methodAnnotations = Arrays.asList(method.getAnnotations());
+    for (Method method : movilizerComponent.getDeclaredMethods()) {
+      List<Annotation> methodAnnotations = Arrays.asList(method.getDeclaredAnnotations());
       if (oneOf(methodAnnotations, movilizerTriggerAnnotations)) {
         for (TriggerAnnotationExtractor triggerExtractor : triggerExtractors) {
           try {
@@ -118,16 +118,16 @@ public class TriggerExtractor {
     return triggers;
   }
 
-  private Boolean oneOf(List<Annotation> fromMethod, List<Class<? extends Annotation>> anyOfThese) {
+  protected Boolean oneOf(List<Annotation> fromMethod, List<Class<? extends Annotation>> anyOfThese) {
     for (Annotation annotation : fromMethod) {
-      if (anyOfThese.contains(annotation.getClass())) {
+      if (anyOfThese.contains(annotation.annotationType())) {
         return true;
       }
     }
     return false;
   }
 
-  private Map<MovilizerAppEndpoint, List<MovilizerTrigger>> connectTriggersToEndpoints(
+  protected Map<MovilizerAppEndpoint, List<MovilizerTrigger>> connectTriggersToEndpoints(
       List<MovilizerAppEndpoint> endpoints, Map<Class<?>, List<MovilizerTrigger>> classTriggersMap) {
 
     Map<MovilizerAppEndpoint, List<MovilizerTrigger>> connectedTriggers = new HashMap<>();
