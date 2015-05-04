@@ -1,0 +1,9 @@
+endpoints:
+  -
+    name: demo
+    systemId: 1234
+    password: megasecret
+    mdsUrl: https://movilizer.com/MovilizerDistributionService/WebService/
+    uploadUrl: https://movilizer.com/mds/document
+    connectionTimeoutInMillis: 10000
+    receiveTimeoutInMillis: 20000
