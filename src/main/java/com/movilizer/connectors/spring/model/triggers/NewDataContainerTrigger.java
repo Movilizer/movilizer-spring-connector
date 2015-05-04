@@ -127,7 +127,7 @@ public class NewDataContainerTrigger implements MovilizerTrigger {
       // mh.bindTo(getBean());
       // mh.invokeWithArguments(mapper.map(filter, systemId, responseQueue, mdsServerTime,
       // connectorServerTime, requestAcknowledgeKey, requestStatusMessages, uploadContainer));
-    } catch (Exception e) {
+    } catch (IllegalArgumentException e) {
       if (logger.isErrorEnabled()) {
         logger.error("Wrong parameters list inferred for calling the target "
             + "trigger method. Report error to developers", e);
