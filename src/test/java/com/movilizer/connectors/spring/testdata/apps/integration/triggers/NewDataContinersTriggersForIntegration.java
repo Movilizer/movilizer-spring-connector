@@ -47,7 +47,7 @@ public class NewDataContinersTriggersForIntegration {
         participantKey));
   }
 
-  @OnNewDataContainers(systemId = "1234", deviceAddress = "+999100.")
+  @OnNewDataContainers(systemId = "1234", deviceAddress = "\\+999100.")
   private void processFromSystemId(List<MovilizerUploadDataContainer> uploadContainer) {
     printer.print("datacontainers list size: " + uploadContainer.size());
   }
