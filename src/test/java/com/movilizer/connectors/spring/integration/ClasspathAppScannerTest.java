@@ -46,7 +46,7 @@ import java.util.Map;
 public class ClasspathAppScannerTest {
 
   Class<?> app = AverageApp.class;
-  String appName = "my-super-app";
+  String appName = "average-app";
   String appVersion = "PROD";
   String endpointName = "demo";
   MovilizerAppEndpoint fakeTestEndpoint;
@@ -78,7 +78,7 @@ public class ClasspathAppScannerTest {
             triggerExtractor);
     appScanner.setAppsBasePackage(appPackage);
 
-    fakeTestEndpoint = new MovilizerAppEndpointImpl(endpointName, 0L, "", "", "", 0, 0);
+    fakeTestEndpoint = new MovilizerAppEndpointImpl(endpointName, 1234L, "", "", "", 0, 0);
   }
 
   @Test
@@ -101,7 +101,8 @@ public class ClasspathAppScannerTest {
     Map<MovilizerAppEndpoint, List<MovilizerTrigger>> triggersPerEndpoint = app.getTriggers();
     assertThat("The app triggers per endpoint should never be null", triggersPerEndpoint,
         is(notNullValue()));
-    assertThat("The app should at least have one endpoint", triggersPerEndpoint.size(),
+    assertThat("The app should at least have one endpoint with triggers",
+        triggersPerEndpoint.size(),
         is(greaterThan(0)));
 
     List<MovilizerTrigger> triggers = app.getTriggers().get(fakeTestEndpoint);

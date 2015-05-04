@@ -38,12 +38,14 @@ public class AppInfoExtractorTest {
   Class<?> minimalApp = MinimalScanningTestApp.class;
   String minimalAppName = "MinimalScanningTestApp";
   String minimalAppVersion = "";
+  String minimalAppDefaultPackage = "com.movilizer.connectors.spring.testdata.apps";
   Set<String> minimalAppBasePackages;
   Set<String> minimalAppBasePackageClasses;
 
   Class<?> averageApp = AverageApp.class;
   String averageAppName = "average-app";
   String averageAppVersion = "PROD";
+  String averageAppDefaultPackage = "com.movilizer.connectors.spring.testdata.apps.integration";
   Set<String> averageAppBasePackages;
   String averageAppBasePackages1 =
       "com.movilizer.connectors.spring.testdata.apps.integration.triggers";
@@ -52,6 +54,7 @@ public class AppInfoExtractorTest {
   Class<?> completeApp = CompleteScanningTestApp.class;
   String completeAppName = "my-super-app";
   String completeAppVersion = "DEV";
+  String completeAppDefaultPackage = "com.movilizer.connectors.spring.testdata.apps";
   Set<String> completeAppBasePackages;
   String completeAppBasePackages1 = "com.movilizer.connectors.spring.testdata.extra.string";
   Set<String> completeAppBasePackageClasses;
@@ -134,5 +137,35 @@ public class AppInfoExtractorTest {
     Set<String> appBasePackageClasses = infoExtractor.getAppBasePackageClasses(minimalApp);
     assertThat(appBasePackageClasses, is(notNullValue()));
     assertThat(appBasePackageClasses.size(), is(minimalAppBasePackageClasses.size()));
+  }
+
+  @Test
+  public void testGetAppBasePackagesWithDefaults() throws Exception {
+    Set<String> appBasePackages = infoExtractor.getAppBasePackages(averageApp);
+    assertThat(appBasePackages, is(notNullValue()));
+    assertThat(appBasePackages.size(), is(averageAppBasePackages.size()));
+    assertThat(appBasePackages, hasItem(averageAppBasePackages1));
+  }
+
+  @Test
+  public void testGetAppBasePackageClassesWithDefaults() throws Exception {
+    Set<String> appBasePackageClasses = infoExtractor.getAppBasePackageClasses(averageApp);
+    assertThat(appBasePackageClasses, is(notNullValue()));
+    assertThat(appBasePackageClasses.size(), is(averageAppBasePackageClasses.size()));
+  }
+
+  @Test
+  public void testGetAppDefaultBasePackage() throws Exception {
+    String averageAppDefaultBasePackage = infoExtractor.getAppDefaultBasePackage(averageApp);
+    assertThat(averageAppDefaultBasePackage, is(notNullValue()));
+    assertThat(averageAppDefaultBasePackage, is(averageAppDefaultPackage));
+
+    String minimalAppDefaultBasePackage = infoExtractor.getAppDefaultBasePackage(minimalApp);
+    assertThat(minimalAppDefaultBasePackage, is(notNullValue()));
+    assertThat(minimalAppDefaultBasePackage, is(minimalAppDefaultPackage));
+
+    String completeAppDefaultBasePackage = infoExtractor.getAppDefaultBasePackage(completeApp);
+    assertThat(completeAppDefaultBasePackage, is(notNullValue()));
+    assertThat(completeAppDefaultBasePackage, is(completeAppDefaultPackage));
   }
 }

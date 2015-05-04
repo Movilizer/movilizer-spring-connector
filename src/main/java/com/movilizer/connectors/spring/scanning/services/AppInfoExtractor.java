@@ -74,10 +74,6 @@ public class AppInfoExtractor {
         basePackages.add(basePackage);
       }
     }
-    // Add default in none specified
-    if (basePackages.isEmpty()) {
-      basePackages.add(movilizerAppClass.getPackage().getName());
-    }
     return basePackages;
   }
 
@@ -96,14 +92,9 @@ public class AppInfoExtractor {
         basePackages.add(basePackage.getPackage().getName());
       }
     }
-    // Add default in none specified
-    if (basePackages.isEmpty()) {
-      basePackages.add(movilizerAppClass.getPackage().getName());
-    }
     return basePackages;
   }
 
-  // TODO me quede aqui
   /**
    * Extracts the default base package for the app.
    *

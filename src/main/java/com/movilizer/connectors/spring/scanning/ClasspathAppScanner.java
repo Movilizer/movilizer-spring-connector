@@ -115,6 +115,9 @@ public class ClasspathAppScanner implements AppScanner {
     // Consolidate basePackages
     Set<String> allBasePackages = new HashSet<>(basePackages);
     allBasePackages.addAll(basePackageClasses);
+    if (allBasePackages.isEmpty()) {
+      allBasePackages.add(appInfoExtractor.getAppDefaultBasePackage(annotatedClass));
+    }
     Map<MovilizerAppEndpoint, List<MovilizerTrigger>> triggerMap =
         triggerExtractor.getAppTriggers(endpoints, allBasePackages);
 
