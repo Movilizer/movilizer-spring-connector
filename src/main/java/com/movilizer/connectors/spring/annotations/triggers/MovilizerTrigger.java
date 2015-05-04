@@ -12,25 +12,13 @@
  * the License.
  */
 
-package com.movilizer.connectors.spring.annotations;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package com.movilizer.connectors.spring.annotations.triggers;
 
 /**
- * Indicates that the class contains trigger hooks for the Movilizer app in context and lets the
- * connector find them through the component scanning.
+ * Marker for the package containing the trigger annotations.
  *
  * @author Jesús de Mula Cano
- * @see MovilizerApp
- * @see MovilizerComponentScan
  * @since 0.1
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface MovilizerComponent {
+public @interface MovilizerTrigger {
 }
