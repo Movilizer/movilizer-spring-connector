@@ -41,7 +41,6 @@ import java.util.regex.PatternSyntaxException;
  * @since 0.1
  */
 public class OnNewDataContainersTriggerExtractor implements TriggerAnnotationExtractor {
-  private static final String ERROR_MESSAGE = "Wrong regex pattern '%s' for trigger '%s' in %s#%s";
   private static Log logger = LogFactory.getLog(OnNewDataContainersTriggerExtractor.class);
 
   @Override
@@ -59,7 +58,8 @@ public class OnNewDataContainersTriggerExtractor implements TriggerAnnotationExt
         trigger = new NewDataContainerTrigger(onNewDataContainers.priority(), filter, method);
       } catch (PatternSyntaxException e) {
         String msg =
-            String.format(ERROR_MESSAGE, e.getPattern(), OnNewDataContainers.class.getName(),
+            String.format("Wrong regex pattern '%s' for trigger '%s' in %s#%s", e.getPattern(),
+                OnNewDataContainers.class.getName(),
                 method.getClass().getName(), method.getName());
         if (logger.isErrorEnabled()) {
           logger.error(msg, e);
