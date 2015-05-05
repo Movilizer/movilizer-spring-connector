@@ -15,6 +15,7 @@
 package com.movilizer.connectors.spring.scanning;
 
 import com.movilizer.connectors.spring.annotations.MovilizerApp;
+import com.movilizer.connectors.spring.init.MovilizerConfig;
 import com.movilizer.connectors.spring.model.MovilizerAppContext;
 import com.movilizer.connectors.spring.model.MovilizerAppEndpoint;
 import com.movilizer.connectors.spring.model.exceptions.IllegalMovilizerAppConfigException;
@@ -46,7 +47,7 @@ import java.util.Set;
  * @see MovilizerAppContext
  * @since 0.1
  */
-@Component
+@Component(MovilizerConfig.APP_SCANNER_BEAN)
 public class ClasspathAppScanner implements AppScanner {
   private static Log logger = LogFactory.getLog(ClasspathAppScanner.class);
 

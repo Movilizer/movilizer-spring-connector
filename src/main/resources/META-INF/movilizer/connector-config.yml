@@ -1,3 +1,2 @@
-# Global package that will be scanned for @MovilizerApp upon container initialization
 movilizer.apps.package: com.example
 

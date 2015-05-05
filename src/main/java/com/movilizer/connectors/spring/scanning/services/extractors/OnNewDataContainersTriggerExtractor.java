@@ -26,6 +26,7 @@ import com.movilizer.connectors.spring.utils.TriggerExtractorUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -40,6 +41,7 @@ import java.util.regex.PatternSyntaxException;
  * @see NewDataContainerTrigger
  * @since 0.1
  */
+@Component
 public class OnNewDataContainersTriggerExtractor implements TriggerAnnotationExtractor {
   private static Log logger = LogFactory.getLog(OnNewDataContainersTriggerExtractor.class);
 
@@ -59,8 +61,7 @@ public class OnNewDataContainersTriggerExtractor implements TriggerAnnotationExt
       } catch (PatternSyntaxException e) {
         String msg =
             String.format("Wrong regex pattern '%s' for trigger '%s' in %s#%s", e.getPattern(),
-                OnNewDataContainers.class.getName(),
-                method.getClass().getName(), method.getName());
+                OnNewDataContainers.class.getName(), method.getClass().getName(), method.getName());
         if (logger.isErrorEnabled()) {
           logger.error(msg, e);
         }

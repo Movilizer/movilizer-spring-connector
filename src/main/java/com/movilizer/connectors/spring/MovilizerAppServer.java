@@ -14,11 +14,13 @@
 
 package com.movilizer.connectors.spring;
 
+import com.movilizer.connectors.spring.init.MovilizerConfig;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Import;
 
 /**
  * This is the default main Spring boot app which will look for all the Movilizer apps defined in
@@ -29,7 +31,7 @@ import org.springframework.context.annotation.ImportResource;
  * @since 0.1
  */
 @SpringBootApplication
-@ImportResource("classpath:META-INF/movilizer/connector-config.yml")
+@Import(MovilizerConfig.class)
 public class MovilizerAppServer {
   private static Log logger = LogFactory.getLog(MovilizerAppServer.class);
 
