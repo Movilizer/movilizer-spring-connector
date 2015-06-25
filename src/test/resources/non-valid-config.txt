@@ -1,2 +1,0 @@
-systemId=1111
-password=secret
