@@ -17,35 +17,54 @@ package com.movilizer.connectors.spring.init;
 import com.movilizer.connectors.spring.model.MovilizerAppContext;
 import com.movilizer.connectors.spring.model.MovilizerContext;
 import com.movilizer.connectors.spring.model.impl.MovilizerContextImpl;
+import com.movilizer.connectors.spring.requestcycle.RequestResponseCycle;
+import com.movilizer.connectors.spring.requestcycle.config.AkkaConfig;
 import com.movilizer.connectors.spring.scanning.AppScanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.List;
 
+/**
+ * Movilizer spring configuration. In here all the beans needed to manage the connector are declared
+ * and initialized.
+ * 
+ * @author Jesús de Mula Cano
+ * @since 0.1
+ */
 @Configuration
-@Lazy
+@Import(AkkaConfig.class)
 @PropertySource("classpath:META-INF/movilizer/connector-config.yml")
-@ComponentScan(basePackageClasses = {AppScanner.class})
+@ComponentScan(basePackageClasses = {AppScanner.class, RequestResponseCycle.class})
 public class MovilizerConfig {
   public static final String APP_SCANNER_BEAN = "movilizerAppScanner";
-
+  public static final String MOVILIZER_CONTEXT_BEAN = "movilizerContext";
+  private static final Logger logger = LoggerFactory.getLogger(MovilizerConfig.class);
   @Autowired
   private AppScanner appScanner;
   @Value("${movilizer.apps.package}")
   private String appsBasePackage;
 
-  @Bean
+  @Bean(name = MOVILIZER_CONTEXT_BEAN)
   @DependsOn(APP_SCANNER_BEAN)
   public MovilizerContext movilizerContext() {
+    if (logger.isDebugEnabled()) {
+      logger.debug(String.format("Starting Movilizer context with base package scanning in %s...",
+          appsBasePackage));
+    }
     List<MovilizerAppContext> apps = appScanner.getApps();
+    if (logger.isInfoEnabled()) {
+      logger.info(String.format("Loaded %s apps", apps.size()));
+    }
     return new MovilizerContextImpl(appsBasePackage, apps);
   }
 }

@@ -48,6 +48,8 @@ public class ConfigExtractor {
   protected static final String PASSWORD_KEY = "password";
   protected static final String MDS_URL_KEY = "mdsUrl";
   protected static final String UPLOAD_URL_KEY = "uploadUrl";
+  protected static final String RESPONSE_QUEUE_KEY = "responseQueue";
+  protected static final String POLLING_RATE_KEY = "pollingRate";
   protected static final String CONNECT_TIMEOUT_KEY = "connectionTimeoutInMillis";
   protected static final String RECEIVE_TIMEOUT_KEY = "receiveTimeoutInMillis";
   protected static final String NULL_STRING = "null";
@@ -105,7 +107,8 @@ public class ConfigExtractor {
 
   protected MovilizerAppEndpoint getEndpointFromSingleEndpointProperties(Properties properties) {
     return getEndpoint(properties, ENDPOINT_NAME_KEY, SYSTEM_ID_KEY, PASSWORD_KEY, MDS_URL_KEY,
-        UPLOAD_URL_KEY, CONNECT_TIMEOUT_KEY, RECEIVE_TIMEOUT_KEY);
+        UPLOAD_URL_KEY, RESPONSE_QUEUE_KEY, POLLING_RATE_KEY, CONNECT_TIMEOUT_KEY,
+        RECEIVE_TIMEOUT_KEY);
   }
 
   protected List<MovilizerAppEndpoint> getEndpointFromMultiEndpointProperties(Properties properties) {
@@ -120,12 +123,14 @@ public class ConfigExtractor {
     return getEndpoint(properties, endpointIKey(endpointPos, ENDPOINT_NAME_KEY),
         endpointIKey(endpointPos, SYSTEM_ID_KEY), endpointIKey(endpointPos, PASSWORD_KEY),
         endpointIKey(endpointPos, MDS_URL_KEY), endpointIKey(endpointPos, UPLOAD_URL_KEY),
+        endpointIKey(endpointPos, RESPONSE_QUEUE_KEY), endpointIKey(endpointPos, POLLING_RATE_KEY),
         endpointIKey(endpointPos, CONNECT_TIMEOUT_KEY),
         endpointIKey(endpointPos, RECEIVE_TIMEOUT_KEY));
   }
 
   protected MovilizerAppEndpoint getEndpoint(Properties properties, String nameKey,
       String systemIdKey, String passwordKey, String mdsUrlKey, String uploadUrlKey,
+      String responseQueueKey, String pollingRateKey,
       String connectionTimeoutInMillisKey, String receiveTimeoutInMillisKey)
       throws IllegalMovilizerAppConfigException {
     // Enforce mandatory properties
@@ -150,6 +155,16 @@ public class ConfigExtractor {
     if (NULL_STRING.equals(uploadUrl)) {
       uploadUrl = DefaultValues.MOVILIZER_ENDPOINT.getUploadUrl().toString();
     }
+    String responseQueue = String.valueOf(properties.get(responseQueueKey));
+    if (NULL_STRING.equals(uploadUrl)) {
+      responseQueue = ""; // TODO add to default values in movilizer-webservice project
+    }
+    String pollingRateInSeconds = String.valueOf(properties.get(pollingRateKey));
+    if (NULL_STRING.equals(uploadUrl)) {
+      pollingRateInSeconds =
+          com.movilizer.connectors.spring.requestcycle.DefaultValues.POLLING_RATE_IN_SECONDS
+              .toString();
+    }
     String connectionTimeoutInMillis = String.valueOf(properties.get(connectionTimeoutInMillisKey));
     if (NULL_STRING.equals(connectionTimeoutInMillis)) {
       connectionTimeoutInMillis = String.valueOf(DefaultValues.CONNECTION_TIMEOUT_IN_MILLIS);
@@ -159,7 +174,8 @@ public class ConfigExtractor {
       receiveTimeoutInMillis = String.valueOf(DefaultValues.RECEIVE_TIMEOUT_IN_MILLIS);
     }
     return new MovilizerAppEndpointImpl(name, Long.parseLong(systemId), password, mdsUrl,
-        uploadUrl, Integer.parseInt(connectionTimeoutInMillis),
+        uploadUrl, responseQueue, Long.parseLong(pollingRateInSeconds),
+        Integer.parseInt(connectionTimeoutInMillis),
         Integer.parseInt(receiveTimeoutInMillis));
   }
 }

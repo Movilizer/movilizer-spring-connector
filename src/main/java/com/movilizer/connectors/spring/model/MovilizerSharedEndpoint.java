@@ -14,22 +14,47 @@
 
 package com.movilizer.connectors.spring.model;
 
+import java.util.List;
+
 /**
- * Configuration object with all the parameters needed to run a Movilizer App. The fields of this
- * app are populated from the files specified in the
- * {@link com.movilizer.connectors.spring.annotations.MovilizerConfig} of the app.
+ * Definition for common endpoints used among the apps in the connector to ensure that no replies
+ * are missed.
  *
  * @author Jesús de Mula Cano
  * @since 0.1
  */
-public interface MovilizerAppEndpoint {
+public interface MovilizerSharedEndpoint {
 
   /**
-   * Name given in the configuration that uniquely identifies the endpoint in the app.
-   * 
-   * @return the endpoint name.
+   * Names given in the app configurations that uniquely identifies the endpoint in the app.
+   *
+   * @return the endpoint names.
    */
-  String getName();
+  List<String> getNames();
+
+  /**
+   * Add app to the shared endpoint updating to the properties to accordingly. If the timeouts are
+   * longer that the current ones they will be updated. If the polling rate is shorter than the
+   * current one it will be updated.
+   * 
+   * @param app to add to the shared endpoint.
+   */
+  void addApp(MovilizerAppContext app);
+
+  /**
+   * Removes an app and its name from the shared endpoint. IMPORTANT: The timeouts and polling rate
+   * will NOT be updated.
+   * 
+   * @param app to remove from the shared endpoint.
+   */
+  void removeApp(MovilizerAppContext app);
+
+  /**
+   * Checks if there's any apps left using the shared endpoint.
+   *
+   * @return true if at least one app is using the shared endpoint else false.
+   */
+  boolean hasApps();
 
   /**
    * System id used to call the Movilizer Web Service.
@@ -53,9 +78,9 @@ public interface MovilizerAppEndpoint {
   String getMdsUrl();
 
   /**
-   * Response queue for the endpoint. Default: "" (Empty string).
+   * Response queue associated with the endpoint.
    *
-   * @return the response queue id to be used in the webservice calls.
+   * @return response queue id.
    */
   String getResponseQueue();
 
@@ -74,18 +99,26 @@ public interface MovilizerAppEndpoint {
   Long getPollingRateInSeconds();
 
   /**
-   * Time in milliseconds when a connection to the web service or the document upload service will
-   * be considered expired.
+   * The minimum time in milliseconds among the apps when a connection to the web service or the
+   * document upload service will be considered expired.
    *
    * @return the connection timeout in milliseconds.
    */
   Integer getConnectionTimeoutInMillis();
 
   /**
-   * Time in milliseconds when a incoming receive connection to the web service will be considered
-   * expired.
+   * The minimum time in milliseconds among the apps when a incoming receive connection to the web
+   * service will be considered expired.
    *
    * @return the incoming receive connection timeout in milliseconds.
    */
   Integer getReceiveTimeoutInMillis();
+
+  /**
+   * Uniquely identifies the endpoint as a usable point of view
+   * (systemId->MovilizerDistributionService).
+   * 
+   * @return the key to identify the
+   */
+  Object consistentHashKey();
 }

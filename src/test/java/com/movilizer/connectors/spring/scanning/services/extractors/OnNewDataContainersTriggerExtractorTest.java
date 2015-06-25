@@ -72,11 +72,11 @@ public class OnNewDataContainersTriggerExtractorTest {
     endpoints = new ArrayList<>();
     MovilizerAppEndpoint endpoint1 =
         new MovilizerAppEndpointImpl(endpointName1, Long.parseLong(endpointSystemId1), "", "", "",
-            0, 0);
+            "", 60L, 0, 0);
     endpoints.add(endpoint1);
     MovilizerAppEndpoint endpoint2 =
         new MovilizerAppEndpointImpl(endpointName2, Long.parseLong(endpointSystemId2), "", "", "",
-            0, 0);
+            "", 60L, 0, 0);
     endpoints.add(endpoint2);
 
     TestTriggerClass myTestTriggerClass = new TestTriggerClass() {

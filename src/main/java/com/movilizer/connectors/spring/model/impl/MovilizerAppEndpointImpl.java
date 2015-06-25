@@ -34,6 +34,8 @@ public class MovilizerAppEndpointImpl implements MovilizerAppEndpoint {
   private AtomicReference<String> password;
   private AtomicReference<String> mdsUrl;
   private AtomicReference<String> uploadUrl;
+  private AtomicReference<String> responseQueue;
+  private AtomicLong pollingRateInSeconds;
   private AtomicInteger connectionTimeoutInMillis;
   private AtomicInteger receiveTimeoutInMillis;
 
@@ -45,16 +47,21 @@ public class MovilizerAppEndpointImpl implements MovilizerAppEndpoint {
    * @param password of the given system id.
    * @param mdsUrl with the address of the Movilizer Distribution Service to use.
    * @param uploadUrl with the address of the Movilizer Document Upload Service to use.
+   * @param responseQueue with the queue id to use when calling the webservice.
+   * @param pollingRateInSeconds time in between calls to the webservice when polling for new data.
    * @param connectionTimeoutInMillis the connection timeout in milliseconds.
    * @param receiveTimeoutInMillis the incoming receive connection timeout in milliseconds.
    */
   public MovilizerAppEndpointImpl(String name, long systemId, String password, String mdsUrl,
-      String uploadUrl, Integer connectionTimeoutInMillis, Integer receiveTimeoutInMillis) {
+      String uploadUrl, String responseQueue, Long pollingRateInSeconds,
+      Integer connectionTimeoutInMillis, Integer receiveTimeoutInMillis) {
     this.name = new AtomicReference<>(name);
     this.systemId = new AtomicLong(systemId);
     this.password = new AtomicReference<>(password);
     this.mdsUrl = new AtomicReference<>(mdsUrl);
     this.uploadUrl = new AtomicReference<>(uploadUrl);
+    this.responseQueue = new AtomicReference<>(responseQueue);
+    this.pollingRateInSeconds = new AtomicLong(pollingRateInSeconds);
     this.connectionTimeoutInMillis = new AtomicInteger(connectionTimeoutInMillis);
     this.receiveTimeoutInMillis = new AtomicInteger(receiveTimeoutInMillis);
   }
@@ -80,8 +87,18 @@ public class MovilizerAppEndpointImpl implements MovilizerAppEndpoint {
   }
 
   @Override
+  public String getResponseQueue() {
+    return responseQueue.get();
+  }
+
+  @Override
   public String getUploadUrl() {
     return uploadUrl.get();
+  }
+
+  @Override
+  public Long getPollingRateInSeconds() {
+    return pollingRateInSeconds.get();
   }
 
   @Override

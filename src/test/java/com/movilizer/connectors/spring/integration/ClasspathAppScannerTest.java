@@ -78,7 +78,7 @@ public class ClasspathAppScannerTest {
             triggerExtractor);
     appScanner.setAppsBasePackage(appPackage);
 
-    fakeTestEndpoint = new MovilizerAppEndpointImpl(endpointName, 1234L, "", "", "", 0, 0);
+    fakeTestEndpoint = new MovilizerAppEndpointImpl(endpointName, 1234L, "", "", "", "", 60L, 0, 0);
   }
 
   @Test

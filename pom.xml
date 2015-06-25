@@ -6,7 +6,7 @@
 
     <groupId>com.movilizer.connectors</groupId>
     <artifactId>movilizer-spring-connector</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <version>0.1</version>
 
     <name>Movilizer Spring Connector</name>
@@ -72,10 +72,14 @@
 
         <!-- Movilizer webservice -->
         <movilizer.version>12.11.1.2</movilizer.version>
+        <!-- Spring container -->
+        <movilizer.spring.version>1.2.1.RELEASE</movilizer.spring.version>
         <!-- Upload documents -->
         <httpclient.version>4.4</httpclient.version>
         <!-- Online sync -->
         <cxf.version>3.0.4</cxf.version>
+        <!-- Internal queue system -->
+        <akka.version>2.3.10</akka.version>
         <!-- Test -->
         <junit.version>4.12</junit.version>
         <mockito.version>2.0.4-beta</mockito.version>
@@ -224,7 +228,12 @@
         <!--<groupId>org.springframework.boot</groupId>-->
         <!--<artifactId>spring-boot-starter-actuator</artifactId>-->
         <!--</dependency>-->
-
+        <!-- Extra logging utils -->
+        <!--<dependency>-->
+            <!--<groupId>net.logstash.logback</groupId>-->
+            <!--<artifactId>logstash-logback-encoder</artifactId>-->
+            <!--<version>2.5</version>-->
+        <!--</dependency>-->
         <!-- Movilizer Web Service -->
         <dependency>
             <groupId>com.movilizer.mds</groupId>
@@ -257,6 +266,17 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>${cxf.version}</version>
+        </dependency>
+        <!-- Internal queue system -->
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-actor_2.11</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-slf4j_2.11</artifactId>
+            <version>${akka.version}</version>
         </dependency>
 
         <!-- Test -->
