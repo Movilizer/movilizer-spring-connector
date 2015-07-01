@@ -13,6 +13,9 @@ log/
 target/
 out/
 
+# gradle specific
+.gradle
+
 # OS Files #
 .DS_Store
 
