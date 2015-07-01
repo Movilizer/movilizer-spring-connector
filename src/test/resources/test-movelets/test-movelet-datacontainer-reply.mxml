@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<MovilizerMovelet xmlns="http://movilitas.com/movilizer/v11" name="Datacontainer Test"
+                  moveletKey="d554f5ea-9ee9-49af-b38a-662823aef69b" namespace="copec" privateNamespace="true"
+                  moveletType="MULTI" metaMoveletType="NONE" initialQuestionKey="1" transactional="false" priority="0"
+                  syncPriority="NONE" visible="true" moveletVersion="${copec.poc.moveletVersion}" validTillDate="2017-09-08T22:00:00.000Z">
+    <question key="1" title="Test send datacontainer" type="3" backNavigationAllowed="true" sortAnswersByClientKey="false">
+        <answer key="#1_1" nextQuestionKey="END" position="1" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false"/>
+        <text>
+            Datacontainer saved:
+            {
+            "ACTION"; : "update";
+            "OBJECT"; : "Customer.obj";
+            "CONTENT"; : {
+            "id"; : "1234";
+            "idMovlizer"; : "4321";
+            "name"; : "cust1";
+            }
+            "TIMESTAMP"; : systemtime();
+            }
+        </text>
+    </question>
+    <onLeaveOkPersistAssignment>
+        datacontainerId = "datacontainerId_test";
+        datacontainer = {
+        "ACTION"; : "update";
+        "OBJECT"; : "Customer.obj";
+        "CONTENT"; : {
+        "id"; : "1234";
+        "idMovlizer"; : "4321";
+        "name"; : "cust1";
+        }
+        "TIMESTAMP"; : systemtime();
+        };
+
+        <!-- as containerId -->
+        writeContainer(datacontainerId, datacontainer, 1);
+    </onLeaveOkPersistAssignment>
+    <category index="0" icon="0">
+        <name>Salesforce - Copec - Test</name>
+    </category>
+</MovilizerMovelet>

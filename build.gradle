@@ -93,6 +93,10 @@ dependencies {
     //compile("org.springframework.boot:spring-boot-starter-remote-shell")
     //compile("org.springframework.boot:spring-boot-starter-actuator")
 
+    //postgresql driver
+//    compile('org.postgresql:postgresql:9.3-1102-jdbc41')
+    compile('com.h2database:h2:1.4.183')
+
     //for several IO and FileUtils operations this dependency is needed.
 
     compile('org.apache.commons:commons-io:1.3.2')

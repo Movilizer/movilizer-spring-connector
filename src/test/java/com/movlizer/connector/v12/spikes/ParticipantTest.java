@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -61,6 +62,7 @@ public class ParticipantTest {
         participant3.setParticipantKey("1768069626");
         participant3.setName("Roberto test");
         participant3.setDeviceAddress("+9981100005");
+
     }
 
     @After
@@ -77,7 +79,7 @@ public class ParticipantTest {
 
     @Test
     public void test2AssignToParticpant() throws Exception {
-        movilizer.assignMoveletToParticipant(String.valueOf(moveletKey), participant1);
+        movilizer.assignMoveletToParticipant(String.valueOf(moveletKey), participant3);
         movilizer.perfomSyncToCloud();
         Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
     }
@@ -101,14 +103,14 @@ public class ParticipantTest {
 
     @Test
     public void test5ResetParticpant() throws Exception {
-        movilizer.resetParticipant(participant1.getDeviceAddress());
+        movilizer.resetParticipant(participant3.getDeviceAddress());
         movilizer.perfomSyncToCloud();
         Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
     }
 
     @Test
     public void test6AssignToParticpantWithTextPassword() throws Exception {
-        movilizer.assignPasswordToParticipant(participant3, PasswordTypes.PLAIN_TEXT_PASSWORD, "asdfghjkl");
+        movilizer.assignPasswordToParticipant(participant3, PasswordTypes.PLAIN_TEXT_PASSWORD, "awf123");
         movilizer.perfomSyncToCloud();
 
         Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
@@ -121,7 +123,7 @@ public class ParticipantTest {
         encrypter.setIterations(1000);
         encrypter.setSaltSizeBytes(16);
         encrypter.initialize();
-        String encrypterdPassword = encrypter.digest("hallo7");
+        String encrypterdPassword = encrypter.digest("movilizer2");
 
         movilizer.assignPasswordToParticipant(participant3, PasswordTypes.SHA_512_PASSWORD, encrypterdPassword);
         movilizer.perfomSyncToCloud();

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<MovilizerMovelet xmlns="http://movilitas.com/movilizer/v11" name="Masterdata test"
+                  moveletKey="b3d5c1f6-0db9-44e9-b572-738b4dc94862" namespace="copec" privateNamespace="true"
+                  moveletType="MULTI" metaMoveletType="NONE" initialQuestionKey="1" transactional="false" priority="0"
+                  syncPriority="NONE" visible="true" moveletVersion="${copec.poc.moveletVersion}" validTillDate="2017-09-08T22:00:00.000Z">
+    <question key="1" title="Test masterdata movelet" type="9" backNavigationAllowed="true"
+              sortAnswersByClientKey="false">
+        <answer attributeType="32" key="#1_1" nextQuestionKey="END" clientKey="0" position="0" colIndex="0" dummyAnswer="true" />
+        <answer attributeType="8" key="#1_KEY" nextQuestionKey="END" clientKey="0" position="1" colIndex="1" dummyAnswer="true" colSearchable="true">
+            <text>Key</text>
+        </answer>
+        <answer attributeType="8" key="#1_DESC" nextQuestionKey="END" clientKey="0" position="2" colIndex="2" dummyAnswer="true" colSearchable="true">
+            <text>Description</text>
+        </answer>
+        <answer attributeType="8" key="#1_DATA" nextQuestionKey="END" clientKey="0" position="3" colIndex="3" dummyAnswer="true" colSearchable="true">
+            <text>Data</text>
+        </answer>
+        <onEnterAssignment>
+            $local:masterdataEntries = queryMasterdata($masterdata:"SalesforceTestMasterDataPool",
+            "SalesforceTestMasterDataGroup", {}, {"result"; : "all";});
+
+            <!-- dynamically create table content rows -->
+            for(key : $local:masterdataEntries)
+            {
+            addAnswer($answer:"#1_1", key, null)
+            addAnswer($answer:"#1_KEY", key, null)
+            addAnswer($answer:"#1_DESC", key, null)
+            addAnswer($answer:"#1_DATA", key, null)
+
+            setAnswerValueByClientKey($answer:"#1_KEY", key, key)
+            setAnswerValueByClientKey($answer:"#1_DESC", key, $local:masterdataEntries[key]["description"])
+            setAnswerValueByClientKey($answer:"#1_DATA", key, $local:masterdataEntries[key]["data"])
+            }
+        </onEnterAssignment>
+    </question>
+    <category index="0" icon="0">
+        <name>Salesforce - Copec - Test</name>
+    </category>
+    <masterdata masterdataPool="SalesforceTestMasterDataPool" masterdataGroup="SalesforceTestMasterDataGroup" masterdataOrphanTTL="-1" />
+</MovilizerMovelet>

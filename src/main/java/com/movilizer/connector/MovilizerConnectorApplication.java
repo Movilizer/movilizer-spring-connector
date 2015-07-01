@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,11 +23,9 @@ import javax.servlet.ServletContextListener;
  *
  * @author Pavel Kotlov
  */
-@Configuration
-@ComponentScan
+@SpringBootApplication
 @EnableJpaRepositories
 @Import(RepositoryRestMvcConfiguration.class)
-@EnableAutoConfiguration
 @EnableScheduling
 public class MovilizerConnectorApplication extends SpringBootServletInitializer implements WebApplicationInitializer {
 

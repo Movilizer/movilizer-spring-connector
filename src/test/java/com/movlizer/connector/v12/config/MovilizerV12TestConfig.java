@@ -7,10 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@ComponentScan(basePackages = {"com.movilizer.modules.sync", "com.movilizer.modules.movilizer.v12",
-        "com.movilizer.modules.helper"})
-@EntityScan(basePackages = {"com.movilizer.modules"})
-@EnableJpaRepositories(basePackages = {"com.movilizer.connector"})
+@ComponentScan(basePackages = {"com.movilizer.connector"})
+@EntityScan(basePackages = {"com.movilizer.connector.v12.persistence.entities"})
+@EnableJpaRepositories
 @EnableAutoConfiguration
 public class MovilizerV12TestConfig {
 }

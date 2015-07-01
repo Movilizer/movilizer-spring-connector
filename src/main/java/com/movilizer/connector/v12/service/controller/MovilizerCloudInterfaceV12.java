@@ -19,16 +19,18 @@ import com.movilizer.connector.v12.service.queues.ToMovilizerQueueService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-@Service("MovilizerCloudInterfaceV12")
+@Component
 public class MovilizerCloudInterfaceV12 {
 
     private static Log logger = LogFactory.getLog(MovilizerCloudInterfaceV12.class);
@@ -41,7 +43,10 @@ public class MovilizerCloudInterfaceV12 {
 
     private List<JavaSpringConnectorCallback> callbacks;
 
+    @Value("${movilizer.systemId}")
     private Long systemId;
+
+    @Value("${movilizer.password}")
     private String password;
 
     @Autowired
@@ -72,10 +77,8 @@ public class MovilizerCloudInterfaceV12 {
         callbacks = new ArrayList<>();
     }
 
-    public void init(Long systemId, String password) {
-        this.systemId = systemId;
-        this.password = password;
-
+    @PostConstruct
+    public void init() {
         generateCleanRequest();
     }
 
@@ -104,7 +107,7 @@ public class MovilizerCloudInterfaceV12 {
         callbacks.add(callback);
     }
 
-    public void generateCleanRequest() {
+    private void generateCleanRequest() {
         currentRequest = movilizerCloudService.getRequest(systemId, password);
     }
 
@@ -145,29 +148,15 @@ public class MovilizerCloudInterfaceV12 {
         movilizerParticipantConf.setPasswordHashType(passwordType.getValue());
         movilizerParticipantConf.setPasswordHashValue(password);
 
-        assignConfigurationToParticipant(participant, movilizerParticipantConf);
+        assignConfigurationToParticipant(movilizerParticipantConf);
     }
 
     @Transactional
-    public void assignConfigurationToParticipant(MovilizerParticipant participant, MovilizerParticipantConfiguration movilizerParticipantConf) {
+    public void assignConfigurationToParticipant(MovilizerParticipantConfiguration movilizerParticipantConf) {
         boolean addedToQueue = toMovilizerQueueService.offer(new ParticipantToMovilizerQueue(movilizerParticipantConf));
         if (!addedToQueue) {
             logger.info(String.format("Configuration for participant %s with password %s not added to queue",
                     movilizerParticipantConf.getDeviceAddress(), movilizerParticipantConf.getPasswordHashValue()));
-        }
-    }
-
-    @Transactional
-    public void setPasswordToParticipant(String moveletKey, MovilizerParticipant participant) {
-        MovilizerMoveletAssignment assignment = new MovilizerMoveletAssignment();
-        assignment.setMoveletKey(moveletKey);
-        assignment.getParticipant().add(participant);
-
-
-        boolean addedToQueue = toMovilizerQueueService.offer(new ParticipantToMovilizerQueue(assignment));
-        if (!addedToQueue) {
-            logger.info(String.format("Assigment for participant %s to movelet %s not added to queue",
-                    participant.getDeviceAddress(), moveletKey));
         }
     }
 

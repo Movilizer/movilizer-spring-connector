@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<MovilizerMovelet xmlns="http://movilitas.com/movilizer/v12" moveletKey="b454f5ea-9ee9-49af-b38a-662823aef69b" namespace="copec" privateNamespace="true" moveletType="MULTI" metaMoveletType="NONE" initialQuestionKey="1" transactional="false" priority="0" syncPriority="NONE" visible="true" moveletVersion="1" validTillDate="2017-09-08T22:00:00.000Z">
+    <question key="1" title="Test movelet" type="0" backNavigationAllowed="true" sortAnswersByClientKey="false">
+        <answer key="#1_1" nextQuestionKey="END" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false">
+            <text>This is a paragraph for the test movelet.</text>
+        </answer>
+        <text>Hi, this is a test movelet!</text>
+    </question>
+    <name>Simple movelet</name>
+</MovilizerMovelet>
