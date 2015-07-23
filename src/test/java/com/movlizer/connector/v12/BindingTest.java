@@ -1,6 +1,6 @@
 package com.movlizer.connector.v12;
 
-import com.movilitas.movilizer.v12.MovilizerMovelet;
+import com.movilitas.movilizer.v14.MovilizerMovelet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;

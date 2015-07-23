@@ -14,7 +14,7 @@
 
 package com.movilizer.connector.v12.logging;
 
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.v12.service.MovilizerXMLParserServiceV12;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -39,9 +39,6 @@ public class DataContainerLogger {
 
     @Autowired
     private MovilizerXMLParserServiceV12 movilizerXMLParserService;
-
-//TODO removed  @Autowired
-//  private OXMService serviceOXM;
 
     private static Log logger = LogFactory.getLog(DataContainerLogger.class);
 

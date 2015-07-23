@@ -1,9 +1,9 @@
 package com.movilizer.connector.v12.service.processors;
 
 
-import com.movilitas.movilizer.v12.MovilizerRequest;
-import com.movilitas.movilizer.v12.MovilizerResponse;
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerRequest;
+import com.movilitas.movilizer.v14.MovilizerResponse;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.v12.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.v12.service.queues.FromMovilizerQueueService;
 import org.apache.commons.logging.Log;

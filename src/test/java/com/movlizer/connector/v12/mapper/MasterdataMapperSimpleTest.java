@@ -1,7 +1,7 @@
 package com.movlizer.connector.v12.mapper;
 
-import com.movilitas.movilizer.v12.MovilizerMasterdataDelete;
-import com.movilitas.movilizer.v12.MovilizerMasterdataPoolUpdate;
+import com.movilitas.movilizer.v14.MovilizerMasterdataDelete;
+import com.movilitas.movilizer.v14.MovilizerMasterdataPoolUpdate;
 import com.movilizer.connector.v12.service.mapper.MasterdataMapper;
 import com.movilizer.connector.v12.service.mapper.MasterdataMapperCached;
 import com.movlizer.connector.v12.mapper.models.DynamicPoolModel;

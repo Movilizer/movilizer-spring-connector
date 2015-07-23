@@ -1,6 +1,6 @@
 package com.movilizer.connector.v12.service.processors;
 
-import com.movilitas.movilizer.v12.MovilizerResponse;
+import com.movilitas.movilizer.v14.MovilizerResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;

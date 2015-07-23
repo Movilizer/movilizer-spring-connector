@@ -135,7 +135,7 @@ wsdl2java {
     wsdlsToGenerate = [
             //http://stackoverflow.com/questions/4455195/how-to-avoid-the-need-to-specify-the-wsdl-location-in-a-cxf-or-jax-ws-generated
             //http://cxf.apache.org/docs/wsdl-to-java.html
-            ["-wsdlLocation", "classpath:wsdl/MovilizerV12Wsdl11.wsdl", "src/main/resources/wsdl/MovilizerV12Wsdl11.wsdl"]
+            ["-wsdlLocation", "classpath:wsdl/MovilizerV14Wsdl11.wsdl", "src/main/resources/wsdl/MovilizerV14Wsdl11.wsdl"]
     ]
     generatedWsdlDir = file(wsdlGeneratedFiles)
     wsdlDir = file("src/main/resources/wsdl")

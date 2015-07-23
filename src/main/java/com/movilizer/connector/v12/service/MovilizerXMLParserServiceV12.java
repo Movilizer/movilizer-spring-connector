@@ -1,7 +1,7 @@
 package com.movilizer.connector.v12.service;
 
 
-import com.movilitas.movilizer.v12.*;
+import com.movilitas.movilizer.v14.*;
 import com.movilizer.connector.v12.exception.MovilizerException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,6 +1,6 @@
 package com.movilizer.connector.v12.persistence.entities.listeners;
 
-import com.movilitas.movilizer.v12.MovilizerMoveletDelete;
+import com.movilitas.movilizer.v14.MovilizerMoveletDelete;
 import com.movilizer.connector.v12.persistence.entities.MoveletToMovilizerQueue;
 import com.movilizer.connector.v12.service.CompressorLZ4Service;
 import com.movilizer.connector.v12.service.MovilizerXMLParserServiceV12;

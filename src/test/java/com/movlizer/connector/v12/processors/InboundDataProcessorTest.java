@@ -1,6 +1,6 @@
 package com.movlizer.connector.v12.processors;
 
-import com.movilitas.movilizer.v12.*;
+import com.movilitas.movilizer.v14.*;
 import com.movilizer.connector.v12.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.v12.service.processors.InboundDataProcessor;
 import com.movilizer.connector.v12.service.queues.FromMovilizerQueueService;

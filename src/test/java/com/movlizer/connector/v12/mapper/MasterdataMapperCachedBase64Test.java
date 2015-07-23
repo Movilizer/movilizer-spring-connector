@@ -1,13 +1,11 @@
 package com.movlizer.connector.v12.mapper;
 
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
 import com.movilizer.connector.v12.service.mapper.MasterdataMapperCached;
 import com.movlizer.connector.v12.mapper.models.SimpleBase64Model;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

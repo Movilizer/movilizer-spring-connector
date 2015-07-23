@@ -1,6 +1,6 @@
 package com.movlizer.connector.v12.spikes;
 
-import com.movilitas.movilizer.v12.*;
+import com.movilitas.movilizer.v14.*;
 import com.movilizer.connector.v12.service.controller.MovilizerCloudInterfaceV12;
 import com.movlizer.connector.v12.config.MovilizerV12TestConfig;
 import org.junit.After;

@@ -1,9 +1,6 @@
 package com.movilizer.connector.v12.persistence.entities;
 
-import com.movilitas.movilizer.v12.MovilizerMovelet;
-import com.movilitas.movilizer.v12.MovilizerMoveletDelete;
-import com.movilitas.movilizer.v12.MovilizerMoveletSet;
-import com.movilitas.movilizer.v12.MovilizerRequest;
+import com.movilitas.movilizer.v14.*;
 import com.movilizer.connector.v12.persistence.entities.listeners.MoveletToMovilizerQueueCompressorListener;
 
 import javax.persistence.*;

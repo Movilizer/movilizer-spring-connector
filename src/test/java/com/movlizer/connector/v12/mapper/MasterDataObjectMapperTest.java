@@ -14,9 +14,9 @@
 
 package com.movlizer.connector.v12.mapper;
 
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v12.MovilizerMasterdataPoolUpdate;
-import com.movilitas.movilizer.v12.MovilizerMasterdataUpdate;
+import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v14.MovilizerMasterdataPoolUpdate;
+import com.movilitas.movilizer.v14.MovilizerMasterdataUpdate;
 import com.movilizer.connector.v12.service.mapper.MasterdataMapper;
 import com.movlizer.connector.v12.mapper.models.DynamicPoolModel;
 import org.junit.Before;

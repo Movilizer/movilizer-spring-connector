@@ -16,7 +16,7 @@ package com.movilizer.connector.v12.service.mapper;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
 
 import java.util.List;
 import java.util.Map;

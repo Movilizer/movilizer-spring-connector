@@ -17,7 +17,7 @@
 package com.movilizer.connector.v12.service;
 
 
-import com.movilitas.movilizer.v12.*;
+import com.movilitas.movilizer.v14.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -29,11 +29,11 @@ public class MovilizerCloudServiceV12 {
 
     private static Log logger = LogFactory.getLog(MovilizerCloudServiceV12.class);
 
-    private MovilizerWebServiceV12 movilizerCloud;
+    private MovilizerWebServiceV14 movilizerCloud;
 
     public MovilizerCloudServiceV12() {
-        MovilizerWebServiceV12Service service = new MovilizerWebServiceV12Service();
-        movilizerCloud = service.getMovilizerWebServiceV12Soap11();
+        MovilizerWebServiceV14Service service = new MovilizerWebServiceV14Service();
+        movilizerCloud = service.getMovilizerWebServiceV14Soap11();
     }
 
     public MovilizerRequest getRequest(Long systemId, String password) {
@@ -56,7 +56,7 @@ public class MovilizerCloudServiceV12 {
         return dataContainer.getContainer().getCreationTimestamp().toGregorianCalendar().getTime();
     }
 
-    protected void setMovilizerCloud(MovilizerWebServiceV12 movilizerCloud) {
+    protected void setMovilizerCloud(MovilizerWebServiceV14 movilizerCloud) {
         this.movilizerCloud = movilizerCloud;
     }
 }

@@ -1,7 +1,7 @@
 package com.movilizer.connector.v12.service.mapper;
 
 
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.v12.exception.MovilizerParsingException;
 import com.movilizer.connector.v12.logging.DataContainerLogger;
 import com.movilizer.connector.v12.service.controller.MovilizerCloudInterfaceV12;

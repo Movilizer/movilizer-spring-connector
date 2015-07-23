@@ -1,7 +1,7 @@
 package com.movilizer.connector.v12.service.queues;
 
 
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.v12.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.v12.persistence.repositories.DatacontainerFromMovilizerRepository;
 import org.apache.commons.logging.Log;

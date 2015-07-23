@@ -1,6 +1,6 @@
 package com.movlizer.connector.v12.mapper;
 
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
 import com.movilizer.connector.v12.service.mapper.MasterdataMapperCached;
 import com.movlizer.connector.v12.mapper.models.SimpleCorrectModel;
 import org.junit.After;

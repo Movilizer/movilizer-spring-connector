@@ -1,6 +1,6 @@
 package com.movilizer.connector.v12.service.mapper;
 
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
 import com.movilizer.connector.v12.annotations.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
