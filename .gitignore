@@ -14,7 +14,8 @@ target/
 out/
 
 # gradle specific
-.gradle
+.gradle/
+ui/
 
 # OS Files #
 .DS_Store
