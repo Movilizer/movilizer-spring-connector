@@ -2,7 +2,7 @@ package com.movilizer.connector.persistence.entities.listeners;
 
 import com.movilizer.connector.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.service.CompressorLZ4Service;
-import com.movilizer.connector.service.MovilizerOXMUtility;
+import com.movilizer.connector.service.OXMUtility;
 
 import org.springframework.stereotype.Component;
 
@@ -14,12 +14,12 @@ import javax.xml.bind.JAXBException;
 @Component
 public class DatacontainerFromMovilizerQueueCompressorListener {
 
-    private MovilizerOXMUtility movilizerXMLParserService;
+    private OXMUtility movilizerXMLParserService;
 
     private CompressorLZ4Service compressorService;
 
     public DatacontainerFromMovilizerQueueCompressorListener() throws JAXBException {
-        movilizerXMLParserService = new MovilizerOXMUtility();
+        movilizerXMLParserService = new OXMUtility();
         movilizerXMLParserService.init();
         compressorService = new CompressorLZ4Service();
     }

@@ -15,7 +15,7 @@
 package com.movilizer.connector.logging;
 
 import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
-import com.movilizer.connector.service.MovilizerOXMUtility;
+import com.movilizer.connector.service.OXMUtility;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -40,7 +40,7 @@ public class DataContainerLogger {
     private String logDirPath;
 
     @Autowired
-    private MovilizerOXMUtility movilizerXMLParserService;
+    private OXMUtility movilizerXMLParserService;
 
     private static Log logger = LogFactory.getLog(DataContainerLogger.class);
 

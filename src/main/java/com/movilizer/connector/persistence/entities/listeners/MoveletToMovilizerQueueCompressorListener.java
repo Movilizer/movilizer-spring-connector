@@ -3,7 +3,7 @@ package com.movilizer.connector.persistence.entities.listeners;
 import com.movilitas.movilizer.v14.MovilizerMoveletDelete;
 import com.movilizer.connector.persistence.entities.MoveletToMovilizerQueue;
 import com.movilizer.connector.service.CompressorLZ4Service;
-import com.movilizer.connector.service.MovilizerOXMUtility;
+import com.movilizer.connector.service.OXMUtility;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,12 +19,12 @@ public class MoveletToMovilizerQueueCompressorListener {
 
     private static Log logger = LogFactory.getLog(MoveletToMovilizerQueueCompressorListener.class);
 
-    private MovilizerOXMUtility movilizerXMLParserService;
+    private OXMUtility movilizerXMLParserService;
 
     private CompressorLZ4Service compressorService;
 
     public MoveletToMovilizerQueueCompressorListener() throws JAXBException {
-        movilizerXMLParserService = new MovilizerOXMUtility();
+        movilizerXMLParserService = new OXMUtility();
         movilizerXMLParserService.init();
         compressorService = new CompressorLZ4Service();
     }

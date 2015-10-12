@@ -1,11 +1,12 @@
 package com.movilizer.connector.service.processors;
 
 
+import com.movilitas.movilizer.v14.MovilizerMetaMoveletReply;
 import com.movilitas.movilizer.v14.MovilizerRequest;
 import com.movilitas.movilizer.v14.MovilizerResponse;
 import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.persistence.entities.DatacontainerFromMovilizerQueue;
-import com.movilizer.connector.service.queues.FromMovilizerQueueService;
+import com.movilizer.connector.service.queues.DCFromQueueService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +21,7 @@ public class InboundDataProcessor {
     private static Log logger = LogFactory.getLog(InboundDataProcessor.class);
 
     @Resource
-    private FromMovilizerQueueService fromMovilizerQueueService;
+    private DCFromQueueService fromMovilizerQueueService;
 
     public InboundDataProcessor() {
     }
@@ -34,14 +35,18 @@ public class InboundDataProcessor {
                 logger.info("Duplicate datacontainer: " + dataRecord.toString());
             }
         }
+/*        for(MovilizerMetaMoveletReply reply : response.getMetaMoveletReply())
+        {
+
+        }*/
         request.setRequestAcknowledgeKey(response.getRequestAcknowledgeKey());
     }
 
-    public FromMovilizerQueueService getFromMovilizerQueueService() {
+    public DCFromQueueService getFromMovilizerQueueService() {
         return fromMovilizerQueueService;
     }
 
-    public void setFromMovilizerQueueService(FromMovilizerQueueService fromMovilizerQueueService) {
+    public void setFromMovilizerQueueService(DCFromQueueService fromMovilizerQueueService) {
         this.fromMovilizerQueueService = fromMovilizerQueueService;
     }
 }

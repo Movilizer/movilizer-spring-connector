@@ -35,12 +35,6 @@ public class ParticipantToMovilizerQueueService implements JavaSpringConnectorQu
                     participantRecord.toString());
             return false;
         }
-        if (participantRecord.getAction() == ParticipantToMovilizerQueue.Action.CONFIGURATION &&
-                ((participantRecord.getParticipantPassword() == null) || (participantRecord.getParticipantPasswordHashType() == null))) {
-            logger.error("Tried to manage a participant configuration with null password or password type." +
-                    participantRecord.toString());
-            return false;
-        }
         repository.save(participantRecord);
         return true;
     }

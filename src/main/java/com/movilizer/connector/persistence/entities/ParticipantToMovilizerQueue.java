@@ -41,6 +41,12 @@ public class ParticipantToMovilizerQueue {
     //Generic fields for movelet assignment delete
     private Boolean hardDelete;
 
+    @Lob
+    @Column(length = 800000)
+    private byte[] compressedConfiguration;
+
+    private Integer decompressedSize;
+
     @Transient
     private MovilizerParticipantReset participantReset;
 
@@ -324,6 +330,22 @@ public class ParticipantToMovilizerQueue {
 
     public void setParticipantConfiguration(MovilizerParticipantConfiguration participantConfiguration) {
         this.participantConfiguration = participantConfiguration;
+    }
+
+    public byte[] getCompressedConfiguration() {
+        return compressedConfiguration;
+    }
+
+    public void setCompressedConfiguration(byte[] compressedConfiguration) {
+        this.compressedConfiguration = compressedConfiguration;
+    }
+
+    public Integer getDecompressedSize() {
+        return decompressedSize;
+    }
+
+    public void setDecompressedSize(Integer decompressedSize) {
+        this.decompressedSize = decompressedSize;
     }
 
     public enum Action {

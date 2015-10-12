@@ -9,12 +9,12 @@ import com.movilizer.connector.persistence.entities.MoveletToMovilizerQueue;
 import com.movilizer.connector.persistence.entities.ParticipantToMovilizerQueue;
 import com.movilizer.connector.service.JavaSpringConnectorCallback;
 import com.movilizer.connector.service.MovilizerGenericClient;
-import com.movilizer.connector.service.MovilizerOXMUtility;
+import com.movilizer.connector.service.OXMUtility;
 import com.movilizer.connector.service.processors.AckProcessor;
 import com.movilizer.connector.service.processors.ErrorsProcessor;
 import com.movilizer.connector.service.processors.InboundDataProcessor;
 import com.movilizer.connector.service.processors.UpdatesProcessor;
-import com.movilizer.connector.service.queues.FromMovilizerQueueService;
+import com.movilizer.connector.service.queues.DCFromQueueService;
 import com.movilizer.connector.service.queues.ToMovilizerQueueService;
 
 import org.apache.commons.logging.Log;
@@ -51,17 +51,20 @@ public class MovilizerClient {
     @Value("${movilizer.password}")
     private String password;
 
+    @Value("${movilizer.synchronous.response}")
+    private boolean synchronousResponse;
+
     @Autowired
     private MovilizerGenericClient movilizerCloudService;
 
     @Autowired
-    private MovilizerOXMUtility movilizerXMLParserService;
+    private OXMUtility movilizerXMLParserService;
 
     @Autowired
     private ToMovilizerQueueService toMovilizerQueueService;
 
     @Autowired
-    private FromMovilizerQueueService fromMovilizerQueueService;
+    private DCFromQueueService fromMovilizerQueueService;
 
     @Autowired
     private InboundDataProcessor dataProcessor;
@@ -111,6 +114,11 @@ public class MovilizerClient {
 
     private void generateCleanRequest() {
         currentRequest = movilizerCloudService.getRequest(systemId, password);
+        currentRequest.setSynchronousResponse(synchronousResponse);
+        if(synchronousResponse == false)
+        {
+        	currentRequest.setNumResponses(0);
+        }
     }
 
     public Calendar getLastSync() {
@@ -160,6 +168,16 @@ public class MovilizerClient {
             logger.info(String.format("Configuration for participant %s with password %s not added to queue",
                     movilizerParticipantConf.getDeviceAddress(), movilizerParticipantConf.getPasswordHashValue()));
         }
+    }
+
+
+
+    @Transactional
+    public void assignConfigurationToParticipant(Collection<MovilizerParticipantConfiguration> collection) {
+    	for(MovilizerParticipantConfiguration configuration : collection)
+    	{
+    		assignConfigurationToParticipant(configuration);
+    	}
     }
 
     @Transactional

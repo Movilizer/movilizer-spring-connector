@@ -17,9 +17,9 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class FromMovilizerQueueService {
+public class DCFromQueueService {
 
-    private static Log logger = LogFactory.getLog(FromMovilizerQueueService.class);
+    private static Log logger = LogFactory.getLog(DCFromQueueService.class);
 
     @Resource
     private DatacontainerFromMovilizerRepository repository;
