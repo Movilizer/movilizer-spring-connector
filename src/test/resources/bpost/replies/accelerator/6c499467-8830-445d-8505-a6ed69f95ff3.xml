@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<MovilizerReplyMovelet xmlns="http://movilitas.com/movilizer/v14" moveletKey="be.bpost.contract-accelerator-v10-fr" moveletKeyExtension="" moveletVersion="0" count="1" encryptionAlgorithm="" participantKey="980067003694836@bpostmeap.be" deviceAddress="@980067003694836@bpostmeap.be" creationTimestamp="2015-09-10T15:56:09.777Z" syncTimestamp="2015-09-10T15:56:23.571Z" timedif="3" replyUploadPriority="0">
+  <replyQuestion questionKey="24" previousQuestionKey="NONE" nextQuestionKey="2" creationTimestamp="2015-09-10T15:56:09.715Z" questionCountNormalized="1" questionCountAbsolute="1">
+    <replyAnswer answerKey="#24_1" attributeType="0" position="0" clientKey="Départ en tournée">
+      <value>Départ en tournée</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="2" previousQuestionKey="24" nextQuestionKey="5" creationTimestamp="2015-09-10T15:56:19.206Z" questionCountNormalized="2" questionCountAbsolute="2">
+    <replyAnswer answerKey="#2_1" attributeType="2" position="0">
+      <value>4501</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#2_2" attributeType="2" position="1">
+      <value>3</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#2_3" attributeType="2" position="2">
+      <value>0</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="5" previousQuestionKey="2" nextQuestionKey="END" creationTimestamp="2015-09-10T15:56:19.716Z" questionCountNormalized="3" questionCountAbsolute="3">
+    <replyAnswer answerKey="#5_1" attributeType="0" position="0" clientKey="">
+      <value>2015-09-10T17:56:00.000+02:00</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#5_2" attributeType="0" position="1">
+      <value>50379372</value>
+    </replyAnswer>
+  </replyQuestion>
+</MovilizerReplyMovelet>

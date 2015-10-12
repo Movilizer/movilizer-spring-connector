@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<MovilizerReplyMovelet xmlns="http://movilitas.com/movilizer/v14" moveletKey="be.bpost.contract-accelerator-v10-fr" moveletKeyExtension="" moveletVersion="0" count="1" encryptionAlgorithm="" participantKey="980067002077017@bpostmeap.be" deviceAddress="@980067002077017@bpostmeap.be" creationTimestamp="2015-09-08T15:22:33.327Z" syncTimestamp="2015-09-08T15:23:18.249Z" timedif="1" replyUploadPriority="0">
+  <replyQuestion questionKey="24" previousQuestionKey="NONE" nextQuestionKey="8" creationTimestamp="2015-09-08T15:22:33.218Z" questionCountNormalized="1" questionCountAbsolute="1">
+    <replyAnswer answerKey="#24_3" attributeType="0" position="2" clientKey="Distribution">
+      <value>Distribution</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="8" previousQuestionKey="24" nextQuestionKey="25" creationTimestamp="2015-09-08T15:23:01.549Z" questionCountNormalized="2" questionCountAbsolute="2">
+    <replyAnswer answerKey="#8_1" attributeType="0" position="0">
+      <value>testg</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="25" previousQuestionKey="8" nextQuestionKey="27" creationTimestamp="2015-09-08T15:23:03.505Z" questionCountNormalized="3" questionCountAbsolute="3">
+    <replyAnswer answerKey="#25_2" attributeType="0" position="1" clientKey="Non">
+      <value>Non</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="27" previousQuestionKey="25" nextQuestionKey="37" creationTimestamp="2015-09-08T15:23:06.604Z" questionCountNormalized="4" questionCountAbsolute="4">
+    <replyAnswer answerKey="#27_5" attributeType="0" position="4">
+      <value>A représenter</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="37" previousQuestionKey="27" nextQuestionKey="17" creationTimestamp="2015-09-08T15:23:15.470Z" questionCountNormalized="5" questionCountAbsolute="5">
+    <replyAnswer answerKey="#37_1" attributeType="0" position="0">
+      <value>htestg</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="17" previousQuestionKey="37" nextQuestionKey="END" creationTimestamp="2015-09-08T15:23:16.095Z" questionCountNormalized="6" questionCountAbsolute="6">
+    <replyAnswer answerKey="#17_1" attributeType="0" position="0">
+      <value>2015-09-08T17:23:00.000+02:00</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#17_2" attributeType="0" position="1">
+      <value>34222509</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#17_3" attributeType="0" position="2">
+      <value>2015-09-08T17:23:00.000+02:00</value>
+    </replyAnswer>
+  </replyQuestion>
+</MovilizerReplyMovelet>

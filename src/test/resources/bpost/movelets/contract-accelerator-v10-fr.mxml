@@ -1,0 +1,632 @@
+<?xml version="1.0"?>
+<MovilizerMovelet xmlns="http://movilitas.com/movilizer/v14" moveletKey="be.bpost.contract-accelerator-v10-fr" moveletKeyExtension="" namespace="HSFL#FR" privateNamespace="true" icon="25" moveletType="MULTI" metaMoveletType="NONE" initialQuestionKey="24" transactional="false" validTillDate="2015-12-31T23:00:00.000Z" encryptionAlgorithm="" priority="0" moveletDownloadPriority="0" replyUploadPriority="0" syncPriority="NONE" visible="true" filterValue="" moveletVersion="0">
+  <question key="13" title="Scannez le code à barres du paquet (sur le bordereau)" type="22" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#13_1" nextQuestionKey="28" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <text>Scannez le code à barres du paquet (sur le bordereau)</text>
+    <validation position="0" type="ERROR">
+      <condition>isBlank(getAnswerValueNew($answer:'#13_1'))</condition>
+      <text>Veuillez scanner le code à barres (sur le bordereau)</text>
+      <matchingAssignment/>
+    </validation>
+    <onEnterAssignment>call($local:startWedge)();</onEnterAssignment>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>call($local:stopWedge)();
+$local:lf_start_timestamp = systemTime();
+$local:lf_start_datetime = timestampToDatetime($local:lf_start_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onScreenValueChangeEvent/>
+    <onExternalEvent/>
+  </question>
+  <question key="17" title="Timestamps Distribution" type="41" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#17_1" nextQuestionKey="END" position="0" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Start_distri</text>
+    </answer>
+    <answer key="#17_2" nextQuestionKey="END" position="1" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>User_ID</text>
+    </answer>
+    <answer key="#17_3" nextQuestionKey="END" position="2" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>End_Distri</text>
+    </answer>
+    <onEnterAssignment>propFile = concat($local:path_files, $local:properties_filename);
+                         
+                        $local:gf_userid = readProperty(propFile, "userID");            
+                        $local:gf_loginTS = readProperty(propFile, "timestamp");    
+                     
+                        tmpLang = readProperty(propFile, "language");   
+                        if (tmpLang != null ?AND length(tmpLang) ?gt 0) {
+                            $local:lang = tmpLang;
+                        }
+             
+                        writeProperty(propFile, "userID", "");
+                        writeProperty(propFile, "timestamp", "");
+                        writeProperty(propFile, "language", "");</onEnterAssignment>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>setAnswerValue($answer:"#17_1", $local:lf_start_datetime);
+setAnswerValue($answer:"#17_2", $local:gf_userid);
+setAnswerValue($answer:"#17_3", $local:lf_end_datetime);
+ 
+client = getClientType();
+ 
+if (client == 10 || client == 11) {
+$local:conId = connect("gps://", null);
+                        }</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+  </question>
+  <question key="18" title="Encodez la date du pick up" type="8" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="72" key="#18_1" nextQuestionKey="36" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Ok</text>
+    </answer>
+    <text>Encodez la date du pick up</text>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onScreenValueChangeEvent/>
+    <onExternalEvent/>
+  </question>
+  <question key="2" title="Introduisez le kilométrage de départ" type="5" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="2" key="#2_1" nextQuestionKey="5" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Kilométrage de départ</text>
+      <predefinedValue/>
+    </answer>
+    <answer attributeType="2" key="#2_2" nextQuestionKey="5" position="1" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Nombre de paquets à distribuer</text>
+      <predefinedValue/>
+    </answer>
+    <answer attributeType="2" key="#2_3" nextQuestionKey="5" position="2" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Nombre de pickups à réaliser</text>
+      <predefinedValue/>
+    </answer>
+    <text>Introduisez le kilométrage de départ</text>
+    <validation position="0" type="ERROR">
+      <condition>isBlank(getAnswerValueNew($answer:'#2_1'))</condition>
+      <text>Veuillez encoder le kilométrage</text>
+      <matchingAssignment/>
+    </validation>
+    <validation position="1" type="ERROR">
+      <condition>isBlank(getAnswerValueNew($answer:'#2_2'))</condition>
+      <text>Notez le nombre de distributions à faire</text>
+      <matchingAssignment/>
+    </validation>
+    <validation position="2" type="ERROR">
+      <condition>isBlank(getAnswerValueNew($answer:'#2_3'))</condition>
+      <text>Notez le nombre de pick-ups à faire</text>
+      <matchingAssignment/>
+    </validation>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_start_timestamp = systemTime();
+$local:lf_start_datetime = timestampToDatetime($local:lf_start_timestamp, "GMT+2", false);
+</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onScreenValueChangeEvent/>
+    <onExternalEvent/>
+  </question>
+  <question key="20" title="Checklist BuyWay - Crédit" type="4" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#20_1" clientKey="Fiche pré contractuelle" nextQuestionKey="23" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Fiche pré contractuelle</text>
+    </answer>
+    <answer key="#20_2" clientKey="Contrat" nextQuestionKey="23" position="1" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Contrat</text>
+    </answer>
+    <answer key="#20_3" clientKey="Formulaire de demande de crédit" nextQuestionKey="23" position="2" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Formulaire de demande de crédit</text>
+    </answer>
+    <answer key="#20_4" clientKey="Copie recto-verso de la carte d’identité valide" nextQuestionKey="23" position="3" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Copie recto-verso de la carte d’identité valide</text>
+    </answer>
+    <answer key="#20_5" clientKey="Copie carte bancaire" nextQuestionKey="23" position="4" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Copie carte bancaire</text>
+    </answer>
+    <answer key="#20_6" clientKey="Copie fiche de salaire" nextQuestionKey="23" position="5" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Copie fiche de salaire</text>
+    </answer>
+    <answer key="#20_7" clientKey="Justification du projet à financer" nextQuestionKey="23" position="6" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Justification du projet à financer</text>
+    </answer>
+    <text>Checklist BuyWay - Crédit</text>
+  </question>
+  <question key="21" title="Checklist Cetelem" type="4" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#21_1" clientKey="Contrat de crédit signé" nextQuestionKey="29" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Contrat de crédit signé</text>
+    </answer>
+    <answer key="#21_2" clientKey="Copie recto-verso de la carte d’identité valide" nextQuestionKey="29" position="1" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Copie recto-verso de la carte d’identité valide</text>
+    </answer>
+    <answer key="#21_3" clientKey="Copie carte bancaire" nextQuestionKey="29" position="2" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Copie carte bancaire</text>
+    </answer>
+    <answer key="#21_4" clientKey="Acte de cession signé" nextQuestionKey="29" position="3" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Acte de cession signé</text>
+    </answer>
+    <answer key="#21_5" clientKey="Domiciliation" nextQuestionKey="29" position="4" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Domiciliation</text>
+    </answer>
+    <answer key="#21_6" clientKey="Assurance (facultatif)" nextQuestionKey="29" position="5" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Assurance (facultatif)</text>
+    </answer>
+    <text>Checklist Cetelem</text>
+  </question>
+  <question key="23" title="Signature checklist BW Crédit" type="11" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="73" key="#23_1" nextQuestionKey="38" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <answer key="#23_2" nextQuestionKey="38" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <answer attributeType="68" key="#23_3" nextQuestionKey="38" position="2" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <text>Signature checklist BW Crédit</text>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onExternalEvent/>
+  </question>
+  <question key="24" title="Choisissez l'étape du processus" type="6" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#24_1" clientKey="Départ en tournée" nextQuestionKey="2" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Départ en tournée</text>
+    </answer>
+    <answer key="#24_2" clientKey="Retour de tournée" nextQuestionKey="4" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Retour de tournée</text>
+    </answer>
+    <answer key="#24_3" clientKey="Distribution" nextQuestionKey="8" position="2" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Distribution</text>
+    </answer>
+    <answer key="#24_4" clientKey="Pick Up" nextQuestionKey="13" position="3" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Pick Up</text>
+    </answer>
+    <text>Choisissez l'étape du processus</text>
+    <onEnterAssignment>setCustomizingProperty($customizing:'screen.header.color.start', '#FFFFFF');
+setCustomizingProperty($customizing:'screen.header.color.end', '#FFFFFF');
+setCustomizingProperty($customizing:'screen.header.color.orientation', 0);
+setCustomizingProperty($customizing:'screen.header.text.color', '#747373');
+setCustomizingProperty($customizing:'screen.footer.color.start', '#D60D2E');
+setCustomizingProperty($customizing:'screen.footer.color.end', '#D60D2E');
+setCustomizingProperty($customizing:'screen.footer.color.orientation', 0);
+setCustomizingProperty($customizing:'screen.footer.text.color', '#FFFFFF');
+                 
+setCustomizingProperty($customizing:'screen.body.color.start', '#FFFFFF');
+setCustomizingProperty($customizing:'screen.body.color.end', '#FFFFFF');
+setCustomizingProperty($customizing:'screen.body.color.orientation', 0);
+                 
+setCustomizingProperty($customizing:'screen.body.spacer.line.color', '#3fa6b0');
+setCustomizingProperty($customizing:'screen.body.question.text.color', '#D60D2E');
+setCustomizingProperty($customizing:'screen.body.edittext.text.color', '#747373');
+setCustomizingProperty($customizing:'screen.body.standard.text.color', '#000000');
+ 
+setCustomizingProperty($customizing:'screen.body.button.color', '#D60D2E');
+setCustomizingProperty($customizing:'screen.body.button.text.color', '#FFFFFF');
+setCustomizingProperty($customizing:'screen.body.select.color', "#D60D2E");
+setCustomizingProperty($customizing:'screen.mainmenu.title.text', 'bpost apps');</onEnterAssignment>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment/>
+    <onLeaveBackAssignment/>
+    <onExternalEvent/>
+  </question>
+  <question key="25" title="Distribué?" type="6" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#25_1" clientKey="Oui" nextQuestionKey="26" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Oui</text>
+    </answer>
+    <answer key="#25_2" clientKey="Non" nextQuestionKey="27" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Non</text>
+    </answer>
+    <text>Distribué?</text>
+  </question>
+  <question key="26" title="Statut distribution" type="6" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#26_1" clientKey="Pas de pick up à faire" nextQuestionKey="37" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Pas de pick up à faire</text>
+    </answer>
+    <answer key="#26_2" clientKey="Contrat déjà renvoyé" nextQuestionKey="37" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Contrat déjà renvoyé</text>
+    </answer>
+    <answer key="#26_3" clientKey="Mis dans la boîte" nextQuestionKey="37" position="2" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Mis dans la boîte</text>
+    </answer>
+    <answer key="#26_4" clientKey="Pick up prévu" nextQuestionKey="18" position="3" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Pick up prévu</text>
+    </answer>
+    <text>Choisissez le statut de distribution</text>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onExternalEvent/>
+  </question>
+  <question key="27" title="Statut distribution nok" type="6" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#27_1" clientKey="" nextQuestionKey="37" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Adresse incorrecte/insuffisante</text>
+    </answer>
+    <answer key="#27_2" nextQuestionKey="37" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Ne reçoit plus le courrier à cette adresse</text>
+    </answer>
+    <answer key="#27_3" nextQuestionKey="37" position="2" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Refusé</text>
+    </answer>
+    <answer key="#27_5" nextQuestionKey="37" position="4" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>A représenter</text>
+    </answer>
+    <text>Choisissez la raison de non distribution</text>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onExternalEvent/>
+  </question>
+  <question key="28" title="Pick up effectué" type="6" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#28_1" clientKey="Oui" nextQuestionKey="30" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Oui</text>
+    </answer>
+    <answer key="#28_2" clientKey="Non" nextQuestionKey="31" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Non</text>
+    </answer>
+    <text>Pick up effectué</text>
+  </question>
+  <question key="29" title="Signature checklist Cetelem" type="11" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="73" key="#29_1" nextQuestionKey="38" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <answer key="#29_2" nextQuestionKey="38" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <answer attributeType="68" key="#29_3" nextQuestionKey="38" position="2" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <text>Signature checklist Cetelem</text>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onExternalEvent/>
+  </question>
+  <question key="30" title="Parcourir checklist" type="6" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#30_1" clientKey="Oui" nextQuestionKey="32" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Oui</text>
+    </answer>
+    <answer key="#30_2" clientKey="Non" nextQuestionKey="38" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Non</text>
+    </answer>
+    <text>Etes-vous d'accord de parcourir la checklist?</text>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onExternalEvent/>
+  </question>
+  <question key="31" title="Statut Pick Up nok" type="6" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#31_1" clientKey="En dehors de la fenêtre horaire" nextQuestionKey="38" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>En dehors de la fenêtre horaire</text>
+    </answer>
+    <answer key="#31_2" clientKey="Absent" nextQuestionKey="38" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Absent</text>
+    </answer>
+    <answer key="#31_3" clientKey="Adresse pas trouvée" nextQuestionKey="38" position="2" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Adresse pas trouvée</text>
+    </answer>
+    <answer key="#31_4" clientKey="Préalablement annulé" nextQuestionKey="38" position="3" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Préalablement annulé</text>
+    </answer>
+    <answer key="#31_5" clientKey="Enveloppe renvoyée par le client" nextQuestionKey="38" position="4" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Enveloppe renvoyée par le client</text>
+    </answer>
+    <answer key="#31_6" clientKey="Client n'est plus intéressé" nextQuestionKey="38" position="5" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Client n'est plus intéressé</text>
+    </answer>
+    <text>Choisissez la raison du pick up non effectué</text>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onExternalEvent/>
+  </question>
+  <question key="32" title="Choisissez le client" type="6" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#32_1" clientKey="Buy Way - Crédit" nextQuestionKey="20" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Buy Way - Crédit</text>
+    </answer>
+    <answer key="#32_2" clientKey="Buy Way - Carte de crédit" nextQuestionKey="33" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Buy Way - Carte de crédit</text>
+    </answer>
+    <answer key="#32_3" clientKey="Cetelem" nextQuestionKey="21" position="2" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Cetelem</text>
+    </answer>
+    <text>Choisissez le client</text>
+  </question>
+  <question key="33" title="Checklist Buy Way - Carte de crédit" type="4" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#33_1" clientKey="Fiche pré contractuelle" nextQuestionKey="34" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Fiche pré contractuelle</text>
+    </answer>
+    <answer key="#33_2" clientKey="Contrat" nextQuestionKey="34" position="1" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Contrat</text>
+    </answer>
+    <answer key="#33_3" clientKey="Formulaire de demande de crédit" nextQuestionKey="34" position="2" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Formulaire de demande de crédit</text>
+    </answer>
+    <answer key="#33_4" clientKey="Copie recto-verso de la carte d’identité valide" nextQuestionKey="34" position="3" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Copie recto-verso de la carte d’identité valide</text>
+    </answer>
+    <answer key="#33_5" clientKey="Copie carte bancaire" nextQuestionKey="34" position="4" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Copie carte bancaire</text>
+    </answer>
+    <answer key="#33_6" clientKey="Copie fiche de salaire" nextQuestionKey="34" position="5" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Copie fiche de salaire</text>
+    </answer>
+    <text>Checklist Buy Way - Carte de crédit</text>
+  </question>
+  <question key="34" title="Signature checklist Buy Way Carte de crédit" type="11" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="73" key="#34_1" nextQuestionKey="38" position="0" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <answer key="#34_2" nextQuestionKey="38" position="1" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <answer attributeType="68" key="#34_3" nextQuestionKey="38" position="2" action="NONE" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <text>Signature checklist Buy Way Carte de crédit</text>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onExternalEvent/>
+  </question>
+  <question key="35" title="Timestamps Pick up" type="41" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#35_1" nextQuestionKey="END" position="0" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Start_pickup</text>
+    </answer>
+    <answer key="#35_2" nextQuestionKey="END" position="1" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>User ID</text>
+    </answer>
+    <answer key="#35_3" nextQuestionKey="END" position="2" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>End_pickup</text>
+    </answer>
+    <onEnterAssignment>propFile = concat($local:path_files, $local:properties_filename);
+                         
+                        $local:gf_userid = readProperty(propFile, "userID");            
+                        $local:gf_loginTS = readProperty(propFile, "timestamp");    
+                     
+                        tmpLang = readProperty(propFile, "language");   
+                        if (tmpLang != null ?AND length(tmpLang) ?gt 0) {
+                            $local:lang = tmpLang;
+                        }
+             
+                        writeProperty(propFile, "userID", "");
+                        writeProperty(propFile, "timestamp", "");
+                        writeProperty(propFile, "language", "");</onEnterAssignment>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>setAnswerValue($answer:"#35_1", $local:lf_start_datetime);
+setAnswerValue($answer:"#35_2", $local:gf_userid);
+setAnswerValue($answer:"#35_3", $local:lf_end_datetime);
+ 
+client = getClientType();
+ 
+if (client == 10 || client == 11) {
+$local:conId = connect("gps://", null);
+                        }</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+  </question>
+  <question key="36" title="Numéro de téléphone" type="5" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="0" key="#36_1" nextQuestionKey="37" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Numéro de téléphone</text>
+      <predefinedValue/>
+    </answer>
+    <text>Encodez le numéro de téléphone du client</text>
+  </question>
+  <question key="37" title="Commentaire distri [facultatif]" type="5" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="0" key="#37_1" nextQuestionKey="17" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Commentaire</text>
+      <predefinedValue/>
+    </answer>
+    <text>Notez ici un éventuel commentaire lié à la distribution</text>
+  </question>
+  <question key="38" title="Commentaire pick up [facultatif]" type="5" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="0" key="#38_1" nextQuestionKey="35" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Commentaire</text>
+      <predefinedValue/>
+    </answer>
+    <text>Notez ici un éventuel commentaire lié au pick up</text>
+  </question>
+  <question key="4" title="Introduisez le kilométrage au retour" type="5" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer attributeType="2" key="#4_1" nextQuestionKey="6" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Kilométrage au retour</text>
+      <predefinedValue/>
+    </answer>
+    <answer attributeType="2" key="#4_2" nextQuestionKey="6" position="1" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Nombre de distribution non faites</text>
+      <predefinedValue>0</predefinedValue>
+    </answer>
+    <answer attributeType="2" key="#4_3" nextQuestionKey="6" position="2" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Nombre de Pickups non faits</text>
+      <predefinedValue>0</predefinedValue>
+    </answer>
+    <answer attributeType="0" key="#4_4" nextQuestionKey="6" position="3" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Feedback</text>
+      <predefinedValue>Rien</predefinedValue>
+    </answer>
+    <text>Introduisez le kilométrage au retour</text>
+    <validation position="0" type="ERROR">
+      <condition>isBlank(getAnswerValueNew($answer:'#4_1'))</condition>
+      <text>Veuillez encoder le kilométrage</text>
+      <matchingAssignment/>
+    </validation>
+    <onEnterAssignment/>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>$local:lf_end_timestamp = systemTime();
+$local:lf_end_datetime = timestampToDatetime($local:lf_end_timestamp, "GMT+2", false);
+</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onScreenValueChangeEvent/>
+    <onExternalEvent/>
+  </question>
+  <question key="5" title="Timestamps Begin" type="41" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#5_1" clientKey="" nextQuestionKey="END" position="0" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Start_round</text>
+    </answer>
+    <answer key="#5_2" nextQuestionKey="END" position="1" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>USERID</text>
+    </answer>
+    <onEnterAssignment>propFile = concat($local:path_files, $local:properties_filename);
+                         
+                        $local:gf_userid = readProperty(propFile, "userID");            
+                        $local:gf_loginTS = readProperty(propFile, "timestamp");    
+                     
+                        tmpLang = readProperty(propFile, "language");   
+                        if (tmpLang != null ?AND length(tmpLang) ?gt 0) {
+                            $local:lang = tmpLang;
+                        }
+             
+                        writeProperty(propFile, "userID", "");
+                        writeProperty(propFile, "timestamp", "");
+                        writeProperty(propFile, "language", "");</onEnterAssignment>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>setAnswerValue($answer:"#5_1", $local:lf_start_datetime);
+setAnswerValue($answer:"#5_2", $local:gf_userid);
+client = getClientType();
+ 
+if (client == 10 || client == 11) {
+$local:conId = connect("gps://", null);
+                        }</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+  </question>
+  <question key="6" title="Timestamps End" type="41" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#6_2" clientKey="End_round" nextQuestionKey="END" position="1" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>End_round</text>
+    </answer>
+    <answer key="#6_3" nextQuestionKey="END" position="1" action="FULLSYNCSILENT" triggerScreenValueChangedEvent="false" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+      <text>Userid</text>
+    </answer>
+    <onEnterAssignment>propFile = concat($local:path_files, $local:properties_filename);
+                         
+                        $local:gf_userid = readProperty(propFile, "userID");            
+                        $local:gf_loginTS = readProperty(propFile, "timestamp");    
+                     
+                        tmpLang = readProperty(propFile, "language");   
+                        if (tmpLang != null ?AND length(tmpLang) ?gt 0) {
+                            $local:lang = tmpLang;
+                        }
+             
+                        writeProperty(propFile, "userID", "");
+                        writeProperty(propFile, "timestamp", "");
+                        writeProperty(propFile, "language", "");</onEnterAssignment>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>setAnswerValue($answer:"#6_2", $local:lf_end_datetime);
+setAnswerValue($answer:"#6_3", $local:gf_userid);
+                        </onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+  </question>
+  <question key="8" title="Scannez le code à barres du paquet" type="22" backNavigationAllowed="true" sortAnswersByClientKey="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true">
+    <answer key="#8_1" nextQuestionKey="25" position="0" action="NONE" triggerScreenValueChangedEvent="true" dummyAnswer="false" portalMayDelete="true" portalMayEdit="true" portalMayMove="true"/>
+    <text>Scannez le code à barres du paquet</text>
+    <validation position="0" type="ERROR">
+      <condition>isBlank(getAnswerValueNew($answer:'#8_1'))</condition>
+      <text>Veuillez scanner le code à barres du paquet</text>
+      <matchingAssignment/>
+    </validation>
+    <onEnterAssignment>call($local:startWedge)();</onEnterAssignment>
+    <onLeaveOkPrepareAssignment/>
+    <onLeaveOkPersistAssignment>call($local:stopWedge)();
+$local:lf_start_timestamp = systemTime();
+$local:lf_start_datetime = timestampToDatetime($local:lf_start_timestamp, "GMT+2", false);</onLeaveOkPersistAssignment>
+    <onLeaveBackAssignment/>
+    <onScreenValueChangeEvent/>
+    <onExternalEvent/>
+  </question>
+  <syncDeleteAssignment>descrFile =  concat($local:path_files, $local:descriptor_filename); conID = connect(concat("file:///", descrFile), "delete"); if (isConnectionOpen(conID)) {
+    close(conID);
+}</syncDeleteAssignment>
+  <syncDownloadAssignment>$local:path_files =  "Program Files/Movilizer/"; 
+ 
+$local:properties_filename = "cdm.properties";
+ 
+$local:descriptor_filename = "ContractAccelerator.descriptor";
+ 
+$local:icon_filename = "auto.png";
+setCustomizingProperty($customizing:"screen.mainmenu.title.text",
+"bpost apps");
+ 
+$local:replaceSyncIcons = function(masterDataPool, customizingDescriptor, masterDataKey)
+                {
+                    image = getMasterData(masterDataPool, masterDataKey);
+                    setCustomizingProperty(customizingDescriptor, image["data"]);
+                };
+ 
+call($local:replaceSyncIcons)($masterdata:"DOCU", $customizing:"icon.mainmenu.background", "menu_bg");
+call($local:replaceSyncIcons)($masterdata:"DOCU", $customizing:"icon.category.background", "menu_bg");
+call($local:replaceSyncIcons)($masterdata:"DOCU", $customizing:"icon.splash", "splash");
+call($local:replaceSyncIcons)($masterdata:"DOCU", $customizing:"icon.screenmenu", "minicon");
+ 
+setCustomizingProperty( $customizing:"screen.header.color.start", "#E4273B");
+setCustomizingProperty( $customizing:"screen.header.color.end", "#B51A28");
+setCustomizingProperty( $customizing:"screen.header.color.orientation", 2);
+ 
+setCustomizingProperty( $customizing:"screen.footer.color.start", "#E4273B");
+setCustomizingProperty( $customizing:"screen.footer.color.end", "#B51A28");
+setCustomizingProperty( $customizing:"screen.footer.color.orientation", 2);
+ 
+setCustomizingProperty( $customizing:"screen.body.color.start", "#FFFFFF");
+setCustomizingProperty( $customizing:"screen.body.color.end", "#FFFFFF");
+setCustomizingProperty( $customizing:"screen.body.color.orientation", 2);
+           
+setCustomizingProperty($customizing:"screen.searchbar.color.start","#E87984");
+setCustomizingProperty($customizing:"screen.searchbar.color.end","#BF6972");
+setCustomizingProperty($customizing:"screen.searchbar.color.orientation",2);
+ 
+descrFile =  concat($local:path_files, $local:descriptor_filename); writeProperty(descrFile, "AppName", "Contract Accelerator"); 
+writeProperty(descrFile, "startupParameter", concat("-executeforce ", $movelet));
+writeProperty(descrFile, "icon", $local:icon_filename);
+writeProperty(descrFile, "showInMainMenu", "1");
+ 
+conID = -1;
+conID = connect(concat("file:///", $local:path_files, $local:icon_filename ), "file"); if (isConnectionOpen(conID)) {
+  icon = $base64:&lt; iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADS0lEQVR42u2ZXYiMYRTHd2eF8bE2yy5jt1XLSqtt7FqtQSxJSpriwse68JGvskjbXshHLoiifCRLqJ0L5MJX7MUqjXC3SYpSshdYF/IRJax9/Y/+Tz1N7xjv7Du7O3X+9buYaZ5znnPe55znvE1OjkqlUqlUKpVKpVKpVCqVSqVSqVQqlUqlUqlUqjRUCy6lwR6Ql+3BrwXfQTd47YFvwAFtoCAbA5cnd4xB/AArPK6fCjq5/gWYkk3Bjwb3rOCXpWlnPOignY9gcTYEXwVe+RC80QiWgcMy2jWQg5dj/tXH4I0GgfO0K1wAgwdK0GGwD9wEPdYmP4MnPtNt2X8Eivsz8Drw0NpQf/AGXAet4Cw4CprBBrCEjTMj12hzwtMYyEhJ3gGb2U96ra1ZErgbX8BJUJhu8CNZ206W8wBMSCcB81MYfgy2g9lgBlgNroBffRBUF28KOaGrQCOIgU9Jfr8OFHlNQPQfdSY1VgbK2XwqeUPUgOXgZYYC7+F7Q4S+EpGHdttl3U7uL+AlAdNdDMl9v57O6sEJNh3J/hqWTQEHpM4MJKDFCraBN8ItcBxUg3wwDtxIWNfANfle5/uuBEPnaEiO+weXDcoUN5TrlybMCr3lOd80xf9pF9tSehvpezh4b02Uc7lulNcy2JLgoJ4zwVv5LhgMOpFIxAmFQvZGTnFtLnjqYwL2Moht5jsX/xLsTPo/wO86rFMzzGsCJIirNPSMRhqN81gs5sTjcae9vd0Jh8N2j6hgvZ3xMQGL6L8thX9pxGPAHH7ez3XVXnuAkSw6Au7S0GExLJkX54ampiZ7s9KMSsBBHxNgnmJHCv/3GWwlp1dTNhW9GYgkCZNpaJM4kmMnmTcbiEaj9gBSy64rSZjHhHhlITGfTQKupfB/mb+TWypkrSv0YzIcy0T8vebk2EnmxXkgEDAbaLWc5vFmqEpybaXDAtMAXfz/Biv5u3LuuYx7zvXz/WAaeJdk6qrjBsIJJyjPJ0S7Gazt+ycbn0lUaabfEOVKOcQ7VxrlDk6EZgMlGfY/C1zk4NPCwa3GanjBvnhNDiY53pP8PnJJVOziu9qvevcyMBWx1krTGTZ8eAjysjORTW+I/jOhUqlUKpVK9R/6AwjNj0PwrpakAAAAAElFTkSuQmCC>;     
+  writeBinary(conID, icon);
+  close(conID);
+}
+$local:startWedge = function() 
+                    {
+                        // To be sure that the DataWedge is started
+                        client = getClientType();
+                        if (client == 20 || client == 21) 
+                        {       
+                            startDataWedge = "exec:///Program Files/Movilizer/StartDataWedge.exe";
+                            conDWID = -1;
+                            conDWID = connect(startDataWedge, null);
+             
+                            if (isConnectionOpen(conDWID))
+                            {
+                                sleep(1000);
+                                close(conDWID);
+                            }
+                        }                   
+                    };
+                     
+                    $local:stopWedge = function() 
+                    {
+                        //To be sure that the DataWedge is stopped 
+                         
+                        client = getClientType();
+                        if (client == 20 || client == 21) 
+                        {
+                            stopDataWedge = "exec:///Program Files/Movilizer/StopDataWedge.exe";
+                            conDWID = -1;
+                            conDWID = connect(stopDataWedge, null);
+                            if (isConnectionOpen(conDWID))
+                            {
+                                sleep(1000);
+                                close(conDWID);
+                            }
+                        }                   
+                    };
+</syncDownloadAssignment>
+  <moveletStartAssignment>$local:getMarterdataLanguageDependant = function(language, key)
+                    {
+                        temp = null;
+                        if(language=='FR' || language=='fr')
+                        {
+                            temp = getMasterdata($masterdata:"FR",key);
+                        }
+                        else
+                        {
+                            if(language=='NL' || language=='nl')
+                            {
+                                temp = getMasterdata($masterdata:"NL",key);
+                            }
+                            else
+                            {
+                                temp = getMasterdata($masterdata:"FR",key);
+                            }
+                        }
+                        return temp;
+                    };</moveletStartAssignment>
+  <name>Contract Accelerator Full V10 FR</name>
+</MovilizerMovelet>

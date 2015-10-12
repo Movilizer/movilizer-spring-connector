@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<MovilizerReplyMovelet xmlns="http://movilitas.com/movilizer/v14" moveletKey="be.bpost.contract-accelerator-v10-fr" moveletKeyExtension="" moveletVersion="0" count="2" encryptionAlgorithm="" participantKey="980067002072307@bpostmeap.be" deviceAddress="@980067002072307@bpostmeap.be" creationTimestamp="2015-09-08T19:15:11.029Z" syncTimestamp="2015-09-08T19:16:03.304Z" timedif="5" replyUploadPriority="0">
+  <replyQuestion questionKey="24" previousQuestionKey="NONE" nextQuestionKey="4" creationTimestamp="2015-09-08T19:15:10.688Z" questionCountNormalized="1" questionCountAbsolute="1">
+    <replyAnswer answerKey="#24_2" attributeType="0" position="1" clientKey="Retour de tournée">
+      <value>Retour de tournée</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="4" previousQuestionKey="24" nextQuestionKey="6" creationTimestamp="2015-09-08T19:15:56.521Z" questionCountNormalized="2" questionCountAbsolute="2">
+    <replyAnswer answerKey="#4_1" attributeType="2" position="0">
+      <value>13969</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#4_2" attributeType="2" position="1">
+      <value>0</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#4_3" attributeType="2" position="2">
+      <value>0</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#4_4" attributeType="0" position="3">
+      <value>Rien</value>
+    </replyAnswer>
+  </replyQuestion>
+  <replyQuestion questionKey="6" previousQuestionKey="4" nextQuestionKey="END" creationTimestamp="2015-09-08T19:15:57.068Z" questionCountNormalized="3" questionCountAbsolute="3">
+    <replyAnswer answerKey="#6_3" attributeType="0" position="1">
+      <value>50125253</value>
+    </replyAnswer>
+    <replyAnswer answerKey="#6_2" attributeType="0" position="1" clientKey="End_round">
+      <value>2015-09-08T21:15:00.000+02:00</value>
+    </replyAnswer>
+  </replyQuestion>
+</MovilizerReplyMovelet>

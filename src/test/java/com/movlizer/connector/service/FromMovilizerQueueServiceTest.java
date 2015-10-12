@@ -5,7 +5,7 @@ import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
 import com.movilitas.movilizer.v14.MovilizerGenericUploadDataContainer;
 import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.persistence.entities.DatacontainerFromMovilizerQueue;
-import com.movilizer.connector.service.queues.FromMovilizerQueueService;
+import com.movilizer.connector.service.queues.DCFromQueueService;
 import com.movlizer.connector.config.MovilizerV12TestConfig;
 
 import org.junit.After;
@@ -35,7 +35,7 @@ import static org.hamcrest.Matchers.*;
 public class FromMovilizerQueueServiceTest {
 
     @Autowired
-    private FromMovilizerQueueService service;
+    private DCFromQueueService service;
 
     @Before
     public void before() throws Exception {

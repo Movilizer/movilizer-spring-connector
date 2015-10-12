@@ -94,7 +94,7 @@ dependencies {
     //compile("org.springframework.boot:spring-boot-starter-actuator")
 
     //postgresql driver
-//    compile('org.postgresql:postgresql:9.3-1102-jdbc41')
+    compile('org.postgresql:postgresql:9.4-1201-jdbc41')
     compile('com.h2database:h2:1.4.183')
 
     //for several IO and FileUtils operations this dependency is needed.

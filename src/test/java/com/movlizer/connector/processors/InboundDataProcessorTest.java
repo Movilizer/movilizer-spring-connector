@@ -3,7 +3,7 @@ package com.movlizer.connector.processors;
 import com.movilitas.movilizer.v14.*;
 import com.movilizer.connector.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.service.processors.InboundDataProcessor;
-import com.movilizer.connector.service.queues.FromMovilizerQueueService;
+import com.movilizer.connector.service.queues.DCFromQueueService;
 
 import org.junit.After;
 import org.junit.Before;
@@ -41,7 +41,7 @@ public class InboundDataProcessorTest {
 
     private InboundDataProcessor processor;
 
-    private FromMovilizerQueueService fromMovilizerQueueService;
+    private DCFromQueueService fromMovilizerQueueService;
 
     private MovilizerResponse response;
 
@@ -56,7 +56,7 @@ public class InboundDataProcessorTest {
     @Before
     public void before() throws Exception {
         processor = new InboundDataProcessor();
-        fromMovilizerQueueService = mock(FromMovilizerQueueService.class);
+        fromMovilizerQueueService = mock(DCFromQueueService.class);
         processor.setFromMovilizerQueueService(fromMovilizerQueueService);
 
         //prepare clean data

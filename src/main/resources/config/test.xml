@@ -1,0 +1,10 @@
+ <moveletAttributeUpdate moveletKey="MOV04">
+  <attributeUpdate name="MOVILIZER_ASSIGNMENT_BOARD_GROUP" useIndex="true">
+   <entry >
+    <entry name="NAME">
+     <valstr>Movelet 04</valstr>
+    </entry>
+   </entry>
+  </attributeUpdate>
+ </moveletAttributeUpdate>
+ 
