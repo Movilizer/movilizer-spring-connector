@@ -3,7 +3,7 @@ package com.movlizer.connector.v12.spikes;
 import com.movilitas.movilizer.v12.MovilizerMovelet;
 import com.movilitas.movilizer.v12.MovilizerParticipant;
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
-import com.movilizer.connector.v12.service.controller.MovilizerCloudInterfaceV12;
+import com.movilizer.connector.java.jobs.PollingJob;
 import com.movlizer.connector.v12.config.MovilizerV12TestConfig;
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +29,7 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class DatacontainerTest {
-
+/*
     private final String moveletXmlPath = "/test-movelets/test-movelet-datacontainer-reply.mxml";
 
     private final UUID moveletKey = UUID.fromString("d554f5ea-9ee9-49af-b38a-662823aef69b");
@@ -37,7 +37,7 @@ public class DatacontainerTest {
     private final String moveletKeyExtension = "";
 
     @Autowired
-    private MovilizerCloudInterfaceV12 movilizer;
+    private PollingJob movilizer;
 
     private MovilizerParticipant participant1;
 
@@ -75,4 +75,5 @@ public class DatacontainerTest {
         movilizer.perfomSyncToCloud();
         Thread.sleep(30 * 1000);
     }
+    */
 }

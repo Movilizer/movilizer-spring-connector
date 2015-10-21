@@ -1,7 +1,8 @@
 package com.movlizer.connector.v12.mapper.models;
 
 
-import com.movilizer.connector.v12.annotations.*;
+import com.movilizer.connector.java.annotations.datacontainer.DatacontainerEntry;
+import com.movilizer.connector.java.annotations.masterdata.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 @MasterdataPool
 public class DynamicPoolModel {
-
+/*
     @MasterdataGroup
     public static final String group = "ALL";
 
@@ -22,16 +23,16 @@ public class DynamicPoolModel {
     @MasterdataDescription
     private String desc;
 
-    @MasterdataEntry
+    @DatacontainerEntry
     private String entry1name;
 
-    @MasterdataEntry(type = MasterdataEntry.Type.OBJECT)
+    @DatacontainerEntry(type = DatacontainerEntry.Type.OBJECT)
     private MapperTestObjectDC testObject;
 
-    @MasterdataEntry(type = MasterdataEntry.Type.OBJECT)
+    @DatacontainerEntry(type = DatacontainerEntry.Type.OBJECT)
     private List<MapperTestSubObjectDC> list;
 
-    @MasterdataEntry(type = MasterdataEntry.Type.OBJECT)
+    @DatacontainerEntry(type = DatacontainerEntry.Type.OBJECT)
     private Map<String, MapperTestSubObjectDC> map;
 
     public DynamicPoolModel(String key) {
@@ -109,4 +110,5 @@ public class DynamicPoolModel {
 
         return object;
     }
+    */
 }

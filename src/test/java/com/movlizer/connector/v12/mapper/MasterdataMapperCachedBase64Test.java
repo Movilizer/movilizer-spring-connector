@@ -1,24 +1,6 @@
 package com.movlizer.connector.v12.mapper;
 
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
-import com.movilizer.connector.v12.service.mapper.MasterdataMapperCached;
-import com.movlizer.connector.v12.mapper.models.SimpleBase64Model;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 public class MasterdataMapperCachedBase64Test {
 

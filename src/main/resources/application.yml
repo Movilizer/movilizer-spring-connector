@@ -1,0 +1,30 @@
+spring.application.name: Movilizer Connector
+
+# Profiles
+spring.profiles: local, demo, preprod, prod
+
+# Active profile should be overwritten by application.properties or an argument: gradle :bootRun -Pspring.profiles.active=dev
+spring.profiles.active: local
+
+# Movilizer config
+movilizer:
+  env: demo
+  polling-rate: 10000 #millis
+  auth:
+    systemId:
+    password:
+
+# Logging config
+logging:
+  level.: INFO
+  file: logs/movilizer-connector-info.log
+
+#Tomcat config
+server:
+  contextPath: /movilizer-${spring.profiles.active}
+  port: 8080
+
+# Actuator management config
+management:
+  address: 127.0.0.1
+  port: 8081

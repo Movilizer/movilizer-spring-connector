@@ -2,9 +2,9 @@ package com.movilizer.connector.v12.service.mapper;
 
 
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
-import com.movilizer.connector.v12.exception.MovilizerParsingException;
-import com.movilizer.connector.v12.logging.DataContainerLogger;
-import com.movilizer.connector.v12.service.controller.MovilizerCloudInterfaceV12;
+import com.movilizer.connector.java.exceptions.MovilizerParsingException;
+import com.movilizer.connector.java.utils.DataContainerLogger;
+import com.movilizer.connector.java.jobs.PollingJob;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+//@Service
 public class DataContainerEvaluator {
-
+/*
     private static Log logger = LogFactory.getLog(DataContainerEvaluator.class);
 
     @Autowired
-    MovilizerCloudInterfaceV12 serviceMov;
+    PollingJob serviceMov;
 
     @Autowired
     DataContainerMapper mapper;
@@ -74,5 +74,5 @@ public class DataContainerEvaluator {
         }
         return false;
     }
-
+*/
 }

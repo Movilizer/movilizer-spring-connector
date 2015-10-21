@@ -14,18 +14,6 @@
 
 package com.movlizer.connector.v12.mapper;
 
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v12.MovilizerMasterdataPoolUpdate;
-import com.movilitas.movilizer.v12.MovilizerMasterdataUpdate;
-import com.movilizer.connector.v12.service.mapper.MasterdataMapper;
-import com.movlizer.connector.v12.mapper.models.DynamicPoolModel;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;

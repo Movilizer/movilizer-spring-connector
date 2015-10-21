@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @ComponentScan(basePackages = {"com.movilizer.connector"})
-@EntityScan(basePackages = {"com.movilizer.connector.v12.persistence.entities"})
+@EntityScan(basePackages = {"com.movilizer.connector.java.persistence.entities"})
 @EnableJpaRepositories
 @EnableAutoConfiguration
 public class MovilizerV12TestConfig {

@@ -1,16 +1,6 @@
 package com.movlizer.connector.v12.mapper;
 
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
-import com.movilizer.connector.v12.service.mapper.MasterdataMapperCached;
-import com.movlizer.connector.v12.mapper.models.SimpleCorrectModel;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 public class MasterdataMapperCachedSimpleTest {
 

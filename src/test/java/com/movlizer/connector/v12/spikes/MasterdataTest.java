@@ -1,7 +1,7 @@
 package com.movlizer.connector.v12.spikes;
 
 import com.movilitas.movilizer.v12.*;
-import com.movilizer.connector.v12.service.controller.MovilizerCloudInterfaceV12;
+import com.movilizer.connector.java.jobs.PollingJob;
 import com.movlizer.connector.v12.config.MovilizerV12TestConfig;
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +29,7 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class MasterdataTest {
-
+/*
     private final String moveletXmlPath = "/test-movelets/test-movelet-masterdata.mxml";
 
     private final UUID moveletKey = UUID.fromString("b3d5c1f6-0db9-44e9-b572-738b4dc94862");
@@ -60,7 +60,7 @@ public class MasterdataTest {
     private Environment env;
 
     @Autowired
-    private MovilizerCloudInterfaceV12 movilizer;
+    private PollingJob movilizer;
 
     private MovilizerParticipant participant1;
 
@@ -186,5 +186,5 @@ public class MasterdataTest {
         movilizer.perfomSyncToCloud();
         Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
     }
-
+*/
 }

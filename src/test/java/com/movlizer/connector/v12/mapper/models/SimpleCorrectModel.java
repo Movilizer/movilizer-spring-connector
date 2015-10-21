@@ -1,7 +1,8 @@
 package com.movlizer.connector.v12.mapper.models;
 
 
-import com.movilizer.connector.v12.annotations.*;
+import com.movilizer.connector.java.annotations.datacontainer.DatacontainerEntry;
+import com.movilizer.connector.java.annotations.masterdata.*;
 
 @MasterdataPool("simple_pool")
 public class SimpleCorrectModel {
@@ -33,10 +34,10 @@ public class SimpleCorrectModel {
     @MasterdataFilter6
     private Long filter6name;
 
-    @MasterdataEntry
+    @DatacontainerEntry
     private String entry1name;
 
-    @MasterdataEntry(name = "entry2Annotation")
+    @DatacontainerEntry(name = "entry2Annotation")
     private String entry2name;
 
     public SimpleCorrectModel(String key) {

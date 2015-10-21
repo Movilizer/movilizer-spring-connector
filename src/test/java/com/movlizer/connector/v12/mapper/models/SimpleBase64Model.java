@@ -1,7 +1,8 @@
 package com.movlizer.connector.v12.mapper.models;
 
 
-import com.movilizer.connector.v12.annotations.*;
+import com.movilizer.connector.java.annotations.datacontainer.DatacontainerEntry;
+import com.movilizer.connector.java.annotations.masterdata.*;
 
 @MasterdataPool("simple_pool")
 public class SimpleBase64Model {
@@ -16,10 +17,10 @@ public class SimpleBase64Model {
     private String desc;
 
     @MasterdataFilter1
-    @MasterdataEntry(name = "title")
+    @DatacontainerEntry(name = "title")
     private String imageTitle;
 
-    @MasterdataEntry(name = "image", type = MasterdataEntry.Type.BASE64)
+    @DatacontainerEntry(name = "image", type = DatacontainerEntry.Type.BASE64)
     private byte[] imageData;
 
     public SimpleBase64Model(String key) {

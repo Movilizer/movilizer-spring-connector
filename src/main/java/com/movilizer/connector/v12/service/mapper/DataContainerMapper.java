@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainer;
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
-import com.movilizer.connector.v12.exception.MovilizerParsingException;
+import com.movilizer.connector.java.exceptions.MovilizerParsingException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;

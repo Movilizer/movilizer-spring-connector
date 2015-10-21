@@ -1,11 +1,5 @@
 package com.movlizer.connector.v12.mapper;
 
-import com.movilizer.connector.v12.service.mapper.MasterdataMapperCached;
-import com.movlizer.connector.v12.mapper.models.DynamicPoolModel;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;

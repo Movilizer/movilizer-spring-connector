@@ -2,8 +2,7 @@ package com.movlizer.connector.v12.spikes;
 
 import com.movilitas.movilizer.v12.MovilizerMovelet;
 import com.movilitas.movilizer.v12.MovilizerParticipant;
-import com.movilizer.connector.v12.model.PasswordTypes;
-import com.movilizer.connector.v12.service.controller.MovilizerCloudInterfaceV12;
+import com.movilizer.connector.java.jobs.PollingJob;
 import com.movlizer.connector.v12.config.MovilizerV12TestConfig;
 import org.jasypt.digest.StandardStringDigester;
 import org.junit.After;
@@ -13,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -30,7 +28,7 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class ParticipantTest {
-
+/*
     private final String moveletXmlPath = "/test-movelets/test-movelet-simple.mxml";
 
     private final UUID moveletKey = UUID.fromString("b454f5ea-9ee9-49af-b38a-662823aef69b");
@@ -38,7 +36,7 @@ public class ParticipantTest {
     private final String moveletKeyExtension = "";
 
     @Autowired
-    private MovilizerCloudInterfaceV12 movilizer;
+    private PollingJob movilizer;
 
     private MovilizerParticipant participant1;
 
@@ -130,4 +128,5 @@ public class ParticipantTest {
 
         Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
     }
+    */
 }

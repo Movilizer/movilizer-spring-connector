@@ -13,6 +13,12 @@ log/
 target/
 out/
 
+# Gradle #
+/gradle/
+/.gradle/
+gradlew
+gradlew.bat
+
 # gradle specific
 .gradle
 

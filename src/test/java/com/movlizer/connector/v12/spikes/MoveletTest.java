@@ -1,7 +1,7 @@
 package com.movlizer.connector.v12.spikes;
 
 import com.movilitas.movilizer.v12.MovilizerMovelet;
-import com.movilizer.connector.v12.service.controller.MovilizerCloudInterfaceV12;
+import com.movilizer.connector.java.jobs.PollingJob;
 import com.movlizer.connector.v12.config.MovilizerV12TestConfig;
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class MoveletTest {
-
+/*
     private final String moveletXmlPath = "/test-movelets/test-movelet-simple.mxml";
 
     private final UUID moveletKey = UUID.fromString("b454f5ea-9ee9-49af-b38a-662823aef69b");
@@ -36,7 +36,7 @@ public class MoveletTest {
     private final String moveletName = "Simple movelet";
 
     @Autowired
-    private MovilizerCloudInterfaceV12 movilizer;
+    private PollingJob movilizer;
 
     @Before
     public void before() throws Exception {
@@ -59,4 +59,5 @@ public class MoveletTest {
         movilizer.removeMovelet(String.valueOf(moveletKey), moveletKeyExtension, true);
         movilizer.perfomSyncToCloud();
     }
+    */
 }
