@@ -20,7 +20,6 @@ movilizer:
   datacontainer:
     log: true
     dir: logs/datacontainers/${movilizer.env}
-    polling-rate: 10000 #millis
 
 # Security config
 security.require_ssl: false
