@@ -2,7 +2,6 @@ package com.movilizer.connector.java.jobs.processors;
 
 
 import com.movilitas.movilizer.v12.*;
-import com.movilizer.connector.java.jobs.processors.download.DatacontainerProcessor;
 import com.movilizer.connector.java.model.Processor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,149 +53,33 @@ public class DownloadProcessor {
             responseProcesssor.process(response);
         }
 
-        if (!response.getMasterdataAck().isEmpty()) {
-            for (Processor<MovilizerMasterdataAck> processor : masterdataAckProcesssors) {
-                for (MovilizerMasterdataAck item : response.getMasterdataAck()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getMasterdataError().isEmpty()) {
-            for (Processor<MovilizerMasterdataError> processor : masterdataErrorProcesssors) {
-                for (MovilizerMasterdataError item : response.getMasterdataError()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getMasterdataDeleted().isEmpty()) {
-            for (Processor<MovilizerMasterdataDeleted> processor : masterdataDeletedProcesssors) {
-                for (MovilizerMasterdataDeleted item : response.getMasterdataDeleted()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getDocumentAck().isEmpty()) {
-            for (Processor<MovilizerDocumentAck> processor : documentAckProcesssors) {
-                for (MovilizerDocumentAck item : response.getDocumentAck()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getDocumentError().isEmpty()) {
-            for (Processor<MovilizerDocumentError> processor : documentErrorProcesssors) {
-                for (MovilizerDocumentError item : response.getDocumentError()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getDocumentDeleted().isEmpty()) {
-            for (Processor<MovilizerDocumentDeleted> processor : documentDeletedProcesssors) {
-                for (MovilizerDocumentDeleted item : response.getDocumentDeleted()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getMoveletAck().isEmpty()) {
-            for (Processor<MovilizerMoveletAck> processor : moveletAckProcesssors) {
-                for (MovilizerMoveletAck item : response.getMoveletAck()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getMoveletError().isEmpty()) {
-            for (Processor<MovilizerMoveletError> processor : moveletErrorProcesssors) {
-                for (MovilizerMoveletError item : response.getMoveletError()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getMoveletDeleted().isEmpty()) {
-            for (Processor<MovilizerMoveletDeleted> processor : moveletDeletedProcesssors) {
-                for (MovilizerMoveletDeleted item : response.getMoveletDeleted()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getMoveletAssignmentDeleted().isEmpty()) {
-            for (Processor<MovilizerMoveletAssignmentDeleted> processor : moveletAssignmentDeletedProcesssors) {
-                for (MovilizerMoveletAssignmentDeleted item : response.getMoveletAssignmentDeleted()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getMoveletSynced().isEmpty()) {
-            for (Processor<MovilizerMoveletSynced> processor : moveletSyncedProcesssors) {
-                for (MovilizerMoveletSynced item : response.getMoveletSynced()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getMetaMoveletReply().isEmpty()) {
-            for (Processor<MovilizerMetaMoveletReply> processor : metaMoveletReplyProcesssors) {
-                for (MovilizerMetaMoveletReply item : response.getMetaMoveletReply()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getReplyMovelet().isEmpty()) {
-            for (Processor<MovilizerReplyMovelet> processor : replyMoveletProcesssors) {
-                for (MovilizerReplyMovelet item : response.getReplyMovelet()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getUploadContainer().isEmpty()) {
-            for (Processor<MovilizerUploadDataContainer> processor : uploadContainerProcesssors) {
-                for (MovilizerUploadDataContainer item : response.getUploadContainer()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getParticipantAck().isEmpty()) {
-            for (Processor<MovilizerParticipantAck> processor : participantAckProcesssorss) {
-                for (MovilizerParticipantAck item : response.getParticipantAck()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getParticipantDeploymentSmsSent().isEmpty()) {
-            for (Processor<MovilizerParticipantDeploymentSmsSent> processor : participantDeploymentSmsSentProcesssors) {
-                for (MovilizerParticipantDeploymentSmsSent item : response.getParticipantDeploymentSmsSent()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getParticipantInstall().isEmpty()) {
-            for (Processor<MovilizerParticipantInstall> processor : participantInstallProcesssors) {
-                for (MovilizerParticipantInstall item : response.getParticipantInstall()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getParticipantInstallAck().isEmpty()) {
-            for (Processor<MovilizerParticipantInstallAck> processor : participantInstallAckProcesssors) {
-                for (MovilizerParticipantInstallAck item : response.getParticipantInstallAck()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getParticipantInstallError().isEmpty()) {
-            for (Processor<MovilizerParticipantInstallError> processor : participantInstallErrorProcesssors) {
-                for (MovilizerParticipantInstallError item : response.getParticipantInstallError()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getParticipantDeleted().isEmpty()) {
-            for (Processor<MovilizerParticipantDeleted> processor : participantDeletedProcesssors) {
-                for (MovilizerParticipantDeleted item : response.getParticipantDeleted()) {
-                    processor.process(item);
-                }
-            }
-        }
-        if (!response.getStatusMessage().isEmpty()) {
-            for (Processor<MovilizerStatusMessage> processor : statusMessageProcesssors) {
-                for (MovilizerStatusMessage item : response.getStatusMessage()) {
+        proccessList(response.getMasterdataAck(), masterdataAckProcesssors);
+        proccessList(response.getMasterdataError(), masterdataErrorProcesssors);
+        proccessList(response.getMasterdataDeleted(), masterdataDeletedProcesssors);
+        proccessList(response.getDocumentAck(), documentAckProcesssors);
+        proccessList(response.getDocumentError(), documentErrorProcesssors);
+        proccessList(response.getDocumentDeleted(), documentDeletedProcesssors);
+        proccessList(response.getMoveletAck(), moveletAckProcesssors);
+        proccessList(response.getMoveletError(), moveletErrorProcesssors);
+        proccessList(response.getMoveletDeleted(), moveletDeletedProcesssors);
+        proccessList(response.getMoveletAssignmentDeleted(), moveletAssignmentDeletedProcesssors);
+        proccessList(response.getMoveletSynced(), moveletSyncedProcesssors);
+        proccessList(response.getMetaMoveletReply(), metaMoveletReplyProcesssors);
+        proccessList(response.getReplyMovelet(), replyMoveletProcesssors);
+        proccessList(response.getUploadContainer(), uploadContainerProcesssors);
+        proccessList(response.getParticipantAck(), participantAckProcesssorss);
+        proccessList(response.getParticipantDeploymentSmsSent(), participantDeploymentSmsSentProcesssors);
+        proccessList(response.getParticipantInstall(), participantInstallProcesssors);
+        proccessList(response.getParticipantInstallAck(), participantInstallAckProcesssors);
+        proccessList(response.getParticipantInstallError(), participantInstallErrorProcesssors);
+        proccessList(response.getParticipantDeleted(), participantDeletedProcesssors);
+        proccessList(response.getStatusMessage(), statusMessageProcesssors);
+    }
+
+    public <T> void proccessList(List<T> listFromResponse, List<Processor<T>> listOfProcesors){
+        if (!listFromResponse.isEmpty()) {
+            for (Processor<T> processor : listOfProcesors) {
+                for (T item : listFromResponse) {
                     processor.process(item);
                 }
             }
