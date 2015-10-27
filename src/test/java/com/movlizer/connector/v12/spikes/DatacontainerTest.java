@@ -1,5 +1,6 @@
 package com.movlizer.connector.v12.spikes;
 
+
 import com.movilitas.movilizer.v12.MovilizerMovelet;
 import com.movilitas.movilizer.v12.MovilizerParticipant;
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
@@ -25,9 +26,9 @@ import java.util.UUID;
  * @version 0.1-SNAPSHOT, 2014.11.10
  * @since 1.0
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class DatacontainerTest {
 /*
     private final String moveletXmlPath = "/test-movelets/test-movelet-datacontainer-reply.mxml";

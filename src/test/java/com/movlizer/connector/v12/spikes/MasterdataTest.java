@@ -25,9 +25,9 @@ import java.util.UUID;
  * @version 0.1-SNAPSHOT, 2014.11.10
  * @since 1.0
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class MasterdataTest {
 /*
     private final String moveletXmlPath = "/test-movelets/test-movelet-masterdata.mxml";

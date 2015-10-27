@@ -1,25 +1,6 @@
 package com.movlizer.connector.v12.service;
 
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainer;
-import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v12.MovilizerGenericUploadDataContainer;
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
-import com.movilizer.connector.java.persistence.entities.DatacontainerFromMovilizerQueue;
-import com.movilizer.connector.java.queues.FromMovilizerQueueService;
-import com.movlizer.connector.v12.config.MovilizerV12TestConfig;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.xml.datatype.DatatypeFactory;
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 /**
  * Tests for queries retrieving movilizer users.
@@ -28,8 +9,8 @@ import static org.hamcrest.Matchers.*;
  * @version 0.1-SNAPSHOT, 2014.11.10
  * @since 1.0
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class FromMovilizerQueueServiceTest {
 /*
     @Autowired
