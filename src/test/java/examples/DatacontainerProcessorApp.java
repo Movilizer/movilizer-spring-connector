@@ -1,14 +1,11 @@
 package examples;
 
 
-import com.movilitas.movilizer.v12.MovilizerResponse;
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
 import com.movilizer.connector.java.MovilizerConnectorAPI;
 import com.movilizer.connector.java.MovilizerConnectorConfig;
 import com.movilizer.connector.java.mapper.direct.DataContainerMapper;
 import com.movilizer.connector.java.model.MovilizerCallback;
-import com.movilizer.connector.java.model.Processor;
-import com.movilizer.mds.webservice.services.MovilizerDistributionService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +76,8 @@ public class DatacontainerProcessorApp {
                     List<String> dcKeys = new ArrayList<>();
                     for (MovilizerUploadDataContainer container : dcList) {
                         dcKeys.add(container.getContainer().getKey());
-                        if (mapper.checkForClass(container, ReadPoint.class)) {
-                            ReadPoint readPoint = (ReadPoint) mapper.toObject(container);
+                        if (mapper.isType(container.getContainer().getData(), ReadPoint.class)) {
+                            ReadPoint readPoint = mapper.fromDataContainer(container.getContainer().getData(), ReadPoint.class);
                             logger.info("New readpoint! " + readPoint.toString());
                         }
                     }

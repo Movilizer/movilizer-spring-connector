@@ -4,11 +4,10 @@ package com.movilizer.connector.java.mapper.direct;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainer;
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
 import com.movilizer.connector.java.exceptions.MovilizerParsingException;
+import com.movilizer.connector.java.model.mapper.GenericDataContainerMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,53 +27,101 @@ import java.util.Map;
  *
  * @author Pavel Kotlov
  */
-public class DataContainerMapper {
+public class DataContainerMapper implements GenericDataContainerMapper {
 
     private static Log logger = LogFactory.getLog(DataContainerMapper.class);
+    public static String JAVA_CLASS_ENTRY = "java-class";
 
-    public Object toObject(MovilizerUploadDataContainer dataContainer) {
-        String className = getClassName(dataContainer);
-        try {
-            Class<?> classType = Class.forName(className);
-            return toObject(dataContainer.getContainer().getData(), classType);
-        } catch (ClassNotFoundException e) {
-            throw new MovilizerParsingException("The Class was not on the Classpath.", e);
-        }
-    }
-
-    public boolean checkForClass(MovilizerUploadDataContainer dataContainer, Class<?>... classes) {
-        for (Class<?> currentClass : classes) {
-            String className = getClassName(dataContainer);
-            if (currentClass.getName().equals(className)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private String getClassName(MovilizerUploadDataContainer dataContainer) {
-        String className = dataContainer.getContainer().getKey();
-        for (String currentToken : className.split(":")) {
-            return currentToken;
-        }
-        return className;
-    }
-
-    public <T> T toObject(MovilizerGenericDataContainer containerData, Class<T> toValueType) {
-        Map<String, Object> objectAsMap = new HashMap<String, Object>();
+    @Override
+    public <T> T fromDataContainer(MovilizerGenericDataContainer containerData, Class<T> toValueType) {
+        Map<String, Object> objectAsMap = new HashMap<>();
         if (containerData != null) {
             objectAsMap = getMap(containerData.getEntry());
+            objectAsMap.remove(JAVA_CLASS_ENTRY);
         }
         try {
             return new ObjectMapper().convertValue(objectAsMap, toValueType);
         } catch (IllegalArgumentException e) {
-            throw new MovilizerParsingException("Error parsing the DataConatiner with a JSON Parser. " +
+            throw new MovilizerParsingException("Error parsing the DataContainer with a JSON Parser. " +
                     toValueType.getName(), e);
         }
     }
 
+    @Override
+    public <T> boolean isType(MovilizerGenericDataContainer dataContainer, Class<T> objectType) throws MovilizerParsingException {
+        boolean isType = false;
+        String className = getTypeCanonicalName(dataContainer);
+        if (objectType.getName().equals(className)) {
+            isType = true;
+        }
+        return isType;
+    }
+
+    @Override
+    public <T> Class<T> getType(MovilizerGenericDataContainer dataContainer) throws ClassNotFoundException {
+        String className = getTypeCanonicalName(dataContainer);
+        Class<T> classType = (Class<T>) Class.forName(className);
+        return classType;
+    }
+
+    @Override
+    public String getTypeCanonicalName(MovilizerGenericDataContainer dataContainer) throws MovilizerParsingException {
+        for (MovilizerGenericDataContainerEntry entry : dataContainer.getEntry()) {
+            if (entry.getName().equals(JAVA_CLASS_ENTRY)) {
+                return entry.getValstr();
+            }
+        }
+        throw new MovilizerParsingException("Java class entry (\"" + JAVA_CLASS_ENTRY + "\") not found in dataContainer");
+    }
+
+    @Override
+    public <T> MovilizerGenericDataContainer toDataContainer(T instanceOfObject) {
+        MovilizerGenericDataContainer dataContainer = null;
+        if (instanceOfObject != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> objectAsMap = objectMapper.convertValue(instanceOfObject, Map.class);
+            dataContainer = mapToDc(objectAsMap);
+        }
+        return dataContainer;
+    }
+
+    private MovilizerGenericDataContainer mapToDc(Map<String, Object> objectAsMap) {
+        MovilizerGenericDataContainer movilizerGenericDataContainer = new MovilizerGenericDataContainer();
+        for (Map.Entry<String, Object> entry : objectAsMap.entrySet()) {
+            movilizerGenericDataContainer.getEntry().add(mapToDcAux(entry.getKey(), entry.getValue()));
+        }
+        return movilizerGenericDataContainer;
+    }
+
+    private MovilizerGenericDataContainerEntry mapToDcAux(String key, Object value) {
+        MovilizerGenericDataContainerEntry entries = new MovilizerGenericDataContainerEntry();
+        entries.setName(key);
+        if (value instanceof byte[]) {
+            entries.setValb64((byte[]) value);
+        } else if (value instanceof Map) {
+            Map<String, Object> map = (Map<String, Object>) value;
+            for (Map.Entry<String, Object> mapEntry : map.entrySet()) {
+                MovilizerGenericDataContainerEntry entryToAdd = mapToDcAux(mapEntry.getKey(), mapEntry.getValue());
+                entries.getEntry().add(entryToAdd);
+            }
+        } else if (value instanceof List) {
+            List list = (List) value;
+            for (int i = 0; i < list.size(); i++) {
+                MovilizerGenericDataContainerEntry entryToAdd = mapToDcAux(String.valueOf(i), list.get(i));
+                entries.getEntry().add(entryToAdd);
+            }
+        } else {
+            if (value != null) {
+                entries.setValstr(String.valueOf(value));
+            } else {
+                entries.setValstr("");
+            }
+        }
+        return entries;
+    }
+
     private Map<String, Object> getMap(List<MovilizerGenericDataContainerEntry> entryList) {
-        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<>();
         for (MovilizerGenericDataContainerEntry entry : entryList) {
             String key = entry.getName();
             resultMap.put(key, getValue(entry));
@@ -88,11 +135,10 @@ public class DataContainerMapper {
         } else {
             return getMap(entryList);
         }
-
     }
 
     private List<Object> getList(List<MovilizerGenericDataContainerEntry> entryList) {
-        List<Object> resultList = new ArrayList<Object>();
+        List<Object> resultList = new ArrayList<>();
         for (MovilizerGenericDataContainerEntry entry : entryList) {
             resultList.add(getValue(entry));
         }
@@ -115,7 +161,7 @@ public class DataContainerMapper {
     private boolean isList(List<MovilizerGenericDataContainerEntry> entryList) {
         if (isInteger(entryList.get(0).getName())) {
             for (MovilizerGenericDataContainerEntry entry : entryList) {
-                if (isInteger(entry.getName()) == false) {
+                if (!isInteger(entry.getName())) {
                     throw new MovilizerParsingException("The entry [" + entry.getName() +
                             "] was not an integer although a List structure was anticipated " +
                             "because of the first element of the Data Structure [" + entryList.get(0).getName() +
@@ -156,5 +202,4 @@ public class DataContainerMapper {
         }
         return true;
     }
-
 }

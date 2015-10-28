@@ -16,12 +16,25 @@ package com.movilizer.connector.java.mapper.direct;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.movilitas.movilizer.v12.MovilizerGenericDataContainer;
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v12.MovilizerMasterdataUpdate;
+import com.movilizer.connector.java.model.mapper.MasterdataMapper;
 
 import java.util.List;
 import java.util.Map;
 
-public class MasterDataObjectMapper {
+public class MasterDataObjectMapper implements MasterdataMapper{
+
+    @Override
+    public <T> MovilizerMasterdataUpdate toMasterdata(T instanceOfObject) {
+        MovilizerMasterdataUpdate movilizerMasterdataUpdate = new MovilizerMasterdataUpdate();
+        MovilizerGenericDataContainer movilizerGenericDataContainer = new MovilizerGenericDataContainer();
+        movilizerGenericDataContainer.getEntry().addAll(objectToContainer(instanceOfObject).getEntry());
+        movilizerMasterdataUpdate.setData(movilizerGenericDataContainer);
+
+        return movilizerMasterdataUpdate;
+    }
 
     public MovilizerGenericDataContainerEntry objectToContainer(Object object) {
         ObjectMapper objectMapper = new ObjectMapper();
