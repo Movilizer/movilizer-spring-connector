@@ -4,7 +4,7 @@ package examples;
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
 import com.movilizer.connector.java.MovilizerConnectorAPI;
 import com.movilizer.connector.java.MovilizerConnectorConfig;
-import com.movilizer.connector.java.mapper.direct.DataContainerMapper;
+import com.movilizer.connector.java.mapper.direct.GenericDataContainerMapperImpl;
 import com.movilizer.connector.java.model.MovilizerCallback;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,18 +49,18 @@ public class DatacontainerProcessorApp {
     }
 
     @Bean
-    private DataContainerMapper dcMapper() {
-        return new DataContainerMapper();
+    private GenericDataContainerMapperImpl dcMapper() {
+        return new GenericDataContainerMapperImpl();
     }
 
     @Component
     @DependsOn("dcMapper")
     private class AppLogic {
         private MovilizerConnectorAPI movilizerConnector;
-        private DataContainerMapper mapper;
+        private GenericDataContainerMapperImpl mapper;
 
         @Autowired
-        public AppLogic(MovilizerConnectorAPI movilizerConnector, DataContainerMapper mapper) {
+        public AppLogic(MovilizerConnectorAPI movilizerConnector, GenericDataContainerMapperImpl mapper) {
             this.movilizerConnector = movilizerConnector;
             this.mapper = mapper;
         }

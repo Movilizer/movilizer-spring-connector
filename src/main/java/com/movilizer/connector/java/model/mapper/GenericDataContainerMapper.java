@@ -3,6 +3,8 @@ package com.movilizer.connector.java.model.mapper;
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainer;
 import com.movilizer.connector.java.exceptions.MovilizerParsingException;
 
+import java.util.List;
+
 public interface GenericDataContainerMapper {
     <T> T fromDataContainer(MovilizerGenericDataContainer dataContainer, Class<T> objectType) throws MovilizerParsingException;
 
@@ -13,4 +15,6 @@ public interface GenericDataContainerMapper {
     String getTypeCanonicalName(MovilizerGenericDataContainer dataContainer) throws MovilizerParsingException;
 
     <T> MovilizerGenericDataContainer toDataContainer(T instanceOfObject);
+
+    <T> MovilizerGenericDataContainer toDataContainer(List<T> instanceOfObject);
 }

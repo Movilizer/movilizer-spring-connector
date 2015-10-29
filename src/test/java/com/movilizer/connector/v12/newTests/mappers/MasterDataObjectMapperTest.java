@@ -16,7 +16,8 @@ package com.movilizer.connector.v12.newTests.mappers;
 
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
 import com.movilitas.movilizer.v12.MovilizerMasterdataUpdate;
-import com.movilizer.connector.java.mapper.direct.MasterDataObjectMapper;
+import com.movilizer.connector.java.mapper.direct.GenericDataContainerMapperImpl;
+import com.movilizer.connector.java.model.mapper.GenericDataContainerMapper;
 import com.movilizer.connector.v12.newTests.models.MapperTestObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +32,11 @@ public class MasterDataObjectMapperTest {
 
     private MapperTestObject obj1;
     private MapperTestObject obj2;
-    private MasterDataObjectMapper mdMapper;
+    private GenericDataContainerMapper mapper;
 
     @Before
     public void before() throws Exception {
-        mdMapper = new MasterDataObjectMapper();
+        mapper = new GenericDataContainerMapperImpl();
 
         obj1 = MapperTestObject.createTestObject();
         obj2 = MapperTestObject.createTestObject();
@@ -47,9 +48,14 @@ public class MasterDataObjectMapperTest {
         instances.add(obj1);
         instances.add(obj2);
 
-        MovilizerMasterdataUpdate movilizerMasterdataUpdate = mdMapper.toMasterdata(instances);
-        List<MovilizerGenericDataContainerEntry> masterdata = movilizerMasterdataUpdate.getData().getEntry();
+        //create masterdata
+        MovilizerMasterdataUpdate movilizerMasterdataUpdate = new MovilizerMasterdataUpdate();
+        movilizerMasterdataUpdate.setData(mapper.toDataContainer(instances));
+        movilizerMasterdataUpdate.setKey("test key");
+        movilizerMasterdataUpdate.setDescription("test desc");
 
+        //extract data and check
+        List<MovilizerGenericDataContainerEntry> masterdata = movilizerMasterdataUpdate.getData().getEntry();
         assertThat(masterdata.size(), is(2));
 
         MovilizerGenericDataContainerEntry entry1 = masterdata.get(0);

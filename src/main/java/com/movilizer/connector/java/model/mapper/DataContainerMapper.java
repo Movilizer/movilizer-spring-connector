@@ -2,8 +2,8 @@ package com.movilizer.connector.java.model.mapper;
 
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
 
-public interface DataContainerMapper {
-    <T> T fromDataContainer(MovilizerUploadDataContainer dataContainer, Class<T> objectType);
+public interface DataContainerMapper <T>{
+    T fromDataContainer(MovilizerUploadDataContainer dataContainer, Class<T> objectType);
 
-    <T> MovilizerUploadDataContainer toDataContainer(T instanceOfObject);
+    MovilizerUploadDataContainer toDataContainer(T instanceOfObject);
 }

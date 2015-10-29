@@ -27,10 +27,10 @@ import java.util.Map;
  *
  * @author Pavel Kotlov
  */
-public class DataContainerMapper implements GenericDataContainerMapper {
+public class GenericDataContainerMapperImpl implements GenericDataContainerMapper {
 
-    private static Log logger = LogFactory.getLog(DataContainerMapper.class);
-    public static String JAVA_CLASS_ENTRY = "java-class";
+    private static final Log logger = LogFactory.getLog(GenericDataContainerMapperImpl.class);
+    public static final String JAVA_CLASS_ENTRY = "java-class";
 
     @Override
     public <T> T fromDataContainer(MovilizerGenericDataContainer containerData, Class<T> toValueType) {
@@ -76,19 +76,30 @@ public class DataContainerMapper implements GenericDataContainerMapper {
 
     @Override
     public <T> MovilizerGenericDataContainer toDataContainer(T instanceOfObject) {
-        MovilizerGenericDataContainer dataContainer = null;
+        MovilizerGenericDataContainer dataContainer = new MovilizerGenericDataContainer();
         if (instanceOfObject != null) {
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> objectAsMap = objectMapper.convertValue(instanceOfObject, Map.class);
-            dataContainer = mapToDc(objectAsMap);
+            dataContainer.getEntry().addAll(mapToDc(objectAsMap));
         }
         return dataContainer;
     }
 
-    private MovilizerGenericDataContainer mapToDc(Map<String, Object> objectAsMap) {
-        MovilizerGenericDataContainer movilizerGenericDataContainer = new MovilizerGenericDataContainer();
+    @Override
+    public <T> MovilizerGenericDataContainer toDataContainer(List<T> listOfObjects) {
+        MovilizerGenericDataContainer dataContainer = new MovilizerGenericDataContainer();
+        for (T instanceOfObject : listOfObjects) {
+            MovilizerGenericDataContainerEntry entries = new MovilizerGenericDataContainerEntry();
+            entries.getEntry().addAll(toDataContainer(instanceOfObject).getEntry());
+            dataContainer.getEntry().add(entries);
+        }
+        return dataContainer;
+    }
+
+    private List<MovilizerGenericDataContainerEntry> mapToDc(Map<String, Object> objectAsMap) {
+        List<MovilizerGenericDataContainerEntry> movilizerGenericDataContainer = new ArrayList<>();
         for (Map.Entry<String, Object> entry : objectAsMap.entrySet()) {
-            movilizerGenericDataContainer.getEntry().add(mapToDcAux(entry.getKey(), entry.getValue()));
+            movilizerGenericDataContainer.add(mapToDcAux(entry.getKey(), entry.getValue()));
         }
         return movilizerGenericDataContainer;
     }

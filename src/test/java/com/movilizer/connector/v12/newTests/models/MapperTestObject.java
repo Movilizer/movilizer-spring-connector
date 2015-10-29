@@ -100,7 +100,7 @@ public class MapperTestObject {
         testObject.setObjectFieldList(list);
         testObject.setStringField("test");
 
-        testObject.setImage(new byte[] {'a', 'b'});
+        testObject.setImage(new byte[]{'a', 'b'});
 
         return testObject;
     }
