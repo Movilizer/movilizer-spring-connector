@@ -5,7 +5,7 @@ import com.movilitas.movilizer.v12.MovilizerGenericDataContainer;
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
 import com.movilitas.movilizer.v12.MovilizerGenericUploadDataContainer;
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
-import com.movilizer.connector.java.mapper.direct.DataContainerMapper;
+import com.movilizer.connector.java.mapper.direct.GenericDataContainerMapperImpl;
 import com.movilizer.connector.v12.mapper.models.MapperTestObjectDC;
 import org.junit.Test;
 

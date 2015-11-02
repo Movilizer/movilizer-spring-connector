@@ -3,7 +3,7 @@ package com.movilizer.connector.java.mapper.annotated;
 import com.movilitas.movilizer.v12.MovilizerGenericDataContainerEntry;
 import com.movilizer.connector.java.annotations.datacontainer.DatacontainerEntry;
 import com.movilizer.connector.java.annotations.masterdata.*;
-import com.movilizer.connector.java.mapper.direct.MasterDataObjectMapper;
+import com.movilizer.connector.java.mapper.direct.GenericDataContainerMapperImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
