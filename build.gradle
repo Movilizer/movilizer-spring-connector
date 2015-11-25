@@ -72,6 +72,8 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    // A single directory added to a custom-named repositories grouping.
+    flatDir name: 'localDiskRepo', dirs: 'lib'
 }
 
 // New configuration for CXF dependencies.
@@ -108,6 +110,9 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
+    compile("localDiskRepo:movilizer-webservice-14.11.1.3")
+
 
 }
 
