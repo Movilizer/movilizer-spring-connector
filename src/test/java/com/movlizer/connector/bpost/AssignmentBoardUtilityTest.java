@@ -22,7 +22,7 @@ public class AssignmentBoardUtilityTest {
 	@Test
 	public void testPushSotiCSV()
 	{
-		utility.pushSotiCSV(false);
+		utility.pushSotiCSV(false, "123456");
 		
 	}
 }
