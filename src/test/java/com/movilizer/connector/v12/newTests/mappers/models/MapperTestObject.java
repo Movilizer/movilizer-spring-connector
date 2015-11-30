@@ -1,4 +1,4 @@
-package com.movilizer.connector.v12.newTests.models;
+package com.movilizer.connector.v12.newTests.mappers.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

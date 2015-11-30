@@ -2,9 +2,12 @@ package com.movilizer.connector.v12.spikes;
 
 import com.movilitas.movilizer.v12.MovilizerMovelet;
 import com.movilitas.movilizer.v12.MovilizerParticipant;
+import com.movilitas.movilizer.v12.MovilizerRequest;
 import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
-import com.movilizer.connector.java.jobs.PollingJob;
+import com.movilizer.connector.java.MovilizerConnectorAPI;
+import com.movilizer.connector.java.model.MovilizerCallback;
 import com.movilizer.connector.v12.config.MovilizerV12TestConfig;
+import com.movilizer.mds.webservice.services.MovilizerDistributionService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -15,8 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 /**
  * Tests for queries retrieving movilizer users.
  *
@@ -24,11 +31,11 @@ import java.util.UUID;
  * @version 0.1-SNAPSHOT, 2014.11.10
  * @since 1.0
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
+@RunWith(SpringJUnit4ClassRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class DatacontainerTest {
-/*
+
     private final String moveletXmlPath = "/test-movelets/test-movelet-datacontainer-reply.mxml";
 
     private final UUID moveletKey = UUID.fromString("d554f5ea-9ee9-49af-b38a-662823aef69b");
@@ -36,7 +43,9 @@ public class DatacontainerTest {
     private final String moveletKeyExtension = "";
 
     @Autowired
-    private PollingJob movilizer;
+    private MovilizerConnectorAPI movilizerConnector;
+    @Autowired
+    private MovilizerDistributionService mds;
 
     private MovilizerParticipant participant1;
 
@@ -54,25 +63,33 @@ public class DatacontainerTest {
 
     @Test
     public void test1CreateMovelet() throws Exception {
-        MovilizerMovelet movelet = movilizer.unmarshallMoveletFromFile(moveletXmlPath);
-        movilizer.createMovelet(movelet);
-        movilizer.assignMoveletToParticipant(String.valueOf(moveletKey), participant1);
-        movilizer.perfomSyncToCloud();
-        Thread.sleep(30 * 1000);
+        Path moveletPath = Paths.get(getClass().getResource(moveletXmlPath).toURI());
+        MovilizerRequest request = mds.getRequestFromFile(moveletPath);
+        if (request.getMoveletSet().size() == 1 && request.getMoveletSet().get(0).getMovelet().size() == 1) {
+            MovilizerMovelet movelet = request.getMoveletSet().get(0).getMovelet().get(0);
+            movilizerConnector.createMovelet(movelet);
+            movilizerConnector.assignMoveletToParticipant(String.valueOf(moveletKey), participant1);
+        }
     }
 
     @Test
     public void test2CheckForDatacontainers() throws Exception {
-        movilizer.perfomSyncToCloud();
-        List<MovilizerUploadDataContainer> datacontainers = movilizer.getAllDataContainers();
-        Thread.sleep(30 * 1000);
+        movilizerConnector.registerCallback(new MovilizerCallback() {
+            @Override
+            public void execute() {
+                List<MovilizerUploadDataContainer> dcList = movilizerConnector.getAllDataContainers();
+                List<String> dcKeys = new ArrayList<>();
+                for (MovilizerUploadDataContainer container : dcList) {
+                    dcKeys.add(container.getContainer().getKey());
+                }
+                movilizerConnector.setDataContainersAsProcessed(dcKeys);
+            }
+        });
     }
 
     @Test
     public void test3RemoveMovelet() throws Exception {
-        movilizer.removeMovelet(String.valueOf(moveletKey), moveletKeyExtension, true);
-        movilizer.perfomSyncToCloud();
-        Thread.sleep(30 * 1000);
+        movilizerConnector.removeMovelet(String.valueOf(moveletKey), moveletKeyExtension, true);
     }
-    */
+
 }

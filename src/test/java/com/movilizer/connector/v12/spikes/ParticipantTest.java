@@ -2,8 +2,11 @@ package com.movilizer.connector.v12.spikes;
 
 import com.movilitas.movilizer.v12.MovilizerMovelet;
 import com.movilitas.movilizer.v12.MovilizerParticipant;
-import com.movilizer.connector.java.jobs.PollingJob;
+import com.movilitas.movilizer.v12.MovilizerRequest;
+import com.movilizer.connector.java.MovilizerConnectorAPI;
 import com.movilizer.connector.v12.config.MovilizerV12TestConfig;
+import com.movilizer.mds.webservice.models.PasswordHashTypes;
+import com.movilizer.mds.webservice.services.MovilizerDistributionService;
 import org.jasypt.digest.StandardStringDigester;
 import org.junit.After;
 import org.junit.Before;
@@ -15,7 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
+
 /**
  * Tests for queries retrieving movilizer users.
  *
@@ -23,19 +29,22 @@ import java.util.UUID;
  * @version 0.1-SNAPSHOT, 2014.11.10
  * @since 1.0
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
+@RunWith(SpringJUnit4ClassRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@SpringApplicationConfiguration(classes = {MovilizerV12TestConfig.class})
 public class ParticipantTest {
-/*
+
     private final String moveletXmlPath = "/test-movelets/test-movelet-simple.mxml";
 
     private final UUID moveletKey = UUID.fromString("b454f5ea-9ee9-49af-b38a-662823aef69b");
 
     private final String moveletKeyExtension = "";
 
+
     @Autowired
-    private PollingJob movilizer;
+    private MovilizerConnectorAPI movilizerConnector;
+    @Autowired
+    private MovilizerDistributionService mds;
 
     private MovilizerParticipant participant1;
 
@@ -68,49 +77,40 @@ public class ParticipantTest {
 
     @Test
     public void test1CreateMovelet() throws Exception {
-        MovilizerMovelet movelet = movilizer.unmarshallMoveletFromFile(moveletXmlPath);
-        movilizer.createMovelet(movelet);
-        movilizer.perfomSyncToCloud();
-        Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
+        Path moveletPath = Paths.get(getClass().getResource(moveletXmlPath).toURI());
+        MovilizerRequest request = mds.getRequestFromFile(moveletPath);
+        if (request.getMoveletSet().size() == 1 && request.getMoveletSet().get(0).getMovelet().size() == 1) {
+            MovilizerMovelet movelet = request.getMoveletSet().get(0).getMovelet().get(0);
+            movilizerConnector.createMovelet(movelet);
+        }
     }
 
     @Test
     public void test2AssignToParticpant() throws Exception {
-        movilizer.assignMoveletToParticipant(String.valueOf(moveletKey), participant3);
-        movilizer.perfomSyncToCloud();
-        Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
+        movilizerConnector.assignMoveletToParticipant(String.valueOf(moveletKey), participant3);
     }
 
     @Test
     public void test3AssignToSeveralParticpants() throws Exception {
-        movilizer.assignMoveletToParticipant(String.valueOf(moveletKey), participant2);
-        movilizer.assignMoveletToParticipant(String.valueOf(moveletKey), participant3);
-        movilizer.perfomSyncToCloud();
-        Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
+        movilizerConnector.assignMoveletToParticipant(String.valueOf(moveletKey), participant2);
+        movilizerConnector.assignMoveletToParticipant(String.valueOf(moveletKey), participant3);
     }
 
     @Test
     public void test4UnAssignToSeveralParticpants() throws Exception {
-        movilizer.unassignMoveletToParticipant(String.valueOf(moveletKey), participant1);
-        movilizer.unassignMoveletToParticipant(String.valueOf(moveletKey), participant2);
-        movilizer.unassignMoveletToParticipant(String.valueOf(moveletKey), participant3);
-        movilizer.perfomSyncToCloud();
-        Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
+        movilizerConnector.unassignMoveletToParticipant(String.valueOf(moveletKey), participant1);
+        movilizerConnector.unassignMoveletToParticipant(String.valueOf(moveletKey), participant2);
+        movilizerConnector.unassignMoveletToParticipant(String.valueOf(moveletKey), participant3);
     }
 
     @Test
     public void test5ResetParticpant() throws Exception {
-        movilizer.resetParticipant(participant3.getDeviceAddress());
-        movilizer.perfomSyncToCloud();
-        Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
+        movilizerConnector.resetParticipant(participant3.getDeviceAddress());
     }
 
     @Test
     public void test6AssignToParticpantWithTextPassword() throws Exception {
-        movilizer.assignPasswordToParticipant(participant3, PasswordTypes.PLAIN_TEXT_PASSWORD, "awf123");
-        movilizer.perfomSyncToCloud();
-
-        Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
+        movilizerConnector.assignPasswordToParticipant(participant3, PasswordHashTypes.PLAIN_TEXT, "awf123");
     }
 
     @Test
@@ -122,10 +122,7 @@ public class ParticipantTest {
         encrypter.initialize();
         String encrypterdPassword = encrypter.digest("movilizer2");
 
-        movilizer.assignPasswordToParticipant(participant3, PasswordTypes.SHA_512_PASSWORD, encrypterdPassword);
-        movilizer.perfomSyncToCloud();
-
-        Thread.sleep(30 * 1000); //Too fast consecutive requests can be ignored by the cloud
+        movilizerConnector.assignPasswordToParticipant(participant3, PasswordHashTypes.SHA_512, encrypterdPassword);
     }
-    */
+
 }

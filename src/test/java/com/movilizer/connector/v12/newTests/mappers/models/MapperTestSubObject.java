@@ -1,4 +1,4 @@
-package com.movilizer.connector.v12.newTests.models;
+package com.movilizer.connector.v12.newTests.mappers.models;
 
 public class MapperTestSubObject {
 
