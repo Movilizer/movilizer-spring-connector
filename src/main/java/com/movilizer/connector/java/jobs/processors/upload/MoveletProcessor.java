@@ -28,4 +28,8 @@ public class MoveletProcessor implements Processor<MovilizerRequest> {
         }
         toMovilizerQueueService.removeMovelets(moveletUpdates);
     }
+
+    public void setToMovilizerQueueService(ToMovilizerQueueService toMovilizerQueueService) {
+        this.toMovilizerQueueService = toMovilizerQueueService;
+    }
 }

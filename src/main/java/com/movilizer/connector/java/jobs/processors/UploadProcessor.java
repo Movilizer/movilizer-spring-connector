@@ -32,4 +32,15 @@ public class UploadProcessor implements Processor<MovilizerRequest> {
         participantProcessor.process(request);
     }
 
+    public void setMasterdataProcessor(Processor<MovilizerRequest> masterdataProcessor) {
+        this.masterdataProcessor = masterdataProcessor;
+    }
+
+    public void setMoveletProcessor(Processor<MovilizerRequest> moveletProcessor) {
+        this.moveletProcessor = moveletProcessor;
+    }
+
+    public void setParticipantProcessor(Processor<MovilizerRequest> participantProcessor) {
+        this.participantProcessor = participantProcessor;
+    }
 }

@@ -136,4 +136,8 @@ public class DownloadProcessor {
             logger.warn("Ignoring unknown processor for type: " + processorClass.getSimpleName());
         }
     }
+
+    public void setDatacontainerProcessor(Processor<MovilizerResponse> datacontainerProcessor) {
+        this.datacontainerProcessor = datacontainerProcessor;
+    }
 }

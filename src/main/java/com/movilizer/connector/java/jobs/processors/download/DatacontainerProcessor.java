@@ -32,4 +32,8 @@ public class DatacontainerProcessor implements Processor<MovilizerResponse> {
             }
         }
     }
+
+    public void setFromMovilizerQueueService(FromMovilizerQueueService fromMovilizerQueueService) {
+        this.fromMovilizerQueueService = fromMovilizerQueueService;
+    }
 }

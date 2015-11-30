@@ -38,4 +38,8 @@ public class MasterdataProcessor implements Processor<MovilizerRequest> {
         request.getMasterdataPoolUpdate().addAll(poolUpdateMap.values());
         toMovilizerQueueService.removeMasterdata(masterdataUpdates);
     }
+
+    public void setToMovilizerQueueService(ToMovilizerQueueService toMovilizerQueueService) {
+        this.toMovilizerQueueService = toMovilizerQueueService;
+    }
 }

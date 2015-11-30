@@ -28,4 +28,8 @@ public class ParticipantProcessor implements Processor<MovilizerRequest> {
         }
         toMovilizerQueueService.removeParticipants(participantUpdates);
     }
+
+    public void setToMovilizerQueueService(ToMovilizerQueueService toMovilizerQueueService) {
+        this.toMovilizerQueueService = toMovilizerQueueService;
+    }
 }

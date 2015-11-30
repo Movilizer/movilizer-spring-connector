@@ -1,12 +1,13 @@
-package com.movilizer.connector.v12.processors;
+package com.movilizer.connector.v12.newTests.processors.download;
 
 import com.movilitas.movilizer.v12.*;
-import com.movilizer.connector.java.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.java.jobs.processors.DownloadProcessor;
+import com.movilizer.connector.java.jobs.processors.download.DatacontainerProcessor;
+import com.movilizer.connector.java.model.Processor;
+import com.movilizer.connector.java.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.java.queues.FromMovilizerQueueService;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -14,6 +15,8 @@ import javax.xml.datatype.DatatypeFactory;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -21,50 +24,49 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-/**
- * Tests for processing data coming from the Movilizer cloud.
- *
- * @author Jesús de Mula Cano <jesus.demula@movilizer.com>
- * @version 1.4-SNAPSHOT, 2014.12.31
- * @since 1.4
- */
-public class DownloadProcessorTest {
-/*
+
+public class DatacontainerProcessorTest {
     //Test data
     private final Long systemId = 1234L;
-
     private final String password = "pass";
-
     private final String acknowledgeKey = "ack";
-
     private DownloadProcessor processor;
-
+    private DatacontainerProcessor datacontainerProcessor;
     private FromMovilizerQueueService fromMovilizerQueueService;
-
     private MovilizerResponse response;
-
-    private MovilizerRequest request;
-
     private String creationTimestamp = "2001-07-12T12:08:56.435Z";
-
     private String syncTimestamp = "2001-07-14T12:09:56.435Z";
+    private String imagePath = "/test-images/movilizer-logo1.jpg";
 
-    private String imagePath = "/test-images/movilizer-logo.png";
+    Processor<MovilizerMasterdataAck> masterdataAckProcesssor1;
+    Processor<MovilizerMasterdataAck> masterdataAckProcesssor2;
+
+    private List<String> masterdataAckProcesssor1Keys;
+    private List<String> masterdataAckProcesssor2Keys;
 
     @Before
     public void before() throws Exception {
         processor = new DownloadProcessor();
+        datacontainerProcessor = new DatacontainerProcessor();
         fromMovilizerQueueService = mock(FromMovilizerQueueService.class);
-        processor.setFromMovilizerQueueService(fromMovilizerQueueService);
+
+        masterdataAckProcesssor1Keys = new ArrayList<>();
+        masterdataAckProcesssor1 = new Processor<MovilizerMasterdataAck>() {
+            @Override
+            public void process(MovilizerMasterdataAck item) {
+                masterdataAckProcesssor1Keys.add(item.getKey());
+            }
+        };
+
+
+        //Wire dependencies
+        datacontainerProcessor.setFromMovilizerQueueService(fromMovilizerQueueService);
+        processor.setDatacontainerProcessor(datacontainerProcessor);
 
         //prepare clean data
         response = new MovilizerResponse();
         response.setRequestAcknowledgeKey(acknowledgeKey);
         response.setSystemId(systemId);
-
-        request = new MovilizerRequest();
-        request.setSystemId(systemId);
-        request.setSystemPassword(password);
     }
 
     @After
@@ -73,15 +75,13 @@ public class DownloadProcessorTest {
 
     @Test
     public void testProcessNoDatacontainersInResponse() throws Exception {
-        when(fromMovilizerQueueService.offer(any((new DatacontainerFromMovilizerQueue()).getClass()))).thenReturn(
-                true);
+        when(fromMovilizerQueueService.offer(any((new DatacontainerFromMovilizerQueue()).getClass()))).thenReturn(true);
 
         //pre-condition
         assertThat(response.getUploadContainer().isEmpty(), is(true));
 
-        processor.process(response, request);
+        processor.process(response);
 
-        assertThat(request.getRequestAcknowledgeKey(), is(acknowledgeKey));
         verify(fromMovilizerQueueService, never()).offer(
                 any((new DatacontainerFromMovilizerQueue()).getClass()));
     }
@@ -124,9 +124,8 @@ public class DownloadProcessorTest {
         assertThat(response.getUploadContainer().isEmpty(), is(false));
         assertThat(response.getUploadContainer().size(), is(1));
 
-        processor.process(response, request);
+        processor.process(response);
 
-        assertThat(request.getRequestAcknowledgeKey(), is(acknowledgeKey));
         verify(fromMovilizerQueueService, times(1)).offer(
                 any((new DatacontainerFromMovilizerQueue()).getClass()));
     }
@@ -198,9 +197,8 @@ public class DownloadProcessorTest {
         assertThat(response.getUploadContainer().isEmpty(), is(false));
         assertThat(response.getUploadContainer().size(), is(2));
 
-        processor.process(response, request);
+        processor.process(response);
 
-        assertThat(request.getRequestAcknowledgeKey(), is(acknowledgeKey));
         verify(fromMovilizerQueueService, times(2)).offer(
                 any((new DatacontainerFromMovilizerQueue()).getClass()));
     }
@@ -246,27 +244,10 @@ public class DownloadProcessorTest {
         assertThat(response.getUploadContainer().isEmpty(), is(false));
         assertThat(response.getUploadContainer().size(), is(1));
 
-        processor.process(response, request);
+        processor.process(response);
 
-        assertThat(request.getRequestAcknowledgeKey(), is(acknowledgeKey));
         verify(fromMovilizerQueueService, times(1)).offer(
                 any((new DatacontainerFromMovilizerQueue()).getClass()));
-    }
-
-    @Test
-    @Ignore
-    public void testProcessInDownloadProccessor() throws Exception {
-        when(fromMovilizerQueueService.offer(any((new DatacontainerFromMovilizerQueue()).getClass()))).thenReturn(
-                false);
-        //TODO finish his test
-    }
-
-    @Test
-    @Ignore
-    public void testNotAcknowledgeDatacontainersWhenError() throws Exception {
-        when(fromMovilizerQueueService.offer(any((new DatacontainerFromMovilizerQueue()).getClass()))).thenThrow(
-                new Exception());
-        //TODO finish his test
     }
 
     // ------------------------------------------------------------------------------------------------------------ Util
@@ -279,5 +260,5 @@ public class DownloadProcessorTest {
         bos.close();
         return imgBytes;
     }
-    */
+
 }
