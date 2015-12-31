@@ -72,7 +72,7 @@ public class DownloadProcessorTest {
     }
 
     @Test
-    public void testProcessNoDatacontainersInResponse() throws Exception {
+    public void testConstructor() throws Exception {
         when(fromMovilizerQueueService.offer(any((new DatacontainerFromMovilizerQueue()).getClass()))).thenReturn(
                 true);
 

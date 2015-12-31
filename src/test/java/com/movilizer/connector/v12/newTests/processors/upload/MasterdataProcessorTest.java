@@ -118,9 +118,7 @@ public class MasterdataProcessorTest {
         assertThat(request.getMasterdataPoolUpdate().get(0).getUpdate().get(0).getData().getEntry().get(0).getName(), is("exampleName"));
         assertThat(request.getMasterdataPoolUpdate().get(0).getUpdate().get(0).getData().getEntry().get(0).getValstr(), is("exampleValue"));
 
-//        can't test queue because mock
-//        verify(toMovilizerQueueService, times(1)).offer(any((new MasterdataToMovilizerQueue()).getClass()));
-//        assertThat(toMovilizerQueueService.getAllMasterdataUpdatesOrdered().size(), is(0));
+        verify(toMovilizerQueueService, times(1)).removeMasterdata(masterdataToMovilizerQueues);
 
     }
 
@@ -137,29 +135,22 @@ public class MasterdataProcessorTest {
 
         assertThat(request.getMasterdataPoolUpdate().size(), is(2));
 
-        if(request.getMasterdataPoolUpdate().get(0).getPool().equals("pool1")){
-            assertThat(request.getMasterdataPoolUpdate().get(0).getPool(), is("pool1"));
-            assertThat(request.getMasterdataPoolUpdate().get(0).getUpdate().size(), is(2));
-
-            assertThat(request.getMasterdataPoolUpdate().get(1).getPool(), is("pool2"));
-            assertThat(request.getMasterdataPoolUpdate().get(1).getUpdate().size(), is(1));
-
-        } else{
-            assertThat(request.getMasterdataPoolUpdate().get(0).getPool(), is("pool2"));
-            assertThat(request.getMasterdataPoolUpdate().get(0).getUpdate().size(), is(1));
-
-            assertThat(request.getMasterdataPoolUpdate().get(1).getPool(), is("pool1"));
-            assertThat(request.getMasterdataPoolUpdate().get(1).getUpdate().size(), is(2));
+        MovilizerMasterdataPoolUpdate movilizerMasterdataPoolUpdate1;
+        MovilizerMasterdataPoolUpdate movilizerMasterdataPoolUpdate2;
+        if (request.getMasterdataPoolUpdate().get(0).getPool().equals("pool1")) {
+            movilizerMasterdataPoolUpdate1 = request.getMasterdataPoolUpdate().get(0);
+            movilizerMasterdataPoolUpdate2 = request.getMasterdataPoolUpdate().get(1);
+        } else {
+            movilizerMasterdataPoolUpdate1 = request.getMasterdataPoolUpdate().get(1);
+            movilizerMasterdataPoolUpdate2 = request.getMasterdataPoolUpdate().get(0);
         }
+        assertThat(movilizerMasterdataPoolUpdate1.getPool(), is("pool1"));
+        assertThat(movilizerMasterdataPoolUpdate1.getUpdate().size(), is(2));
 
+        assertThat(movilizerMasterdataPoolUpdate2.getPool(), is("pool2"));
+        assertThat(movilizerMasterdataPoolUpdate2.getUpdate().size(), is(1));
 
-
-
-
-//        can't test queue because mock
-//        verify(toMovilizerQueueService, times(1)).offer(any((new MasterdataToMovilizerQueue()).getClass()));
-//        assertThat(toMovilizerQueueService.getAllMasterdataUpdatesOrdered().size(), is(0));
-
+        verify(toMovilizerQueueService, times(1)).removeMasterdata(masterdataToMovilizerQueues);
     }
 
 }
