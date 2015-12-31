@@ -28,7 +28,6 @@ gradlew.bat
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 *.db
