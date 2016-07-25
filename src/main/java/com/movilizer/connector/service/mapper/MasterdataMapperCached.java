@@ -38,6 +38,8 @@ public class MasterdataMapperCached {
 
     private Field filter6Field;
 
+    private Field mafAppSpace;
+
     private Method poolNameMethod;
 
     private Map<String, Field> entryFieldMap;
@@ -104,6 +106,11 @@ public class MasterdataMapperCached {
             if (field.getAnnotation(MasterdataFilter6.class) != null) {
                 assert field.getType().equals(Long.class);
                 filter6Field = field;
+            }
+
+            if (field.getAnnotation(MafAppSpace.class) != null) {
+                assert field.getType().equals(Long.class);
+                mafAppSpace = field;
             }
 
             if (field.getAnnotation(MasterdataEntry.class) != null) {
@@ -188,6 +195,11 @@ public class MasterdataMapperCached {
     public Long getFilter6(Object instance) {
         assert isSameType(instance);
         return getLong(filter6Field, instance);
+    }
+
+    public String getMafAppSpace(Object instance) {
+        assert isSameType(instance);
+        return getString(mafAppSpace, instance);
     }
 
     public List<MovilizerGenericDataContainerEntry> getData(Object instance) {
@@ -363,4 +375,8 @@ public class MasterdataMapperCached {
     protected Map<String, MasterdataEntry.Type> getEntryTypeMap() {
         return entryTypeMap;
     }
+
+	public Field getMafAppSpace() {
+		return mafAppSpace;
+	}
 }

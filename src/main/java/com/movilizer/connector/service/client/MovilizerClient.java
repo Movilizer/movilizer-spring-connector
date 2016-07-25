@@ -194,7 +194,7 @@ public class MovilizerClient {
     }
 
     @Transactional
-    public void updateMasterdata(List<MovilizerMasterdataPoolUpdate> masterdataList) {
+    public void updateMasterdata(Collection<MovilizerMasterdataPoolUpdate> masterdataList) {
         for (MovilizerMasterdataPoolUpdate masterdataPoolUpdate : masterdataList) {
             updateMasterdata(masterdataPoolUpdate);
         }

@@ -39,6 +39,7 @@ public class MasterdataMapper {
                     masterdataUpdate.setFilter4(masterdataMapperCached.getFilter4(modelInstance));
                     masterdataUpdate.setFilter5(masterdataMapperCached.getFilter5(modelInstance));
                     masterdataUpdate.setFilter6(masterdataMapperCached.getFilter6(modelInstance));
+                    masterdataUpdate.setMafAppSpace(masterdataMapperCached.getMafAppSpace(modelInstance));
                     MovilizerGenericDataContainer dataContainer = new MovilizerGenericDataContainer();
                     dataContainer.getEntry().addAll(masterdataMapperCached.getData(modelInstance));
                     masterdataUpdate.setData(dataContainer);
