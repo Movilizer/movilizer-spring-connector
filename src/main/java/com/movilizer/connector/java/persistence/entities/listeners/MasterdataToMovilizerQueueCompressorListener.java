@@ -1,8 +1,8 @@
 package com.movilizer.connector.java.persistence.entities.listeners;
 
-import com.movilitas.movilizer.v12.MovilizerMasterdataDelete;
-import com.movilitas.movilizer.v12.MovilizerMasterdataReference;
-import com.movilitas.movilizer.v12.MovilizerMasterdataUpdate;
+import com.movilitas.movilizer.v14.MovilizerMasterdataDelete;
+import com.movilitas.movilizer.v14.MovilizerMasterdataReference;
+import com.movilitas.movilizer.v14.MovilizerMasterdataUpdate;
 import com.movilizer.connector.java.persistence.entities.MasterdataToMovilizerQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

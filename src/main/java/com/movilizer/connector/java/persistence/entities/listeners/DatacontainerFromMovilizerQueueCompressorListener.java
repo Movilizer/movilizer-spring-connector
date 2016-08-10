@@ -1,6 +1,6 @@
 package com.movilizer.connector.java.persistence.entities.listeners;
 
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.java.persistence.entities.DatacontainerFromMovilizerQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

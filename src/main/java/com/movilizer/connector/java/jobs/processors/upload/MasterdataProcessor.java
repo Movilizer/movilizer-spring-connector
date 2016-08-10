@@ -1,8 +1,8 @@
 package com.movilizer.connector.java.jobs.processors.upload;
 
 
-import com.movilitas.movilizer.v12.MovilizerMasterdataPoolUpdate;
-import com.movilitas.movilizer.v12.MovilizerRequest;
+import com.movilitas.movilizer.v14.MovilizerMasterdataPoolUpdate;
+import com.movilitas.movilizer.v14.MovilizerRequest;
 import com.movilizer.connector.java.model.Processor;
 import com.movilizer.connector.java.persistence.entities.MasterdataToMovilizerQueue;
 import com.movilizer.connector.java.queues.ToMovilizerQueueService;

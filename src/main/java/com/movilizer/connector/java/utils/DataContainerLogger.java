@@ -14,7 +14,7 @@
 
 package com.movilizer.connector.java.utils;
 
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.java.MovilizerConnectorAPI;
 import com.movilizer.connector.java.model.Processor;
 import com.movilizer.mds.webservice.services.MovilizerDistributionService;
@@ -40,7 +40,7 @@ public class DataContainerLogger {
     @Value("${movilizer.charset}")
     private String charset;
 
-    @Value("${spring.profile.active}")
+    @Value("${spring.profiles.active}")
     private String environment;
 
     @Value("${movilizer.datacontainer.dir}")

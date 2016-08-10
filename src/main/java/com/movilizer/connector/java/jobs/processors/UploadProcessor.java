@@ -1,7 +1,7 @@
 package com.movilizer.connector.java.jobs.processors;
 
 
-import com.movilitas.movilizer.v12.MovilizerRequest;
+import com.movilitas.movilizer.v14.MovilizerRequest;
 import com.movilizer.connector.java.jobs.processors.upload.MasterdataProcessor;
 import com.movilizer.connector.java.jobs.processors.upload.MoveletProcessor;
 import com.movilizer.connector.java.jobs.processors.upload.ParticipantProcessor;

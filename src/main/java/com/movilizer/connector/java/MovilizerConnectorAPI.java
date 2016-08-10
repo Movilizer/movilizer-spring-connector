@@ -1,7 +1,7 @@
 package com.movilizer.connector.java;
 
 
-import com.movilitas.movilizer.v12.*;
+import com.movilitas.movilizer.v14.*;
 import com.movilizer.connector.java.jobs.PollingJob;
 import com.movilizer.connector.java.model.Processor;
 import com.movilizer.connector.java.persistence.entities.DatacontainerFromMovilizerQueue;

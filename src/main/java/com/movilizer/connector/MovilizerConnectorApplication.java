@@ -27,6 +27,7 @@ public class MovilizerConnectorApplication extends SpringBootServletInitializer 
 
     public static void main(String[] args) throws Exception {
         logger.debug("Starting Movilizer middleware backend...");
+        System.setProperty("javax.xml.bind.JAXBContext", "com.sun.xml.internal.bind.v2.ContextFactory");
         SpringApplication app = new SpringApplication(MovilizerConnectorApplication.class);
         app.setShowBanner(false);
         app.run(args);

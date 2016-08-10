@@ -1,7 +1,7 @@
 package examples;
 
 
-import com.movilitas.movilizer.v12.MovilizerResponse;
+import com.movilitas.movilizer.v14.MovilizerResponse;
 import com.movilizer.connector.java.MovilizerConnectorAPI;
 import com.movilizer.connector.java.MovilizerConnectorConfig;
 import com.movilizer.connector.java.model.Processor;

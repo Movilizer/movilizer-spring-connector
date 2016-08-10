@@ -1,8 +1,8 @@
 package com.movilizer.connector.java.jobs.processors.download;
 
 
-import com.movilitas.movilizer.v12.MovilizerResponse;
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerResponse;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.java.model.Processor;
 import com.movilizer.connector.java.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.java.queues.FromMovilizerQueueService;

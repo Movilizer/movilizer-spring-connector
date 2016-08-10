@@ -1,7 +1,7 @@
 package com.movilizer.connector.java.persistence.entities;
 
 
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.java.persistence.entities.listeners.DatacontainerFromMovilizerQueueCompressorListener;
 
 import javax.persistence.*;

@@ -13,12 +13,13 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
+apply plugin: 'maven'
 
 group = 'com.movilizer.connector'
 version = '0.1'
 
 springBoot {
-    mainClass = 'MovilizerConnectorApplication'
+    mainClass = 'com.movilizer.connector.MovilizerConnectorApplication'
 }
 
 buildscript {
@@ -81,7 +82,7 @@ dependencies {
 
     //movilizer web service
 //    compile("com.movilizer.mds:movilizer-webservice:12.11.1.3")
-    compile("localDiskRepo:movilizer-webservice-12.11.1.3")
+    compile("localDiskRepo:movilizer-webservice-14.11.1.3")
 
     compile("org.apache.httpcomponents:httpclient:4.4")
     compile("org.apache.httpcomponents:httpmime:4.4")

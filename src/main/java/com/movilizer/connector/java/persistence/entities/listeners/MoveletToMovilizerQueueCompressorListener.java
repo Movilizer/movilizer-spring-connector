@@ -1,7 +1,7 @@
 package com.movilizer.connector.java.persistence.entities.listeners;
 
-import com.movilitas.movilizer.v12.MovilizerMovelet;
-import com.movilitas.movilizer.v12.MovilizerMoveletDelete;
+import com.movilitas.movilizer.v14.MovilizerMovelet;
+import com.movilitas.movilizer.v14.MovilizerMoveletDelete;
 import com.movilizer.connector.java.persistence.entities.MoveletToMovilizerQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

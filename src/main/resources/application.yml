@@ -1,7 +1,7 @@
 spring.application.name: Movilizer Connector
 
 # Profiles
-spring.profiles: local, demo, preprod, prod
+#spring.profiles: local, demo, preprod, prod
 
 # Active profile should be overwritten by application.properties or an argument: gradle :bootRun -Pspring.profiles.active=dev
 spring.profiles.active: local
@@ -9,10 +9,25 @@ spring.profiles.active: local
 # Movilizer config
 movilizer:
   env: demo
+  protocol: v14
   polling-rate: 10000 #millis
+  max-items: 10000 #datacontainers/replies in the webservice response
+  charset: UTF-8
   auth:
-    systemId:
-    password:
+    systemId: 51840015
+    password: 1337
+  masterdata:
+    init: false
+    default-group: ALL
+  movelets:
+    init: false
+    version: 1
+  participants:
+    init: false
+    suffix: "@movilizer.com"
+  datacontainer:
+    log: true
+    dir: logs/datacontainers/${movilizer.env}
 
 # Logging config
 logging:

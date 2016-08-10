@@ -1,7 +1,7 @@
 package examples;
 
 
-import com.movilitas.movilizer.v12.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
 import com.movilizer.connector.java.MovilizerConnectorAPI;
 import com.movilizer.connector.java.MovilizerConnectorConfig;
 import com.movilizer.connector.java.mapper.direct.GenericDataContainerMapperImpl;
@@ -28,6 +28,7 @@ public class DatacontainerProcessorApp {
 
     public static void main(String[] args) throws Exception {
         logger.debug("Starting Movilizer middleware backend...");
+        System.setProperty("javax.xml.bind.JAXBContext", "com.sun.xml.internal.bind.v2.ContextFactory");
         SpringApplication app = new SpringApplication(DatacontainerProcessorApp.class);
         app.setShowBanner(false);
         app.run(args);
@@ -49,7 +50,7 @@ public class DatacontainerProcessorApp {
     }
 
     @Bean
-    private GenericDataContainerMapperImpl dcMapper() {
+    GenericDataContainerMapperImpl dcMapper() {
         return new GenericDataContainerMapperImpl();
     }
 
