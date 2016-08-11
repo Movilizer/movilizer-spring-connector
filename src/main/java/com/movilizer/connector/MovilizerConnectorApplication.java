@@ -1,6 +1,6 @@
 package com.movilizer.connector;
 
-import com.movilizer.connector.java.MovilizerConnectorConfig;
+import com.movilizer.connector.MovilizerConnectorConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +27,14 @@ public class MovilizerConnectorApplication extends SpringBootServletInitializer 
 
     public static void main(String[] args) throws Exception {
         logger.debug("Starting Movilizer middleware backend...");
+
+        /*
+         * The problem that is solved by that:
+         * ClassCastException ..cannot be cast to com.sun.xml.bind.v2.runtime.reflect.Accessor
+         * An alternative way of fixing it was: System.setProperty( "com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize", "true");
+         */
+        System.setProperty("javax.xml.bind.JAXBContext", "com.sun.xml.internal.bind.v2.ContextFactory");
+
         SpringApplication app = new SpringApplication(MovilizerConnectorApplication.class);
         app.setShowBanner(false);
         app.run(args);

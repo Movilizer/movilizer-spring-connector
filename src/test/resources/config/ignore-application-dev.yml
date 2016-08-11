@@ -12,7 +12,7 @@ movilizer.password: PaNfHsVmIMz3XkDCWmByEsAkd8P3p
 movilizer.pollingRate: 10000
 movilizer.dc.pollingRate: 10000
 
-server.contextPath=/swire-dev
+server.contextPath: /swire-dev
 
 #Invoice write Directory
-invoice.directory =  ${movilizer.log.dir}/Signatures/
+invoice.directory: ${movilizer.log.dir}/Signatures/

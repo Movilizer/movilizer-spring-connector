@@ -1,0 +1,66 @@
+#profiles
+spring.profiles: ${spring.profile.environment}, postgres
+#active profile should be overwritten by application.properties or an argument: gradle :bootRun -Pspring.profiles.active=dev
+#@see http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-profile-specific-properties
+
+spring.profiles.active: dsd-epcis
+spring.profile.environment: ${spring.profiles.active}
+connector.version: 1.3
+
+
+# Movilizer config
+movilizer:
+  env: epcis
+  charset: UTF-8
+  protocol: v14
+  polling-rate: 10000 #millis
+  max-items: 10000 #datacontainers/replies in the webservice response
+  auth:
+    systemId:
+    password:
+  masterdata:
+    init: false
+    default-group: ALL
+  movelets:
+    init: false
+    version: 1
+  participants:
+    init: false
+    suffix: "@movilizer.com"
+  datacontainer:
+    log: true
+    dir: logs/datacontainers/${movilizer.env}
+
+# Security config
+security.require_ssl: false
+#security.user.name=admin
+#security.user.password=movelet2015
+#management.security.role=SUPERUSER
+
+#Velocity config
+spring.velocity.checkTemplateLocation: false
+
+#Tomcat config
+service.name: ${application.name}
+server:
+  contextPath: /movilizer
+  port: 8080
+  tomcat:
+#    basedir: target/tomcat
+    access_log_enabled: true
+    access_log_pattern: "%h %t %r %s %b"
+info:
+  group: "@project.groupId@"
+  artifact: "@project.artifactId@"
+  name: "@project.name@"
+  version: "@project.version@"
+
+# Actuator management config
+management:
+  address: 127.0.0.1
+  port: 8081
+endpoints.shutdown.enabled: true
+spring.jmx.enabled: true
+
+# Cosmetics
+spring.main.show_banner: false

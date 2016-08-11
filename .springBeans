@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.7.3.201602250914-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>java:com.movilizer.example.connector.DatacontainerProcessorApp</config>
+		<config>java:com.movilizer.example.connector.RequestPrinterApp</config>
+	</configs>
+	<autoconfigs>
+		<config>java:com.movilizer.connector.MovilizerConnectorConfig</config>
+		<config>java:com.movilizer.connector.MovilizerConnectorApplication</config>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>
