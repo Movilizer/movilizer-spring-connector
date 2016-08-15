@@ -23,8 +23,16 @@ public class RequestPrinterApp {
 
     public static void main(String[] args) throws Exception {
         logger.debug("Starting Movilizer middleware backend...");
+
+        /*
+         * The problem that is solved by that:
+         * ClassCastException ..cannot be cast to com.sun.xml.bind.v2.runtime.reflect.Accessor
+         * An alternative way of fixing it was: System.setProperty( "com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize", "true");
+         */
+        System.setProperty("javax.xml.bind.JAXBContext", "com.sun.xml.internal.bind.v2.ContextFactory");
+
         SpringApplication app = new SpringApplication(RequestPrinterApp.class);
-        app.setShowBanner(false);
+        app.setShowBanner(false);//app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
     }
 

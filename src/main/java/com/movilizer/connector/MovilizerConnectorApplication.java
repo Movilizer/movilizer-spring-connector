@@ -6,13 +6,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.WebApplicationInitializer;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 /**
  * Main class and Main Spring Configuration of the Application.
@@ -28,6 +26,7 @@ public class MovilizerConnectorApplication extends SpringBootServletInitializer 
     public static void main(String[] args) throws Exception {
         logger.debug("Starting Movilizer middleware backend...");
 
+
         /*
          * The problem that is solved by that:
          * ClassCastException ..cannot be cast to com.sun.xml.bind.v2.runtime.reflect.Accessor
@@ -35,8 +34,13 @@ public class MovilizerConnectorApplication extends SpringBootServletInitializer 
          */
         System.setProperty("javax.xml.bind.JAXBContext", "com.sun.xml.internal.bind.v2.ContextFactory");
 
-        SpringApplication app = new SpringApplication(MovilizerConnectorApplication.class);
-        app.setShowBanner(false);
+        /*
+         * If you want to debug the startup e.g. for yaml functionality:
+         * System.setProperty("logging.level.org.springframework", "DEBUG");
+         */
+
+        SpringApplication app = new SpringApplication(MovilizerConnectorConfig.class);
+        app.setShowBanner(false);//app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
     }
 }
