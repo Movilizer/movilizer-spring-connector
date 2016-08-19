@@ -7,8 +7,7 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>java:com.movilizer.example.connector.DatacontainerProcessorApp</config>
-		<config>java:com.movilizer.example.connector.RequestPrinterApp</config>
+		<config>java:com.movilizer.connector.example.dc.DatacontainerProcessorApp</config>
 	</configs>
 	<autoconfigs>
 		<config>java:com.movilizer.connector.MovilizerConnectorConfig</config>
