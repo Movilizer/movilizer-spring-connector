@@ -110,7 +110,7 @@ public class MasterdataMapperCached {
             }
 
             if (field.getAnnotation(MafAppSpace.class) != null) {
-                assert field.getType().equals(Long.class);
+                assert field.getType().equals(String.class);
                 mafAppSpace = field;
             }
 

@@ -1,6 +1,6 @@
 # movilizer-spring-connector
 
-The Spring connector uses Java to integrate with the Movilizer Cloud. It offers solutions for standard challanges while integrating with the Movilizer Cloud and creating a mobile process based on the data coming from a backend.
+The Spring connector uses Java to integrate with the Movilizer Cloud. It offers solutions for standard challenges while integrating with the Movilizer Cloud and creating a mobile process based on the data coming from a back end.
 
 The connector offers:
 * Annotation based mappers for DataContainers and MasterData
