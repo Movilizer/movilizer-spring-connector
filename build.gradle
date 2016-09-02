@@ -99,17 +99,17 @@ dependencies {
 
 }
 
-eclipse {
-    classpath {
+//eclipse {
+//    classpath {
 // in the moment you will have to add the generated classes folder manually to the eclipse src directories
 // http://stackoverflow.com/questions/26750869/how-to-add-gradle-generated-source-folder-to-eclipse-project
 //		file.whenMerged { cp ->
 //			cp.entries.add(new org.gradle.plugins.ide.eclipse.model.SourceFolder(wsdlGeneratedFiles, null)
 //		}
-        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-    }
-}
+//        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+//        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+//    }
+//}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
