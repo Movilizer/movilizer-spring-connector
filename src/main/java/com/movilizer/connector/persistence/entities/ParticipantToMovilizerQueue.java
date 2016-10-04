@@ -1,6 +1,6 @@
 package com.movilizer.connector.persistence.entities;
 
-import com.movilitas.movilizer.v14.*;
+import com.movilitas.movilizer.v15.*;
 import com.movilizer.connector.persistence.entities.listeners.ParticipantToMovilizerQueueListener;
 
 import javax.persistence.*;

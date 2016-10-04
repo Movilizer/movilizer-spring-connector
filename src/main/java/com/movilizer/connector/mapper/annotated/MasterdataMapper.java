@@ -1,7 +1,7 @@
 package com.movilizer.connector.mapper.annotated;
 
 
-import com.movilitas.movilizer.v14.*;
+import com.movilitas.movilizer.v15.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

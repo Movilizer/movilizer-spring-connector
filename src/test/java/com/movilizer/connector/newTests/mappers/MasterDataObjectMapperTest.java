@@ -14,8 +14,8 @@
 
 package com.movilizer.connector.newTests.mappers;
 
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v14.MovilizerMasterdataUpdate;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v15.MovilizerMasterdataUpdate;
 import com.movilizer.connector.mapper.direct.GenericDataContainerMapperImpl;
 import com.movilizer.connector.model.mapper.GenericDataContainerMapper;
 import com.movilizer.connector.newTests.mappers.models.MapperTestObject;

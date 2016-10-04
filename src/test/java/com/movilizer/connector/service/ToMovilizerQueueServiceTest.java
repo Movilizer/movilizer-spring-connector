@@ -1,8 +1,8 @@
 package com.movilizer.connector.service;
 
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainer;
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v14.MovilizerMasterdataUpdate;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v15.MovilizerMasterdataUpdate;
 import com.movilizer.connector.config.MovilizerV12TestConfig;
 import com.movilizer.connector.persistence.entities.MasterdataToMovilizerQueue;
 import com.movilizer.connector.queues.ToMovilizerQueueService;

@@ -1,9 +1,9 @@
 package com.movilizer.connector.jobs.processors;
 
-import com.movilitas.movilizer.v14.MovilizerMasterdataError;
-import com.movilitas.movilizer.v14.MovilizerMoveletError;
-import com.movilitas.movilizer.v14.MovilizerParticipantInstallError;
-import com.movilitas.movilizer.v14.MovilizerResponse;
+import com.movilitas.movilizer.v15.MovilizerMasterdataError;
+import com.movilitas.movilizer.v15.MovilizerMoveletError;
+import com.movilitas.movilizer.v15.MovilizerParticipantInstallError;
+import com.movilitas.movilizer.v15.MovilizerResponse;
 import com.movilizer.connector.model.Processor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

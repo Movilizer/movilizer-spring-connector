@@ -1,6 +1,6 @@
 package com.movilizer.connector.newTests.processors.upload;
 
-import com.movilitas.movilizer.v14.*;
+import com.movilitas.movilizer.v15.*;
 import com.movilizer.connector.jobs.processors.upload.MasterdataProcessor;
 import com.movilizer.connector.persistence.entities.MasterdataToMovilizerQueue;
 import com.movilizer.connector.queues.ToMovilizerQueueService;

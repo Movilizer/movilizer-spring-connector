@@ -1,6 +1,6 @@
 package com.movilizer.connector.processors;
 
-import com.movilitas.movilizer.v14.*;
+import com.movilitas.movilizer.v15.*;
 import com.movilizer.connector.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.jobs.processors.DownloadProcessor;
 import com.movilizer.connector.queues.FromMovilizerQueueService;

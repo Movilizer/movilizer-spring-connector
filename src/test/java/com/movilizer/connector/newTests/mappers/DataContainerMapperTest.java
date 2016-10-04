@@ -1,10 +1,10 @@
 package com.movilizer.connector.newTests.mappers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainer;
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v14.MovilizerGenericUploadDataContainer;
-import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v15.MovilizerGenericUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerUploadDataContainer;
 import com.movilizer.connector.mapper.direct.GenericDataContainerMapperImpl;
 import com.movilizer.connector.model.mapper.GenericDataContainerMapper;
 import com.movilizer.connector.newTests.mappers.models.MapperTestObject;
@@ -98,7 +98,7 @@ public class DataContainerMapperTest {
         genericContainer.setKey("containerKey");
 
         MovilizerGenericDataContainer objectContainer = new MovilizerGenericDataContainer();
-        objectContainer.getEntry().add(createDataEntry(GenericDataContainerMapperImpl.JAVA_CLASS_ENTRY, "com.movilizer.connector.v14.newTests.mappers.models.MapperTestObject"));
+        objectContainer.getEntry().add(createDataEntry(GenericDataContainerMapperImpl.JAVA_CLASS_ENTRY, "com.movilizer.connector.v15.newTests.mappers.models.MapperTestObject"));
         objectContainer.getEntry().add(createDataEntry("intField", "1"));
         objectContainer.getEntry().add(createDataEntry("booleanField", "true"));
         objectContainer.getEntry().add(createDataEntry("dateField", "2015-08-30"));

@@ -1,8 +1,8 @@
 package com.movilizer.connector.mapper.direct;
 
 
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainer;
-import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainer;
+import com.movilitas.movilizer.v15.MovilizerUploadDataContainer;
 import com.movilizer.connector.MovilizerConnectorAPI;
 import com.movilizer.connector.exceptions.MovilizerParsingException;
 import com.movilizer.connector.model.mapper.DCEvaluator;

@@ -1,7 +1,7 @@
 package com.movilizer.connector.persistence.entities.listeners;
 
 
-import com.movilitas.movilizer.v14.*;
+import com.movilitas.movilizer.v15.*;
 import com.movilizer.connector.persistence.entities.ParticipantToMovilizerQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

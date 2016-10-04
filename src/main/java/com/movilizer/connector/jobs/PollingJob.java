@@ -1,8 +1,8 @@
 package com.movilizer.connector.jobs;
 
 
-import com.movilitas.movilizer.v14.MovilizerRequest;
-import com.movilitas.movilizer.v14.MovilizerResponse;
+import com.movilitas.movilizer.v15.MovilizerRequest;
+import com.movilitas.movilizer.v15.MovilizerResponse;
 import com.movilizer.connector.model.Processor;
 import com.movilizer.connector.model.MovilizerCallback;
 import com.movilizer.connector.jobs.processors.ErrorsProcessor;

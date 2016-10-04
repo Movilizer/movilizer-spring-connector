@@ -1,7 +1,7 @@
 package com.movilizer.connector.persistence.entities.listeners;
 
-import com.movilitas.movilizer.v14.MovilizerMovelet;
-import com.movilitas.movilizer.v14.MovilizerMoveletDelete;
+import com.movilitas.movilizer.v15.MovilizerMovelet;
+import com.movilitas.movilizer.v15.MovilizerMoveletDelete;
 import com.movilizer.connector.persistence.entities.MoveletToMovilizerQueue;
 import com.movilizer.connector.utils.AutowireHelper;
 

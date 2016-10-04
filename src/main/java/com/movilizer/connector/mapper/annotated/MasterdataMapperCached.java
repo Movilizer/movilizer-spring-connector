@@ -1,6 +1,6 @@
 package com.movilizer.connector.mapper.annotated;
 
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainerEntry;
 import com.movilizer.connector.annotations.*;
 import com.movilizer.connector.annotations.masterdata.*;
 

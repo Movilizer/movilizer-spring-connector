@@ -1,10 +1,10 @@
 package com.movilizer.connector.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainer;
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v14.MovilizerGenericUploadDataContainer;
-import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v15.MovilizerGenericUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerUploadDataContainer;
 import com.movilizer.connector.mapper.direct.GenericDataContainerMapperImpl;
 import com.movilizer.connector.mapper.models.MapperTestObjectDC;
 
@@ -69,7 +69,7 @@ public class DataContainerMapperTest {
 //        MovilizerGenericUploadDataContainer genericContainer = new MovilizerGenericUploadDataContainer();
 //        container.setContainer(genericContainer);
 //
-//        genericContainer.setKey("com.movilizer.modules.movilizer.v14.mapper.models.MapperTestObjectDC:001");
+//        genericContainer.setKey("com.movilizer.modules.movilizer.v15.mapper.models.MapperTestObjectDC:001");
 //
 //        MovilizerGenericDataContainer objectContainer = new MovilizerGenericDataContainer();
 //        objectContainer.getEntry().add(createDataEntry("booleanField", "true"));

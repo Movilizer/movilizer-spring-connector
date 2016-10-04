@@ -2,8 +2,8 @@ package com.movilizer.connector.mapper.direct;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainer;
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainerEntry;
 import com.movilizer.connector.exceptions.MovilizerParsingException;
 import com.movilizer.connector.model.mapper.GenericDataContainerMapper;
 import org.apache.commons.logging.Log;

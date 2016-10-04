@@ -1,6 +1,6 @@
 package com.movilizer.connector.persistence.entities.listeners;
 
-import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerUploadDataContainer;
 import com.movilizer.connector.persistence.entities.DatacontainerFromMovilizerQueue;
 import com.movilizer.connector.utils.AutowireHelper;
 

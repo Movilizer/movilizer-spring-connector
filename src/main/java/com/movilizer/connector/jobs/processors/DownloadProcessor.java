@@ -1,7 +1,7 @@
 package com.movilizer.connector.jobs.processors;
 
 
-import com.movilitas.movilizer.v14.*;
+import com.movilitas.movilizer.v15.*;
 import com.movilizer.connector.model.Processor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +32,7 @@ public class DownloadProcessor {
     private List<Processor<MovilizerMoveletError>> moveletErrorProcesssors= new ArrayList<>();
     private List<Processor<MovilizerMoveletDeleted>> moveletDeletedProcesssors= new ArrayList<>();
     private List<Processor<MovilizerMoveletAssignmentDeleted>> moveletAssignmentDeletedProcesssors= new ArrayList<>();
-    private List<Processor<MovilizerMoveletSynced>> moveletSyncedProcesssors= new ArrayList<>();
+    private List<Processor<MovilizerSyncedMovelet>> moveletSyncedProcesssors= new ArrayList<>();
     private List<Processor<MovilizerMetaMoveletReply>> metaMoveletReplyProcesssors= new ArrayList<>();
     private List<Processor<MovilizerReplyMovelet>> replyMoveletProcesssors= new ArrayList<>();
     private List<Processor<MovilizerUploadDataContainer>> uploadContainerProcesssors= new ArrayList<>();
@@ -63,7 +63,6 @@ public class DownloadProcessor {
         proccessList(response.getMoveletError(), moveletErrorProcesssors);
         proccessList(response.getMoveletDeleted(), moveletDeletedProcesssors);
         proccessList(response.getMoveletAssignmentDeleted(), moveletAssignmentDeletedProcesssors);
-        proccessList(response.getMoveletSynced(), moveletSyncedProcesssors);
         proccessList(response.getMetaMoveletReply(), metaMoveletReplyProcesssors);
         proccessList(response.getReplyMovelet(), replyMoveletProcesssors);
         proccessList(response.getUploadContainer(), uploadContainerProcesssors);
@@ -110,8 +109,8 @@ public class DownloadProcessor {
             moveletDeletedProcesssors.add((Processor<MovilizerMoveletDeleted>) processor);
         } else if (MovilizerMoveletAssignmentDeleted.class.equals(processorClass)) {
             moveletAssignmentDeletedProcesssors.add((Processor<MovilizerMoveletAssignmentDeleted>) processor);
-        } else if (MovilizerMoveletSynced.class.equals(processorClass)) {
-            moveletSyncedProcesssors.add((Processor<MovilizerMoveletSynced>) processor);
+        } else if (MovilizerSyncedMovelet.class.equals(processorClass)) {
+            moveletSyncedProcesssors.add((Processor<MovilizerSyncedMovelet>) processor);
         } else if (MovilizerMetaMoveletReply.class.equals(processorClass)) {
             metaMoveletReplyProcesssors.add((Processor<MovilizerMetaMoveletReply>) processor);
         } else if (MovilizerReplyMovelet.class.equals(processorClass)) {

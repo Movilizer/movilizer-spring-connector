@@ -1,6 +1,6 @@
 package com.movilizer.connector.model.mapper;
 
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainer;
 import com.movilizer.connector.exceptions.MovilizerParsingException;
 
 import java.util.List;

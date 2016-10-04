@@ -14,7 +14,7 @@
 
 package com.movilizer.connector.utils;
 
-import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerUploadDataContainer;
 import com.movilizer.connector.MovilizerConnectorAPI;
 import com.movilizer.connector.model.Processor;
 import com.movilizer.mds.webservice.services.MovilizerDistributionService;

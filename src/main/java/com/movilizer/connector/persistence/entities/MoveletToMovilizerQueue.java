@@ -1,6 +1,6 @@
 package com.movilizer.connector.persistence.entities;
 
-import com.movilitas.movilizer.v14.*;
+import com.movilitas.movilizer.v15.*;
 import com.movilizer.connector.persistence.entities.listeners.MoveletToMovilizerQueueCompressorListener;
 
 import javax.persistence.*;
@@ -36,7 +36,7 @@ public class MoveletToMovilizerQueue {
 
     private Boolean transactional;
 
-    private Short priority;
+    private Long priority;
 
     private Integer appGroup;
 
@@ -49,8 +49,6 @@ public class MoveletToMovilizerQueue {
     private String encryptionHMAC;
 
     private Calendar validTillDate;
-
-    private String callbackEndpoint;
 
     private Boolean ignoreExtensionKey;
 
@@ -90,7 +88,6 @@ public class MoveletToMovilizerQueue {
         if (movelet.getValidTillDate() != null) {
             validTillDate = movelet.getValidTillDate().toGregorianCalendar();
         }
-        callbackEndpoint = movelet.getCallbackEndpoint();
 
         this.movelet = movelet;
     }
@@ -141,10 +138,6 @@ public class MoveletToMovilizerQueue {
         if (action != that.action)
             return false;
         if (appGroup != null ? !appGroup.equals(that.appGroup) : that.appGroup != null)
-            return false;
-        if (callbackEndpoint != null
-                ? !callbackEndpoint.equals(that.callbackEndpoint)
-                : that.callbackEndpoint != null)
             return false;
         if (decompressedSize != null
                 ? !decompressedSize.equals(that.decompressedSize)
@@ -224,7 +217,6 @@ public class MoveletToMovilizerQueue {
         result = 31 * result + (encryptionIV != null ? encryptionIV.hashCode() : 0);
         result = 31 * result + (encryptionHMAC != null ? encryptionHMAC.hashCode() : 0);
         result = 31 * result + (validTillDate != null ? validTillDate.hashCode() : 0);
-        result = 31 * result + (callbackEndpoint != null ? callbackEndpoint.hashCode() : 0);
         result = 31 * result + (ignoreExtensionKey != null ? ignoreExtensionKey.hashCode() : 0);
         result = 31 * result + (decompressedSize != null ? decompressedSize.hashCode() : 0);
         return result;
@@ -318,11 +310,11 @@ public class MoveletToMovilizerQueue {
         this.transactional = transactional;
     }
 
-    public Short getPriority() {
+    public Long getPriority() {
         return priority;
     }
 
-    public void setPriority(Short priority) {
+    public void setPriority(Long priority) {
         this.priority = priority;
     }
 
@@ -372,14 +364,6 @@ public class MoveletToMovilizerQueue {
 
     public void setValidTillDate(Calendar validTillDate) {
         this.validTillDate = validTillDate;
-    }
-
-    public String getCallbackEndpoint() {
-        return callbackEndpoint;
-    }
-
-    public void setCallbackEndpoint(String callbackEndpoint) {
-        this.callbackEndpoint = callbackEndpoint;
     }
 
     public Boolean getIgnoreExtensionKey() {

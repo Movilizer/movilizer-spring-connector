@@ -1,6 +1,6 @@
 package com.movilizer.connector.newTests.processors.download;
 
-import com.movilitas.movilizer.v14.*;
+import com.movilitas.movilizer.v15.*;
 import com.movilizer.connector.jobs.processors.DownloadProcessor;
 import com.movilizer.connector.jobs.processors.download.DatacontainerProcessor;
 import com.movilizer.connector.model.Processor;

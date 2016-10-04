@@ -1,7 +1,7 @@
 package com.movilizer.connector.newTests.processors.upload;
 
-import com.movilitas.movilizer.v14.MovilizerMovelet;
-import com.movilitas.movilizer.v14.MovilizerRequest;
+import com.movilitas.movilizer.v15.MovilizerMovelet;
+import com.movilitas.movilizer.v15.MovilizerRequest;
 import com.movilizer.connector.jobs.processors.upload.MoveletProcessor;
 import com.movilizer.connector.persistence.entities.MasterdataToMovilizerQueue;
 import com.movilizer.connector.persistence.entities.MoveletToMovilizerQueue;

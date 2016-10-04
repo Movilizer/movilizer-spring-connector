@@ -1,7 +1,7 @@
 package com.movilizer.connector.spikes;
 
-import com.movilitas.movilizer.v14.MovilizerMovelet;
-import com.movilitas.movilizer.v14.MovilizerRequest;
+import com.movilitas.movilizer.v15.MovilizerMovelet;
+import com.movilitas.movilizer.v15.MovilizerRequest;
 import com.movilizer.connector.MovilizerConnectorAPI;
 import com.movilizer.connector.config.MovilizerV12TestConfig;
 import com.movilizer.mds.webservice.services.MovilizerDistributionService;

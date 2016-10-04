@@ -1,9 +1,9 @@
 package com.movilizer.connector.newTests.persistence.entities;
 
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainer;
-import com.movilitas.movilizer.v14.MovilizerGenericDataContainerEntry;
-import com.movilitas.movilizer.v14.MovilizerGenericUploadDataContainer;
-import com.movilitas.movilizer.v14.MovilizerUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainer;
+import com.movilitas.movilizer.v15.MovilizerGenericDataContainerEntry;
+import com.movilitas.movilizer.v15.MovilizerGenericUploadDataContainer;
+import com.movilitas.movilizer.v15.MovilizerUploadDataContainer;
 import com.movilizer.connector.persistence.entities.DatacontainerFromMovilizerQueue;
 import org.junit.After;
 import org.junit.Before;
