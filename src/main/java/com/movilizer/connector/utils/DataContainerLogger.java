@@ -66,6 +66,7 @@ public class DataContainerLogger {
     public void init() {
         if (isActive) {
             loggerBaseFolder = new File(logDirPath);
+            updateCurrentLoggingStatus();
             connector.registerProcessor(new Processor<MovilizerUploadDataContainer>() {
                 @Override
                 public void process(MovilizerUploadDataContainer container) {
