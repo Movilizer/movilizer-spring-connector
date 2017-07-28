@@ -4,13 +4,13 @@ import com.movilitas.movilizer.v15.MovilizerMasterdataDelete;
 import com.movilitas.movilizer.v15.MovilizerMasterdataPoolUpdate;
 import com.movilitas.movilizer.v15.MovilizerMasterdataReference;
 import com.movilitas.movilizer.v15.MovilizerMasterdataUpdate;
-import com.movilizer.connector.persistence.entities.listeners.MasterdataToMovilizerQueueCompressorListener;
+import com.movilizer.connector.persistence.entities.listeners.MasterdataToMovilizerQueueSerializerListener;
 
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@EntityListeners(MasterdataToMovilizerQueueCompressorListener.class)
+@EntityListeners(MasterdataToMovilizerQueueSerializerListener.class)
 public class MasterdataToMovilizerQueue {
 
     @Id
@@ -57,9 +57,7 @@ public class MasterdataToMovilizerQueue {
     @Lob
     @Column(length = 800000)
     //TODO: check buffer enough for most datacontainers in use (specially those with pictures)
-    private byte[] compressedMasterdata;
-
-    private Integer decompressedSize;
+    private byte[] serializedMasterdata;
 
     @Transient
     private MovilizerMasterdataDelete masterdataDelete;
@@ -355,20 +353,12 @@ public class MasterdataToMovilizerQueue {
         this.validTillDate = validTillDate;
     }
 
-    public byte[] getCompressedMasterdata() {
-        return compressedMasterdata;
+    public byte[] getSerializedMasterdata() {
+        return serializedMasterdata;
     }
 
-    public void setCompressedMasterdata(byte[] compressedMasterdata) {
-        this.compressedMasterdata = compressedMasterdata;
-    }
-
-    public Integer getDecompressedSize() {
-        return decompressedSize;
-    }
-
-    public void setDecompressedSize(Integer decompressedSize) {
-        this.decompressedSize = decompressedSize;
+    public void setSerializedMasterdata(byte[] serializedMasterdata) {
+        this.serializedMasterdata = serializedMasterdata;
     }
 
     public MovilizerMasterdataDelete getMasterdataDelete() {

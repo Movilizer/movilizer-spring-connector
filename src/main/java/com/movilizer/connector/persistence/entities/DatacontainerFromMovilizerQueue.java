@@ -2,13 +2,13 @@ package com.movilizer.connector.persistence.entities;
 
 
 import com.movilitas.movilizer.v15.MovilizerUploadDataContainer;
-import com.movilizer.connector.persistence.entities.listeners.DatacontainerFromMovilizerQueueCompressorListener;
+import com.movilizer.connector.persistence.entities.listeners.DatacontainerFromMovilizerQueueSerializerListener;
 
 import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
-@EntityListeners(DatacontainerFromMovilizerQueueCompressorListener.class)
+@EntityListeners(DatacontainerFromMovilizerQueueSerializerListener.class)
 public class DatacontainerFromMovilizerQueue {
 
     @Id
@@ -45,9 +45,7 @@ public class DatacontainerFromMovilizerQueue {
     @Lob
     @Column(length = 800000)
     //TODO: check buffer enough for most datacontainers in use (specially those with pictures)
-    private byte[] compressedDatacontainer;
-
-    private Integer decompressedSize;
+    private byte[] serializedDatacontainer;
 
     @Transient
     private MovilizerUploadDataContainer datacontainer;
@@ -281,20 +279,12 @@ public class DatacontainerFromMovilizerQueue {
         this.encryptionHMAC = encryptionHMAC;
     }
 
-    public byte[] getCompressedDatacontainer() {
-        return compressedDatacontainer;
+    public byte[] getSerializedDatacontainer() {
+        return serializedDatacontainer;
     }
 
-    public void setCompressedDatacontainer(byte[] compressedDatacontainer) {
-        this.compressedDatacontainer = compressedDatacontainer;
-    }
-
-    public Integer getDecompressedSize() {
-        return decompressedSize;
-    }
-
-    public void setDecompressedSize(Integer decompressedSize) {
-        this.decompressedSize = decompressedSize;
+    public void setSerializedDatacontainer(byte[] serializedDatacontainer) {
+        this.serializedDatacontainer = serializedDatacontainer;
     }
 
     public MovilizerUploadDataContainer getDatacontainer() {

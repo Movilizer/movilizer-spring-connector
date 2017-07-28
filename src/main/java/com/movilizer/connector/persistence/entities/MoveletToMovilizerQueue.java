@@ -1,14 +1,14 @@
 package com.movilizer.connector.persistence.entities;
 
 import com.movilitas.movilizer.v15.*;
-import com.movilizer.connector.persistence.entities.listeners.MoveletToMovilizerQueueCompressorListener;
+import com.movilizer.connector.persistence.entities.listeners.MoveletToMovilizerQueueSerializerListener;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.List;
 
 @Entity
-@EntityListeners(MoveletToMovilizerQueueCompressorListener.class)
+@EntityListeners(MoveletToMovilizerQueueSerializerListener.class)
 public class MoveletToMovilizerQueue {
 
     @Id
@@ -55,9 +55,7 @@ public class MoveletToMovilizerQueue {
     @Lob
     @Column(length = 800000)
     //TODO: check buffer enough for most datacontainers in use (specially those with pictures)
-    private byte[] compressedMovelet;
-
-    private Integer decompressedSize;
+    private byte[] serializedMovelet;
 
     @Transient
     private MovilizerMovelet movelet;
@@ -139,10 +137,6 @@ public class MoveletToMovilizerQueue {
             return false;
         if (appGroup != null ? !appGroup.equals(that.appGroup) : that.appGroup != null)
             return false;
-        if (decompressedSize != null
-                ? !decompressedSize.equals(that.decompressedSize)
-                : that.decompressedSize != null)
-            return false;
         if (encryptionAlgorithm != null
                 ? !encryptionAlgorithm.equals(that.encryptionAlgorithm)
                 : that.encryptionAlgorithm != null)
@@ -218,7 +212,6 @@ public class MoveletToMovilizerQueue {
         result = 31 * result + (encryptionHMAC != null ? encryptionHMAC.hashCode() : 0);
         result = 31 * result + (validTillDate != null ? validTillDate.hashCode() : 0);
         result = 31 * result + (ignoreExtensionKey != null ? ignoreExtensionKey.hashCode() : 0);
-        result = 31 * result + (decompressedSize != null ? decompressedSize.hashCode() : 0);
         return result;
     }
 
@@ -374,20 +367,12 @@ public class MoveletToMovilizerQueue {
         this.ignoreExtensionKey = ignoreExtensionKey;
     }
 
-    public byte[] getCompressedMovelet() {
-        return compressedMovelet;
+    public byte[] getSerializedMovelet() {
+        return serializedMovelet;
     }
 
-    public void setCompressedMovelet(byte[] compressedMovelet) {
-        this.compressedMovelet = compressedMovelet;
-    }
-
-    public Integer getDecompressedSize() {
-        return decompressedSize;
-    }
-
-    public void setDecompressedSize(Integer decompressedSize) {
-        this.decompressedSize = decompressedSize;
+    public void setSerializedMovelet(byte[] serializedMovelet) {
+        this.serializedMovelet = serializedMovelet;
     }
 
     public MovilizerMovelet getMovelet() {
