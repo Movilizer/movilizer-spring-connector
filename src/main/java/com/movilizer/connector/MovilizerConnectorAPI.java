@@ -74,8 +74,14 @@ public class MovilizerConnectorAPI {
 
     @Transactional
     public void assignMoveletToParticipant(String moveletKey, MovilizerParticipant participant) {
+      assignMoveletToParticipant(moveletKey, "", participant);
+    }
+
+    @Transactional
+    public void assignMoveletToParticipant(String moveletKey, String moveletKeyExtension, MovilizerParticipant participant) {
         MovilizerMoveletAssignment assignment = new MovilizerMoveletAssignment();
         assignment.setMoveletKey(moveletKey);
+        assignment.setMoveletKeyExtension(moveletKeyExtension);
         assignment.getParticipant().add(participant);
         boolean addedToQueue = toMovilizerQueueService.offer(new ParticipantToMovilizerQueue(assignment));
         if (!addedToQueue) {
