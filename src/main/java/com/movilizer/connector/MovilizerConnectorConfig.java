@@ -129,6 +129,12 @@ public class MovilizerConnectorConfig
           "https://epcis-test.movilizer.com/mds/document").setOutputEncoding(
             Charset.forName(charset)).getService();
         break;
+      case "bat-dev":
+        mds = Movilizer.buildConf().setEndpoint(
+          "https://batdev.movilizer.com/MovilizerDistributionService/WebService/",
+          "https://batdev.movilizer.com/mds/document").setOutputEncoding(
+            Charset.forName(charset)).getService();
+        break;
     }
     if (mds == null)
     {
