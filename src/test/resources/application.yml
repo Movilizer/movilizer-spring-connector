@@ -1,0 +1,13 @@
+# Movilizer config
+movilizer:
+  appName: reliance-shift-field-engineers-local
+  endpoint: https://demo.movilizer.com/mds'
+  systemId: 51840015
+  password: 1337
+  pollingInterval: 30
+  pollNumResponses: 1000
+  pushingInterval: 30
+  pushConsolidatedElementsSize: 512
+  metricsReportInterval: 10
+  metricsEndpoint: localhost
+  metricsPort: 2004

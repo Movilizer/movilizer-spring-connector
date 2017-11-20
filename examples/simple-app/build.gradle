@@ -1,14 +1,12 @@
 plugins {
-    id 'com.jfrog.artifactory' version '4.5.2'
-    id "io.spring.dependency-management" version "1.0.3.RELEASE"
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
     id 'java'
-    id 'maven-publish'
     id 'eclipse'
     id 'idea'
 }
 
-group = 'com.movilizer.mds.connector'
-version = '3.0-SNAPSHOT'
+group = 'com.movilizer.ps.examples'
+version = '1.0'
 
 repositories {
     jcenter()
@@ -21,22 +19,22 @@ targetCompatibility = 1.8
 
 ext {
     gradleVersion = '4.1'
+    movilizerConnectorVersion = '3.0'
     movilizerWebserviceVersion = '15.11.2.2'
-    springBootVersion = '1.5.8.RELEASE'
     reactorVersion = '3.1.1.RELEASE'
     apacheHttpcomponentsVersion = '4.4'
     apacheCxfVersion = '3.2.0'
     gsonVersion = '2.8.2'
+    metricsVersion = '3.2.3'
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    compile group: 'io.dropwizard.metrics', name: 'metrics-core'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'io.projectreactor', name: 'reactor-core', version: "$reactorVersion"
     compile group: 'org.yaml', name: 'snakeyaml'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 
+    compile group: 'com.movilizer.mds.connector', name: 'movilizer-spring-connector', version: "$movilizerConnectorVersion"
     compile group: 'com.movilizer.mds', name: 'movilizer-webservice', version: "$movilizerWebserviceVersion"
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: "$apacheHttpcomponentsVersion"
     compile group: 'org.apache.httpcomponents', name: 'httpmime', version: "$apacheHttpcomponentsVersion"
@@ -46,57 +44,13 @@ dependencies {
     }
     compile group: 'org.apache.cxf', name: 'cxf-rt-transports-http-hc', version: "$apacheCxfVersion"
     compile group: 'com.google.code.gson', name: 'gson', version: "$gsonVersion"
+    compile group: 'io.dropwizard.metrics', name: 'metrics-core', version: "$metricsVersion"
 
     testCompile group: 'io.projectreactor', name: 'reactor-test', version: "$reactorVersion"
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }
 
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
-    }
-}
 
 task wrapper(type: Wrapper) {
     gradleVersion = "$gradleVersion"
-}
-
-//Upload builds to artifactory
-artifactory {
-    publish {
-        contextUrl = 'https://source.movilizer.com/artifactory'
-        repository {
-            repoKey = "lighthouse"
-            username = movilizerArtifactoryUsername
-            password = movilizerArtifactoryPassword
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar) {
-    classifier = "javadoc"
-    from javadoc
-}
-
-//Publishing to the maven repo
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            credentials {
-                username movilizerArtifactoryUsername
-                password movilizerArtifactoryPassword
-            }
-            url 'https://source.movilizer.com/artifactory/lighthouse'
-        }
-    }
 }
