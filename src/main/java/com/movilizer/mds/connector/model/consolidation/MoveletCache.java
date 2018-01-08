@@ -85,4 +85,20 @@ public class MoveletCache {
         }
         return delete.getMoveletKey() + delete.getMoveletKeyExtension();
     }
+
+    public void clear() {
+        movelets.clear();
+        deletes.clear();
+    }
+
+    public Long size() {
+        Long acc = 0L;
+        for (Map<String, MovilizerMovelet> map : movelets.values()) {
+            acc += map.size();
+        }
+        for (Map<String, MovilizerMoveletDelete> map : deletes.values()) {
+            acc += map.size();
+        }
+        return acc;
+    }
 }

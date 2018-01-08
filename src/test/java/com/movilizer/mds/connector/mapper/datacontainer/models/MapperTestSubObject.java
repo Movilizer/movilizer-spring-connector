@@ -1,4 +1,4 @@
-package com.movilizer.mds.connector.mapper.models;
+package com.movilizer.mds.connector.mapper.datacontainer.models;
 
 public class MapperTestSubObject {
 

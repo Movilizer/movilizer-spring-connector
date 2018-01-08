@@ -1,6 +1,6 @@
 plugins {
     id 'com.jfrog.artifactory' version '4.5.2'
-    id "io.spring.dependency-management" version "1.0.3.RELEASE"
+    id 'io.spring.dependency-management' version '1.0.3.RELEASE'
     id 'java'
     id 'maven-publish'
     id 'eclipse'
@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.movilizer.mds.connector'
-version = '3.0-SNAPSHOT'
+version = '3.0.4-SNAPSHOT'
 
 repositories {
     jcenter()
@@ -21,7 +21,7 @@ targetCompatibility = 1.8
 
 ext {
     gradleVersion = '4.1'
-    movilizerWebserviceVersion = '15.11.2.2'
+    movilizerWebserviceVersion = '15.11.2.2-SNAPSHOT'
     springBootVersion = '1.5.8.RELEASE'
     reactorVersion = '3.1.1.RELEASE'
     apacheHttpcomponentsVersion = '4.4'
@@ -41,10 +41,6 @@ dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: "$apacheHttpcomponentsVersion"
     compile group: 'org.apache.httpcomponents', name: 'httpmime', version: "$apacheHttpcomponentsVersion"
     compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: "$apacheHttpcomponentsVersion"
-    compile(group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxws', version: "$apacheCxfVersion") {
-        exclude group: 'com.sun.xml.bind', module: "jaxb-impl"
-    }
-    compile group: 'org.apache.cxf', name: 'cxf-rt-transports-http-hc', version: "$apacheCxfVersion"
     compile group: 'com.google.code.gson', name: 'gson', version: "$gsonVersion"
 
     testCompile group: 'io.projectreactor', name: 'reactor-test', version: "$reactorVersion"
@@ -66,7 +62,7 @@ artifactory {
     publish {
         contextUrl = 'https://source.movilizer.com/artifactory'
         repository {
-            repoKey = "lighthouse"
+            repoKey = 'lighthouse'
             username = movilizerArtifactoryUsername
             password = movilizerArtifactoryPassword
         }
@@ -79,7 +75,7 @@ task sourcesJar(type: Jar) {
 }
 
 task javadocJar(type: Jar) {
-    classifier = "javadoc"
+    classifier = 'javadoc'
     from javadoc
 }
 

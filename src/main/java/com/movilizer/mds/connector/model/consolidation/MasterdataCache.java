@@ -2,81 +2,188 @@ package com.movilizer.mds.connector.model.consolidation;
 
 import com.movilitas.movilizer.v15.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MasterdataCache {
 
-    private Map<String, MovilizerMasterdataUpdate> updatesExtended = new HashMap<>();
     private Map<String, Map<String, MovilizerMasterdataUpdate>> updates = new HashMap<>();
-    private Map<String, MovilizerMasterdataReference> referencesExtended = new HashMap<>();
+    private Map<String, Set<String>> updateGroups = new HashMap<>();
     private Map<String, Map<String, MovilizerMasterdataReference>> references = new HashMap<>();
-    private Map<String, MovilizerMasterdataDelete> deletesExtended = new HashMap<>();
+    private Map<String, Set<String>> referenceGroups = new HashMap<>();
     private Map<String, Map<String, MovilizerMasterdataDelete>> deletes = new HashMap<>();
 
     public List<MovilizerMasterdataPoolUpdate> getPoolUpdates() {
         List<MovilizerMasterdataPoolUpdate> poolUpdates = new ArrayList<>();
-//        for (Map.Entry<String, Map<String, MovilizerMasterdataUpdate>> entry : updates.entrySet()) {
-//            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
-//            poolUpdate.setPool(entry.getKey());
-//            for (MovilizerMasterdataUpdate update : entry.getValue().values()) {
-//                poolUpdate.getUpdate().add(update);
-//            }
-//        }
-//        for (Map.Entry<String, Map<String, MovilizerMasterdataDelete>> entry : deletes.entrySet()) {
-//            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
-//            poolUpdate.setPool(entry.getKey());
-//            for (MovilizerMasterdataDelete delete : entry.getValue().values()) {
-//                poolUpdate.getDelete().add(delete);
-//            }
-//        }
-//        for (Map.Entry<String, Map<String, MovilizerMasterdataReference>> entry : references.entrySet()) {
-//            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
-//            poolUpdate.setPool(entry.getKey());
-//            for (MovilizerMasterdataReference reference : entry.getValue().values()) {
-//                poolUpdate.getReference().add(reference);
-//            }
-//        }
+
+        for (Map.Entry<String, Map<String, MovilizerMasterdataUpdate>> entry : updates.entrySet()) {
+            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+            poolUpdate.setPool(entry.getKey());
+            for (MovilizerMasterdataUpdate update : entry.getValue().values()) {
+                poolUpdate.getUpdate().add(update);
+            }
+            poolUpdates.add(poolUpdate);
+        }
+
+        for (Map.Entry<String, Map<String, MovilizerMasterdataReference>> entry : references.entrySet()) {
+            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+            poolUpdate.setPool(entry.getKey());
+            for (MovilizerMasterdataReference reference : entry.getValue().values()) {
+                poolUpdate.getReference().add(reference);
+            }
+            poolUpdates.add(poolUpdate);
+        }
+
+        for (Map.Entry<String, Map<String, MovilizerMasterdataDelete>> entry : deletes.entrySet()) {
+            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+            poolUpdate.setPool(entry.getKey());
+            for (MovilizerMasterdataDelete delete : entry.getValue().values()) {
+                poolUpdate.getDelete().add(delete);
+            }
+            poolUpdates.add(poolUpdate);
+        }
+
         return poolUpdates;
     }
 
     public void apply(MovilizerMasterdataPoolUpdate poolUpdate) {
+        // The order is important as in the MDS the deletes are processed first
         poolUpdate.getDelete().forEach(delete -> apply(delete, poolUpdate.getPool()));
         poolUpdate.getUpdate().forEach(update -> apply(update, poolUpdate.getPool()));
         poolUpdate.getReference().forEach(reference -> apply(reference, poolUpdate.getPool()));
     }
 
     public void apply(MovilizerMasterdataUpdate update, String poolName) {
+        Map<String, MovilizerMasterdataUpdate> keyUpdateMap;
+        if (updates.containsKey(poolName)) {
+            keyUpdateMap = updates.get(poolName);
+        } else {
+            keyUpdateMap = new HashMap<>();
+            updates.put(poolName, keyUpdateMap);
+        }
+        keyUpdateMap.put(update.getKey(), update);
 
+        updateGroupCache(update.getKey(), update.getGroup(), poolName, updateGroups);
     }
 
     public void apply(MovilizerMasterdataReference reference, String poolName) {
+        Map<String, MovilizerMasterdataReference> keyReferenceMap;
+        if (references.containsKey(poolName)) {
+            keyReferenceMap = references.get(poolName);
+        } else {
+            keyReferenceMap = new HashMap<>();
+            references.put(poolName, keyReferenceMap);
+        }
+        keyReferenceMap.put(reference.getKey(), reference);
 
+        updateGroupCache(reference.getKey(), reference.getGroup(), poolName, referenceGroups);
     }
 
     private void apply(MovilizerMasterdataDelete delete, String poolName) {
-
+        Map<String, MovilizerMasterdataDelete> keyDeleteMap;
+        if (deletes.containsKey(poolName)) {
+            keyDeleteMap = deletes.get(poolName);
+        } else {
+            keyDeleteMap = new HashMap<>();
+            deletes.put(poolName, keyDeleteMap);
+        }
+        keyDeleteMap.put(delete.getKey(), delete);
+        cleanUpCache(delete, poolName);
     }
 
-    private String getKeyExtended(MovilizerMasterdataUpdate update, String poolName) {
-        return poolName + ":" + update.getGroup() + ":" + update.getKey();
+    private void updateGroupCache(String key, String group, String poolName, Map<String, Set<String>> cache) {
+        if (group != null && !"".equals(group)) {
+            Set<String> keysInGroup;
+            String poolGroupKey = getPoolGroupKey(poolName, group);
+            if (cache.containsKey(poolGroupKey)) {
+                keysInGroup = cache.get(poolGroupKey);
+            } else {
+                keysInGroup = new HashSet<>();
+                cache.put(poolGroupKey, keysInGroup);
+            }
+            keysInGroup.add(key);
+        }
     }
 
-    private String getKeyExtended(MovilizerMasterdataDelete delete, String poolName) {
-        return poolName + ":" + delete.getGroup() + ":" + delete.getKey();
+    private String getPoolGroupKey(String poolName, String group) {
+        return poolName + ":" + group;
     }
 
-    private String getKeyExtended(MovilizerMasterdataReference reference, String poolName) {
-        return poolName + ":" + reference.getGroup() + ":" + reference.getKey();
+    private void cleanUpCache(MovilizerMasterdataDelete delete, String poolName) {
+        if (isPoolDelete(delete)) {
+            if (updates.containsKey(poolName)) {
+                updates.remove(poolName);
+            }
+            if (references.containsKey(poolName)) {
+                references.remove(poolName);
+            }
+        } else if (isGroupDelete(delete)) {
+            String poolGroupKey = getPoolGroupKey(poolName, delete.getGroup());
+            if (updates.containsKey(poolName) && updateGroups.containsKey(poolGroupKey)) {
+                Map<String, MovilizerMasterdataUpdate> keyUpdateMap = updates.get(poolName);
+                Set<String> keysInGroup = updateGroups.get(poolGroupKey);
+                for (String key : keysInGroup) {
+                    keyUpdateMap.remove(key);
+                }
+                if (keyUpdateMap.isEmpty()) {
+                    updates.remove(poolName);
+                }
+                updateGroups.remove(poolGroupKey);
+            }
+            if (references.containsKey(poolName) && referenceGroups.containsKey(poolGroupKey)) {
+                Map<String, MovilizerMasterdataReference> keyReferenceMap = references.get(poolName);
+                Set<String> keysInGroup = referenceGroups.get(poolGroupKey);
+                for (String key : keysInGroup) {
+                    keyReferenceMap.remove(key);
+                }
+                if (keyReferenceMap.isEmpty()) {
+                    references.remove(poolName);
+                }
+                referenceGroups.remove(poolGroupKey);
+            }
+        } else {
+            // Just removing an entry
+            if (updates.containsKey(poolName)) {
+                Map<String, MovilizerMasterdataUpdate> keyUpdateMap = updates.get(poolName);
+                if (keyUpdateMap.containsKey(delete.getKey())) {
+                    keyUpdateMap.remove(delete.getKey());
+                }
+            }
+            if (references.containsKey(poolName)) {
+                Map<String, MovilizerMasterdataReference> keyReferenceMap = references.get(poolName);
+                if (keyReferenceMap.containsKey(delete.getKey())) {
+                    keyReferenceMap.remove(delete.getKey());
+                }
+            }
+        }
     }
 
     private boolean isPoolDelete(MovilizerMasterdataDelete delete) {
-        return false;
+        return isGroupDelete(delete) && (delete.getGroup() == null || "".equals(delete.getGroup()));
     }
 
     private boolean isGroupDelete(MovilizerMasterdataDelete delete) {
-        return false;
+        return delete.getKey() == null || "".equals(delete.getKey());
+    }
+
+    public void clear() {
+        updates.clear();
+        deletes.clear();
+        references.clear();
+        updateGroups.clear();
+        referenceGroups.clear();
+    }
+
+    public Long size() {
+        Long acc = 0L;
+        for (Map<String, MovilizerMasterdataUpdate> map : updates.values()) {
+            acc += map.size();
+        }
+        for (Map<String, MovilizerMasterdataDelete> map : deletes.values()) {
+            acc += map.size();
+        }
+        for (Map<String, MovilizerMasterdataReference> map : references.values()) {
+            acc += map.size();
+        }
+        return acc;
     }
 }

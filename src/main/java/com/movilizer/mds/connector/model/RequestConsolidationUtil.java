@@ -1,9 +1,6 @@
 package com.movilizer.mds.connector.model;
 
-import com.movilitas.movilizer.v15.MovilizerMovelet;
-import com.movilitas.movilizer.v15.MovilizerMoveletDelete;
-import com.movilitas.movilizer.v15.MovilizerMoveletSet;
-import com.movilitas.movilizer.v15.MovilizerRequest;
+import com.movilitas.movilizer.v15.*;
 import com.movilizer.mds.connector.model.consolidation.MasterdataCache;
 import com.movilizer.mds.connector.model.consolidation.MoveletCache;
 
@@ -38,13 +35,13 @@ import java.util.Map;
 class RequestConsolidationUtil {
 
     /**
-     * Consolidates a list of requests into a single request.
+     * Consolidates a list of requests into a single request or returns null if there's no updates.
      * <p>
      * The mechanism used is "last in the list wins" for entries that collide. For specifics corner
      * cases see RequestConsolidationUtil main docs.
      *
      * @param requests list to be consolidated
-     * @return single request containing all the items from the input list
+     * @return single request containing all the items from the input list or null if there's no updates
      */
     public static MovilizerRequest consolidateRequests(List<MovilizerRequest> requests) {
 
@@ -60,26 +57,38 @@ class RequestConsolidationUtil {
                     moveletCache.apply(movelet);
                 }
             }
+            for (MovilizerMasterdataPoolUpdate poolUpdate : request.getMasterdataPoolUpdate()) {
+                masterdataCache.apply(poolUpdate);
+            }
         }
 
         MovilizerRequest outputRequest = new MovilizerRequest();
-        outputRequest.getMoveletDelete().addAll(moveletCache.getDeletes());
+        Long consolidatedUpdates = 0L;
+
+        List<MovilizerMoveletDelete> moveletDeletes = moveletCache.getDeletes();
+        if (!moveletDeletes.isEmpty()) {
+            outputRequest.getMoveletDelete().addAll(moveletDeletes);
+            consolidatedUpdates += moveletDeletes.size();
+        }
+
         List<MovilizerMovelet> movelets = moveletCache.getMovelets();
         if (!movelets.isEmpty()) {
             MovilizerMoveletSet consolidatedMoveletSet = new MovilizerMoveletSet();
             outputRequest.getMoveletSet().add(consolidatedMoveletSet);
             consolidatedMoveletSet.getMovelet().addAll(movelets);
+            consolidatedUpdates += movelets.size();
         }
-        return outputRequest;
+
+        List<MovilizerMasterdataPoolUpdate> poolUpdates = masterdataCache.getPoolUpdates();
+        if (!poolUpdates.isEmpty()) {
+            outputRequest.getMasterdataPoolUpdate().addAll(poolUpdates);
+            consolidatedUpdates += poolUpdates.size();
+        }
+
+        // Clear caches
+        moveletCache.clear();
+        masterdataCache.clear();
+
+        return consolidatedUpdates == 0? null : outputRequest;
     }
-
-    private static String getMoveletKeyExtended(MovilizerMovelet movelet) {
-        return movelet.getMoveletKey() + movelet.getMoveletKeyExtension();
-    }
-
-    private static String getMoveletKeyExtended(MovilizerMoveletDelete delete) {
-        return delete.getMoveletKey() + delete.getMoveletKeyExtension();
-    }
-
-
 }

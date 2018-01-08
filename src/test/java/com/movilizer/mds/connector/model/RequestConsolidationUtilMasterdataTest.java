@@ -14,10 +14,7 @@
 
 package com.movilizer.mds.connector.model;
 
-import com.movilitas.movilizer.v15.MovilizerMovelet;
-import com.movilitas.movilizer.v15.MovilizerMoveletDelete;
-import com.movilitas.movilizer.v15.MovilizerMoveletSet;
-import com.movilitas.movilizer.v15.MovilizerRequest;
+import com.movilitas.movilizer.v15.*;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -26,169 +23,231 @@ import java.util.List;
 import static com.movilizer.mds.connector.model.RequestConsolidationUtil.consolidateRequests;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 public class RequestConsolidationUtilMasterdataTest {
 
     @Test
-    public void consolidate2MoveletsSameVersion() {
-        String key = "movelet";
-        Long version = 0L;
+    public void consolidate2MasterdataUpdatesDifferentPoolSameKey() {
+        String key = "key";
 
-        MovilizerRequest request1 = createRequestWithMovelet("first", key, "", version);
-        MovilizerRequest request2 = createRequestWithMovelet("second", key, "", version);
-
-        List<MovilizerRequest> requests = Arrays.asList(request1, request2);
-
-        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
-
-        assertThat(consolidatedRequest.getMoveletSet().size(), is(1));
-        assertThat(consolidatedRequest.getMoveletSet().get(0).getMovelet().size(), is(1));
-
-        MovilizerMovelet consolidateMovelet =
-                consolidatedRequest.getMoveletSet().get(0).getMovelet().get(0);
-
-        assertThat(consolidateMovelet.getName(), is("first"));
-        assertThat(consolidateMovelet.getMoveletKey(), is(key));
-        assertThat(consolidateMovelet.getMoveletKeyExtension(), is(""));
-        assertThat(consolidateMovelet.getMoveletVersion(), is(version));
-    }
-
-    @Test
-    public void consolidateMoveletHighVersionThenMoveletLowVersion() {
-        String key = "movelet";
-
-        MovilizerRequest request1 = createRequestWithMovelet("first", key, "", 1L);
-        MovilizerRequest request2 = createRequestWithMovelet("second", key, "", 0L);
+        MovilizerRequest request1 = createRequestWithUpdate("a", "", key, "a");
+        MovilizerRequest request2 = createRequestWithUpdate("b", null, key, "b");
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
         MovilizerRequest consolidatedRequest = consolidateRequests(requests);
 
-        assertThat(consolidatedRequest.getMoveletSet().size(), is(1));
-        assertThat(consolidatedRequest.getMoveletSet().get(0).getMovelet().size(), is(1));
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(2));
+        MovilizerMasterdataPoolUpdate poolUpdateA;
+        MovilizerMasterdataPoolUpdate poolUpdateB;
+        if ("a".equals(consolidatedRequest.getMasterdataPoolUpdate().get(0).getPool())) {
+            poolUpdateA = consolidatedRequest.getMasterdataPoolUpdate().get(0);
+            poolUpdateB = consolidatedRequest.getMasterdataPoolUpdate().get(1);
+        } else {
+            poolUpdateA = consolidatedRequest.getMasterdataPoolUpdate().get(1);
+            poolUpdateB = consolidatedRequest.getMasterdataPoolUpdate().get(0);
+        }
+        assertThat(poolUpdateA.getPool(), is("a"));
+        assertThat(poolUpdateB.getPool(), is("b"));
+        assertThat(poolUpdateA.getUpdate().size(), is(1));
+        assertThat(poolUpdateB.getUpdate().size(), is(1));
 
-        MovilizerMovelet consolidateMovelet =
-                consolidatedRequest.getMoveletSet().get(0).getMovelet().get(0);
+        MovilizerMasterdataUpdate updateA = poolUpdateA.getUpdate().get(0);
+        MovilizerMasterdataUpdate updateB = poolUpdateB.getUpdate().get(0);
 
-        assertThat(consolidateMovelet.getName(), is("first"));
-        assertThat(consolidateMovelet.getMoveletKey(), is(key));
-        assertThat(consolidateMovelet.getMoveletKeyExtension(), is(""));
-        assertThat(consolidateMovelet.getMoveletVersion(), is(1L));
+        assertThat(updateA.getKey(), is(key));
+        assertThat(updateB.getKey(), is(key));
     }
 
     @Test
-    public void consolidateMoveletThenDelete() {
-        String key = "movelet";
+    public void consolidate2MasterdataUpdatesSamePoolSameKey() {
+        String key = "key";
 
-        MovilizerRequest requestWithMovelet = createRequestWithMovelet("mov", key, "", 1L);
-        MovilizerRequest requestWithDelete = createRequestWithMoveletDelete( key, "", true);
+        MovilizerRequest request1 = createRequestWithUpdate("a", "", key, "a");
+        MovilizerRequest request2 = createRequestWithUpdate("a", null, key, "b");
 
-        List<MovilizerRequest> requests = Arrays.asList(requestWithMovelet, requestWithDelete);
+        List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
         MovilizerRequest consolidatedRequest = consolidateRequests(requests);
 
-        assertThat(consolidatedRequest.getMoveletSet().size(), is(0));
-        assertThat(consolidatedRequest.getMoveletDelete().size(), is(1));
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(1));
+        MovilizerMasterdataPoolUpdate poolUpdateA;
+        poolUpdateA = consolidatedRequest.getMasterdataPoolUpdate().get(0);
 
-        MovilizerMoveletDelete consolidateMoveletDelete =
-                consolidatedRequest.getMoveletDelete().get(0);
 
-        assertThat(consolidateMoveletDelete.getMoveletKey(), is(key));
-        assertThat(consolidateMoveletDelete.getMoveletKeyExtension(), is(""));
+        assertThat(poolUpdateA.getPool(), is("a"));
+        assertThat(poolUpdateA.getUpdate().size(), is(1));
+
+        MovilizerMasterdataUpdate updateA = poolUpdateA.getUpdate().get(0);
+
+        assertThat(updateA.getKey(), is(key));
+        assertThat(updateA.getDescription(), is("b"));
     }
 
     @Test
-    public void consolidateMoveletHighVersionThenDeleteThenMoveletLowVersion() {
-        String key = "movelet";
+    public void consolidate2MasterdataUpdatesDifferentGroupSameKey() {
+        String pool = "pool";
+        String key = "key";
 
-        MovilizerRequest requestWithMoveletHigh = createRequestWithMovelet("high", key, "", 1L);
-        MovilizerRequest requestWithDelete = createRequestWithMoveletDelete( key, "", true);
-        MovilizerRequest requestWithMoveletLow = createRequestWithMovelet("low", key, "", 0L);
+        MovilizerRequest request1 = createRequestWithUpdate(pool, "a", key, "a");
+        MovilizerRequest request2 = createRequestWithUpdate(pool, "b", key, "b");
 
-        List<MovilizerRequest> requests = Arrays.asList(requestWithMoveletHigh, requestWithDelete,
-                requestWithMoveletLow);
+        List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
         MovilizerRequest consolidatedRequest = consolidateRequests(requests);
 
-        assertThat(consolidatedRequest.getMoveletSet().size(), is(1));
-        assertThat(consolidatedRequest.getMoveletSet().get(0).getMovelet().size(), is(1));
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(1));
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().get(0).getPool(), is(pool));
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().get(0).getUpdate().size(), is(1));
 
-        MovilizerMovelet consolidateMovelet =
-                consolidatedRequest.getMoveletSet().get(0).getMovelet().get(0);
+        MovilizerMasterdataUpdate update = consolidatedRequest.getMasterdataPoolUpdate().get(0).getUpdate().get(0);
 
-        assertThat(consolidateMovelet.getName(), is("low"));
-        assertThat(consolidateMovelet.getMoveletKey(), is(key));
-        assertThat(consolidateMovelet.getMoveletKeyExtension(), is(""));
-        assertThat(consolidateMovelet.getMoveletVersion(), is(0L));
-
-        assertThat(consolidatedRequest.getMoveletDelete().size(), is(1));
-
-        MovilizerMoveletDelete consolidateMoveletDelete =
-                consolidatedRequest.getMoveletDelete().get(0);
-
-        assertThat(consolidateMoveletDelete.getMoveletKey(), is(key));
-        assertThat(consolidateMoveletDelete.getMoveletKeyExtension(), is(""));
+        assertThat(update.getGroup(), is("b"));
+        assertThat(update.getKey(), is(key));
+        assertThat(update.getDescription(), is("b"));
     }
 
-//    @Test
-//    public void consolidateMoveletHighVersionThenDeleteWithExtensionThenMoveletLowVersion() {
-//        String key = "movelet";
-//
-//        MovilizerRequest requestWithMoveletHigh = createRequestWithMovelet("high", key, "ext", 1L);
-//        MovilizerRequest requestWithDelete = createRequestWithMoveletDelete( key, "ext", false);
-//        MovilizerRequest requestWithMoveletLow = createRequestWithMovelet("low", key, "", 0L);
-//
-//        List<MovilizerRequest> requests = Arrays.asList(requestWithMoveletHigh, requestWithDelete,
-//                requestWithMoveletLow);
-//
-//        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
-//
-//        assertThat(consolidatedRequest.getMoveletSet().size(), is(1));
-//        assertThat(consolidatedRequest.getMoveletSet().get(0).getMovelet().size(), is(1));
-//
-//        MovilizerMovelet consolidateMovelet =
-//                consolidatedRequest.getMoveletSet().get(0).getMovelet().get(0);
-//
-//        assertThat(consolidateMovelet.getName(), is("low"));
-//        assertThat(consolidateMovelet.getMoveletKey(), is(key));
-//        assertThat(consolidateMovelet.getMoveletKeyExtension(), is(""));
-//        assertThat(consolidateMovelet.getMoveletVersion(), is(0L));
-//
-//        assertThat(consolidatedRequest.getMoveletDelete().size(), is(1));
-//
-//        MovilizerMoveletDelete consolidateMoveletDelete =
-//                consolidatedRequest.getMoveletDelete().get(0);
-//
-//        assertThat(consolidateMoveletDelete.getMoveletKey(), is(key));
-//        assertThat(consolidateMoveletDelete.getMoveletKeyExtension(), is(""));
-//    }
+    @Test
+    public void consolidate2MasterdataUpdatesDifferentGroup1ReferenceThenDeletePool() {
+        String pool = "pool";
 
-    private MovilizerRequest createRequestWithMovelet(String name, String key, String extKey,
-                                                      Long version) {
-        MovilizerMovelet movelet = new MovilizerMovelet();
-        movelet.setMoveletKey(key);
-        movelet.setMoveletKeyExtension(extKey);
-        movelet.setName(name);
-        movelet.setMoveletVersion(version);
+        MovilizerRequest request1 = createRequestWithUpdate(pool, "a", "1", "a");
+        MovilizerRequest request2 = createRequestWithUpdate(pool, "b", "2", "b");
+        MovilizerRequest request3 = createRequestWithReference(pool, "a", "2");
+        MovilizerRequest request4 = createRequestWithDelete(pool, null, null);
 
-        MovilizerMoveletSet set = new MovilizerMoveletSet();
-        set.getMovelet().add(movelet);
+        List<MovilizerRequest> requests = Arrays.asList(request1, request2, request3, request4);
+
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(1));
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().get(0).getPool(), is(pool));
+
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().get(0).getDelete().size(), is(1));
+
+        MovilizerMasterdataDelete delete = consolidatedRequest.getMasterdataPoolUpdate().get(0).getDelete().get(0);
+        assertThat(delete.getGroup(), is(nullValue()));
+        assertThat(delete.getKey(), is(nullValue()));
+    }
+
+    @Test
+    public void consolidateMasterdataUpdateThenDeletePoolThenUpdate() {
+        String pool = "pool";
+
+        MovilizerRequest request1 = createRequestWithUpdate(pool, "a", "1", "a");
+        MovilizerRequest request2 = createRequestWithDelete(pool, null, null);
+        MovilizerRequest request3 = createRequestWithUpdate(pool, "a", "1", "b");
+
+        List<MovilizerRequest> requests = Arrays.asList(request1, request2, request3);
+
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(2));
+
+        MovilizerMasterdataDelete delete;
+        MovilizerMasterdataPoolUpdate poolUpdateA;
+
+        if (consolidatedRequest.getMasterdataPoolUpdate().get(0).getDelete().isEmpty()) {
+            delete = consolidatedRequest.getMasterdataPoolUpdate().get(1).getDelete().get(0);
+            poolUpdateA = consolidatedRequest.getMasterdataPoolUpdate().get(0);
+        } else {
+            delete = consolidatedRequest.getMasterdataPoolUpdate().get(0).getDelete().get(0);
+            poolUpdateA = consolidatedRequest.getMasterdataPoolUpdate().get(1);
+        }
+
+        assertThat(delete.getGroup(), is(nullValue()));
+        assertThat(delete.getKey(), is(nullValue()));
+
+        assertThat(poolUpdateA.getPool(), is(pool));
+        assertThat(poolUpdateA.getUpdate().size(), is(1));
+
+        MovilizerMasterdataUpdate updateA = poolUpdateA.getUpdate().get(0);
+
+        assertThat(updateA.getKey(), is("1"));
+        assertThat(updateA.getDescription(), is("b"));
+    }
+
+    @Test
+    public void consolidate2MasterdataUpdates1ReferenceThenDeleteGroup() {
+        String pool = "pool";
+
+        MovilizerRequest request1 = createRequestWithUpdate(pool, "a", "1", "a");
+        MovilizerRequest request2 = createRequestWithUpdate(pool, "b", "2", "b");
+        MovilizerRequest request3 = createRequestWithReference(pool, "a", "2");
+        MovilizerRequest request4 = createRequestWithDelete(pool, "a", null);
+
+        List<MovilizerRequest> requests = Arrays.asList(request1, request2, request3, request4);
+
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+
+        assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(2));
+
+        MovilizerMasterdataDelete delete;
+        MovilizerMasterdataPoolUpdate poolUpdateB;
+
+        if (consolidatedRequest.getMasterdataPoolUpdate().get(0).getDelete().isEmpty()) {
+            delete = consolidatedRequest.getMasterdataPoolUpdate().get(1).getDelete().get(0);
+            poolUpdateB = consolidatedRequest.getMasterdataPoolUpdate().get(0);
+        } else {
+            delete = consolidatedRequest.getMasterdataPoolUpdate().get(0).getDelete().get(0);
+            poolUpdateB = consolidatedRequest.getMasterdataPoolUpdate().get(1);
+        }
+
+        assertThat(delete.getGroup(), is("a"));
+        assertThat(delete.getKey(), is(nullValue()));
+
+        assertThat(poolUpdateB.getPool(), is(pool));
+        assertThat(poolUpdateB.getUpdate().size(), is(1));
+
+        MovilizerMasterdataUpdate updateA = poolUpdateB.getUpdate().get(0);
+
+        assertThat(updateA.getKey(), is("2"));
+        assertThat(updateA.getDescription(), is("b"));
+    }
+
+    private MovilizerRequest createRequestWithUpdate(String pool, String group, String key, String description) {
+        MovilizerMasterdataUpdate update = new MovilizerMasterdataUpdate();
+        update.setGroup(group);
+        update.setKey(key);
+        update.setDescription(description);
+
+        MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+        poolUpdate.setPool(pool);
+        poolUpdate.getUpdate().add(update);
 
         MovilizerRequest request = new MovilizerRequest();
-        request.getMoveletSet().add(set);
+        request.getMasterdataPoolUpdate().add(poolUpdate);
 
         return request;
     }
 
-    private MovilizerRequest createRequestWithMoveletDelete(String key, String extKey,
-                                                            Boolean ignoreExtension) {
-        MovilizerMoveletDelete delete = new MovilizerMoveletDelete();
-        delete.setMoveletKey(key);
-        delete.setMoveletKeyExtension(extKey);
-        delete.setIgnoreExtensionKey(ignoreExtension);
+    private MovilizerRequest createRequestWithReference(String pool, String group, String key) {
+        MovilizerMasterdataReference reference = new MovilizerMasterdataReference();
+        reference.setGroup(group);
+        reference.setKey(key);
+
+        MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+        poolUpdate.setPool(pool);
+        poolUpdate.getReference().add(reference);
 
         MovilizerRequest request = new MovilizerRequest();
-        request.getMoveletDelete().add(delete);
+        request.getMasterdataPoolUpdate().add(poolUpdate);
+
+        return request;
+    }
+
+    private MovilizerRequest createRequestWithDelete(String pool, String group, String key) {
+        MovilizerMasterdataDelete delete = new MovilizerMasterdataDelete();
+        delete.setGroup(group);
+        delete.setKey(key);
+
+        MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+        poolUpdate.setPool(pool);
+        poolUpdate.getDelete().add(delete);
+
+        MovilizerRequest request = new MovilizerRequest();
+        request.getMasterdataPoolUpdate().add(poolUpdate);
 
         return request;
     }

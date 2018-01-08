@@ -1,4 +1,4 @@
-package com.movilizer.mds.connector.mapper;
+package com.movilizer.mds.connector.mapper.datacontainer;
 
 import com.movilitas.movilizer.v15.MovilizerGenericDataContainer;
 import com.movilizer.mds.connector.exceptions.MovilizerMappingException;

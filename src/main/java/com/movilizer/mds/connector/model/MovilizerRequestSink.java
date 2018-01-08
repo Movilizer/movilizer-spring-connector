@@ -56,7 +56,7 @@ public class MovilizerRequestSink {
                         queueSize.dec(requests.size());
                     }
                 })
-                .map(this::consolidateRequests)
+                .map(RequestConsolidationUtil::consolidateRequests)
                 .doOnNext(request -> {
                     if (logger.isDebugEnabled()) {
                         logger.debug(String.format("Consolidated request from %s sink", this.name));
@@ -66,15 +66,7 @@ public class MovilizerRequestSink {
                     }
                 })
                 .map(this::overrideRequestConfig)
-                .flatMap(request ->
-                        Mono.fromFuture(mds.getReplyFromCloud(request))
-                                .doOnError(throwable -> metrics.sinkRequestErrorSubmit(name))
-                                .elapsed()
-                                .map(tuple -> {
-                                    metrics.sinkResponseTimeSubmit(name, tuple.getT1());
-                                    return tuple.getT2();
-                                })
-                )
+                .map(request -> mds.getReplyFromCloudSync(request))
                 .doOnNext(response -> {
                     if (logger.isDebugEnabled()) {
                         logger.debug(String.format("New response from %s sink", this.name));
@@ -112,10 +104,6 @@ public class MovilizerRequestSink {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format("Created new Movilizer request sink %s", toString()));
         }
-    }
-
-    protected MovilizerRequest consolidateRequests(List<MovilizerRequest> requests) {
-        return requests.get(0);
     }
 
     protected MovilizerRequest overrideRequestConfig(MovilizerRequest request) {

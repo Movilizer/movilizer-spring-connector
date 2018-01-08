@@ -1,4 +1,4 @@
-package com.movilizer.mds.connector.mapper;
+package com.movilizer.mds.connector.mapper.datacontainer;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -12,12 +12,12 @@
  * entered into with Movilizer.
  */
 
-package com.movilizer.mds.connector.mapper;
+package com.movilizer.mds.connector.mapper.datacontainer;
 
 import com.movilitas.movilizer.v15.MovilizerGenericDataContainerEntry;
 import com.movilitas.movilizer.v15.MovilizerMasterdataUpdate;
 import com.movilizer.mds.connector.MovilizerMetricService;
-import com.movilizer.mds.connector.mapper.models.MapperTestObject;
+import com.movilizer.mds.connector.mapper.datacontainer.models.MapperTestObject;
 
 import org.junit.Before;
 import org.junit.Test;
