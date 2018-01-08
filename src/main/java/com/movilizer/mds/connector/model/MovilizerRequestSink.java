@@ -66,7 +66,14 @@ public class MovilizerRequestSink {
                     }
                 })
                 .map(this::overrideRequestConfig)
-                .map(request -> mds.getReplyFromCloudSync(request))
+                .map(request -> {
+                    if (request == null){
+                        return new MovilizerResponse();
+
+                    } else {
+                        return mds.getReplyFromCloudSync(request);
+                    }
+                })
                 .doOnNext(response -> {
                     if (logger.isDebugEnabled()) {
                         logger.debug(String.format("New response from %s sink", this.name));
