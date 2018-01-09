@@ -36,9 +36,6 @@ class RequestConsolidationUtil {
 
     /**
      * Consolidates a list of requests into a single request or returns null if there's no updates.
-     * <p>
-     * The mechanism used is "last in the list wins" for entries that collide. For specifics corner
-     * cases see RequestConsolidationUtil main docs.
      *
      * @param requests list to be consolidated
      * @return single request containing all the items from the input list or null if there's no updates
@@ -49,13 +46,8 @@ class RequestConsolidationUtil {
         MasterdataCache masterdataCache = new MasterdataCache();
 
         for (MovilizerRequest request : requests) {
-            for (MovilizerMoveletDelete delete : request.getMoveletDelete()) {
-                moveletCache.apply(delete);
-            }
             for (MovilizerMoveletSet set : request.getMoveletSet()) {
-                for (MovilizerMovelet movelet : set.getMovelet()) {
-                    moveletCache.apply(movelet);
-                }
+                    moveletCache.apply(set);
             }
             for (MovilizerMasterdataPoolUpdate poolUpdate : request.getMasterdataPoolUpdate()) {
                 masterdataCache.apply(poolUpdate);
@@ -65,18 +57,10 @@ class RequestConsolidationUtil {
         MovilizerRequest outputRequest = new MovilizerRequest();
         Long consolidatedUpdates = 0L;
 
-        List<MovilizerMoveletDelete> moveletDeletes = moveletCache.getDeletes();
-        if (!moveletDeletes.isEmpty()) {
-            outputRequest.getMoveletDelete().addAll(moveletDeletes);
-            consolidatedUpdates += moveletDeletes.size();
-        }
-
-        List<MovilizerMovelet> movelets = moveletCache.getMovelets();
-        if (!movelets.isEmpty()) {
-            MovilizerMoveletSet consolidatedMoveletSet = new MovilizerMoveletSet();
-            outputRequest.getMoveletSet().add(consolidatedMoveletSet);
-            consolidatedMoveletSet.getMovelet().addAll(movelets);
-            consolidatedUpdates += movelets.size();
+        List<MovilizerMoveletSet> moveletSets = moveletCache.getMoveletSets();
+        if (!moveletSets.isEmpty()) {
+            outputRequest.getMoveletSet().addAll(moveletSets);
+            consolidatedUpdates += moveletSets.size();
         }
 
         List<MovilizerMasterdataPoolUpdate> poolUpdates = masterdataCache.getPoolUpdates();
