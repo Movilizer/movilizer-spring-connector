@@ -5,14 +5,16 @@ import com.movilizer.mds.connector.MovilizerConnectorConfig;
 import com.movilizer.mds.connector.MovilizerMetricService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
 import reactor.core.publisher.TopicProcessor;
+import reactor.core.scheduler.Schedulers;
 
 class PassThroughSink extends MovilizerRequestSinkBase {
     private static final Logger logger = LoggerFactory.getLogger(PassThroughSink.class);
 
-    PassThroughSink(MovilizerConnectorConfig config, String name,
+    PassThroughSink(MovilizerConnectorConfig config, String name, Boolean isSynchronous,
                     MovilizerMetricService metrics) {
-        super(config, name, metrics);
+        super(config, name, isSynchronous, metrics);
         upstream = TopicProcessor.share(name, config.getPushConsolidatedElementsSize());
         downstream = upstream
                 .doOnNext(request -> {
@@ -28,12 +30,19 @@ class PassThroughSink extends MovilizerRequestSinkBase {
                 })
                 .map(this::overrideRequestConfig)
                 //TODO: throttle and wrap blocking call
-                .map(request -> {
+                .flatMap(request -> {
                     if (request == null){
-                        return new MovilizerResponse();
-
+                        return Mono.just(new MovilizerResponse());
                     } else {
-                        return mds.getReplyFromCloudSync(request);
+                        Mono<MovilizerResponse> response;
+                        if (isSynchronous) {
+                            response = Mono.fromCallable(() -> mds.getReplyFromCloudSync(request));
+                            response.subscribeOn(Schedulers.elastic());
+                        } else {
+                            response = Mono.fromFuture(mds.getReplyFromCloud(request));
+                        }
+                        return response;
+
                     }
                 })
                 .doOnNext(response -> {

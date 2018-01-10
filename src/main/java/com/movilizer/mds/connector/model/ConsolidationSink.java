@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.TopicProcessor;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ class ConsolidationSink extends MovilizerRequestSinkBase {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsolidationSink.class);
 
-    ConsolidationSink(MovilizerConnectorConfig config, String name,
+    ConsolidationSink(MovilizerConnectorConfig config, String name, Boolean isSynchronous,
                       MovilizerMetricService metrics) {
-        super(config, name, metrics);
+        super(config, name, isSynchronous, metrics);
         upstream = TopicProcessor.share(name, config.getPushConsolidatedElementsSize());
         downstream = upstream
                 .doOnNext(request -> {
@@ -55,15 +56,21 @@ class ConsolidationSink extends MovilizerRequestSinkBase {
                             logger.debug(String.format("Consolidated request was empty from %s sink", this.name));
                         }
                     }
-
                 })
                 .map(this::overrideRequestConfig)
-                .map(request -> {
+                .flatMap(request -> {
                     if (request == null){
-                        return new MovilizerResponse();
-
+                        return Mono.just(new MovilizerResponse());
                     } else {
-                        return mds.getReplyFromCloudSync(request);
+                        Mono<MovilizerResponse> response;
+                        if (isSynchronous) {
+                            response = Mono.fromCallable(() -> mds.getReplyFromCloudSync(request));
+                            response.subscribeOn(Schedulers.elastic());
+                        } else {
+                            response = Mono.fromFuture(mds.getReplyFromCloud(request));
+                        }
+                        return response;
+
                     }
                 })
                 .doOnNext(response -> {

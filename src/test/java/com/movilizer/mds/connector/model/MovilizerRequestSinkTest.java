@@ -26,6 +26,7 @@ public class MovilizerRequestSinkTest {
     private MovilizerConnectorConfig config;
     private MovilizerDistributionService mds;
     private MovilizerRequestSink sink;
+    private MovilizerRequestSink sinkSync;
     @Mock
     private MovilizerMetricService metricService;
 
@@ -44,10 +45,21 @@ public class MovilizerRequestSinkTest {
         mds = config.createMdsInstance();
 
         sink = MovilizerRequestSink.create(config, "root", metricService);
+        sinkSync = MovilizerRequestSink.create(config, "root-sync", metricService,
+                MovilizerRequestSink.Strategy.PASS_THROUGH_SYNC);
     }
 
     @Test
     public void connectionTest() {
+        verifyConnectionForSink(sink);
+    }
+
+    @Test
+    public void connectionTestSync() {
+        verifyConnectionForSink(sinkSync);
+    }
+
+    private void verifyConnectionForSink(MovilizerRequestSink sink) {
         MovilizerRequest request = new MovilizerRequest();
         Flux<MovilizerResponse> responses = sink.responses();
         sink.sendRequest(request);
@@ -64,7 +76,5 @@ public class MovilizerRequestSinkTest {
                 .thenCancel()
                 .verify();
     }
-
-
 
 }

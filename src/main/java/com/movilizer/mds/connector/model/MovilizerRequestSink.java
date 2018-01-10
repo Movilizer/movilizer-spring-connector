@@ -7,7 +7,7 @@ import com.movilizer.mds.connector.MovilizerMetricService;
 import reactor.core.publisher.Flux;
 
 public interface MovilizerRequestSink {
-    enum Strategy {PASS_THROUGH, CONSOLIDATE}
+    enum Strategy {PASS_THROUGH, CONSOLIDATE, PASS_THROUGH_SYNC, CONSOLIDATE_SYNC}
     Flux<MovilizerResponse> sendRequest(MovilizerRequest request);
     Flux<MovilizerResponse> responses();
     static MovilizerRequestSink create(MovilizerConnectorConfig config, String name,
@@ -18,11 +18,15 @@ public interface MovilizerRequestSink {
     static MovilizerRequestSink create(MovilizerConnectorConfig config, String name,
                                               MovilizerMetricService metrics, Strategy strategy) {
         switch (strategy) {
+            case CONSOLIDATE_SYNC:
+                return new ConsolidationSink(config, name, true, metrics);
             case CONSOLIDATE:
-                return new ConsolidationSink(config, name, metrics);
+                return new ConsolidationSink(config, name, false, metrics);
+            case PASS_THROUGH_SYNC:
+                return new PassThroughSink(config, name, true, metrics);
             case PASS_THROUGH:
             default:
-                return new PassThroughSink(config, name, metrics);
+                return new PassThroughSink(config, name, false, metrics);
         }
     }
 }
