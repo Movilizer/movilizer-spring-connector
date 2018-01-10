@@ -6,7 +6,7 @@ import com.movilizer.mds.connector.MovilizerMetricService;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class ListJoinCache<T> {
+abstract class ListJoinCache<T> implements ConsolidationCache {
 
     protected final MovilizerMetricService metrics;
 
@@ -19,10 +19,10 @@ abstract class ListJoinCache<T> {
     /**
      * Applies the item to the current cache.
      *
-     * @param item to be added to the cache
+     * @param request containing the items to be added to the cache
      */
-    public void apply(T item) {
-        items.add(item);
+    public void apply(MovilizerRequest request) {
+        items.addAll(getFromRequest(request));
     }
 
     /**
@@ -41,7 +41,15 @@ abstract class ListJoinCache<T> {
         return false;
     }
 
+    protected abstract List<T> getFromRequest(MovilizerRequest request);
     protected abstract void addListToRequest(MovilizerRequest request);
 
-    protected abstract Long size();
+    /**
+     * Number of items in the current cache (mainly used for metrics).
+     *
+     * @return number of items in cache
+     */
+    public Long size() {
+        return (long) items.size();
+    }
 }

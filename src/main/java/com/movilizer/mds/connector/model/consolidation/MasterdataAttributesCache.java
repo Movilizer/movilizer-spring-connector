@@ -5,6 +5,8 @@ import com.movilitas.movilizer.v15.MovilizerMoveletAttributeUpdate;
 import com.movilitas.movilizer.v15.MovilizerRequest;
 import com.movilizer.mds.connector.MovilizerMetricService;
 
+import java.util.List;
+
 
 class MasterdataAttributesCache extends ListJoinCache<MovilizerMasterdataAttributeUpdate> {
 
@@ -13,16 +15,14 @@ class MasterdataAttributesCache extends ListJoinCache<MovilizerMasterdataAttribu
         super(metrics);
     }
 
+    @Override
+    protected List<MovilizerMasterdataAttributeUpdate> getFromRequest(MovilizerRequest request) {
+        return request.getMasterdataAttributeUpdate();
+    }
+
+    @Override
     protected void addListToRequest(MovilizerRequest request) {
         request.getMasterdataAttributeUpdate().addAll(items);
     }
 
-    /**
-     * Number of movelet attribute updates in the current cache (mainly used for metrics).
-     *
-     * @return number of movelet attribute update in cache
-     */
-    protected Long size() {
-        return (long) items.size();
-    }
 }

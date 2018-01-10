@@ -9,63 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class AssignmentCache {
+class AssignmentCache extends ListJoinCache<MovilizerMoveletAssignment> {
 
-    private final MovilizerMetricService metrics;
-
-    private List<MovilizerMoveletAssignment> moveletAssignments = new ArrayList<>();
-    private List<MovilizerMoveletAssignmentDelete> assignmentsDelete = new ArrayList<>();
 
     AssignmentCache(MovilizerMetricService metrics) {
-        this.metrics = metrics;
+        super(metrics);
     }
 
-    /**
-     * Applies the assignment to the current cache.
-     *
-     * @param assignment to be added to the cache
-     */
-    public void apply(MovilizerMoveletAssignment assignment) {
-        moveletAssignments.add(assignment);
+    @Override
+    protected List<MovilizerMoveletAssignment> getFromRequest(MovilizerRequest request) {
+        return request.getMoveletAssignment();
     }
 
-    /**
-     * Applies the assignment deletes to the current cache.
-     *
-     * @param assignmentDeletes to be added to the cache
-     */
-    public void apply(MovilizerMoveletAssignmentDelete assignmentDeletes) {
-        assignmentsDelete.add(assignmentDeletes);
+    @Override
+    protected void addListToRequest(MovilizerRequest request) {
+        request.getMoveletAssignment().addAll(items);
     }
 
-    /**
-     * Add current cache to the outbound request and clears the cache.
-     *
-     * @param request to add the movelets to
-     * @return if there's a need to send
-     */
-    public boolean addToRequest(MovilizerRequest request) {
-        if (!moveletAssignments.isEmpty()) {
-            request.getMoveletAssignment().addAll(moveletAssignments);
-            return true;
-        }
-        if (!assignmentsDelete.isEmpty()) {
-            request.getMoveletAssignmentDelete().addAll(assignmentsDelete);
-            return true;
-        }
-        clear();
-        return false;
-    }
-
-    private void clear() {
-        moveletAssignments.clear();
-        assignmentsDelete.clear();
-    }
-
-    private Long size() {
-        Long acc = 0L;
-        acc += moveletAssignments.size();
-        acc += assignmentsDelete.size();
-        return acc;
-    }
 }

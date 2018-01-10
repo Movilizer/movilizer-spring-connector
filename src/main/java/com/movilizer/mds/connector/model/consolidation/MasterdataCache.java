@@ -11,7 +11,7 @@ import java.util.*;
  * This means that any delete masterdata is performed on the current cache but it also passed to the cloud since there's
  * no warranty that there was not an existing masterdata entry/reference in the cloud already.
  */
-class MasterdataCache {
+class MasterdataCache implements ConsolidationCache {
 
     private final MovilizerMetricService metrics;
 
@@ -30,11 +30,13 @@ class MasterdataCache {
      *
      * @param poolUpdate to be added to the cache
      */
-    public void apply(MovilizerMasterdataPoolUpdate poolUpdate) {
-        // The order is important as in the MDS the deletes are processed first
-        poolUpdate.getDelete().forEach(delete -> apply(delete, poolUpdate.getPool()));
-        poolUpdate.getUpdate().forEach(update -> apply(update, poolUpdate.getPool()));
-        poolUpdate.getReference().forEach(reference -> apply(reference, poolUpdate.getPool()));
+    public void apply(MovilizerRequest request) {
+        for (MovilizerMasterdataPoolUpdate poolUpdate : request.getMasterdataPoolUpdate()) {
+            // The order is important as in the MDS the deletes are processed first
+            poolUpdate.getDelete().forEach(delete -> apply(delete, poolUpdate.getPool()));
+            poolUpdate.getUpdate().forEach(update -> apply(update, poolUpdate.getPool()));
+            poolUpdate.getReference().forEach(reference -> apply(reference, poolUpdate.getPool()));
+        }
     }
 
     /**
@@ -204,7 +206,7 @@ class MasterdataCache {
      *
      * @return number of masterdata changes in cache
      */
-    private Long size() {
+    public Long size() {
         Long acc = 0L;
         for (Map<String, MovilizerMasterdataUpdate> map : updates.values()) {
             acc += map.size();

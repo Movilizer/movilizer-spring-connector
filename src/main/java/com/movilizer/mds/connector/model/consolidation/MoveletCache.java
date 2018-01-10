@@ -4,6 +4,8 @@ import com.movilitas.movilizer.v15.MovilizerMoveletSet;
 import com.movilitas.movilizer.v15.MovilizerRequest;
 import com.movilizer.mds.connector.MovilizerMetricService;
 
+import java.util.List;
+
 /**
  * The consolidation of the moveletsets has to mirror the behavior expected in the MDS.
  *
@@ -27,6 +29,12 @@ class MoveletCache extends ListJoinCache<MovilizerMoveletSet> {
         super(metrics);
     }
 
+    @Override
+    protected List<MovilizerMoveletSet> getFromRequest(MovilizerRequest request) {
+        return request.getMoveletSet();
+    }
+
+    @Override
     protected void addListToRequest(MovilizerRequest request) {
         request.getMoveletSet().addAll(items);
     }
@@ -36,7 +44,8 @@ class MoveletCache extends ListJoinCache<MovilizerMoveletSet> {
      *
      * @return number of movelets in cache
      */
-    protected Long size() {
+    @Override
+    public Long size() {
         Long acc = 0L;
         for (MovilizerMoveletSet set: items) {
             acc += set.getMovelet().size();
