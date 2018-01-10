@@ -1,5 +1,6 @@
 package com.movilizer.mds.connector.model;
 
+import com.movilitas.movilizer.v15.MovilizerMoveletReset;
 import com.movilitas.movilizer.v15.MovilizerRequest;
 import com.movilitas.movilizer.v15.MovilizerResponse;
 import com.movilitas.movilizer.v15.MovilizerStatusMessage;
@@ -48,11 +49,11 @@ public class MovilizerRequestSinkTest {
 
     @Test
     public void connectionTest() {
-
+        MovilizerRequest request = new MovilizerRequest();
         Flux<MovilizerResponse> responses = sink.responses();
-        sink.sendRequest(new MovilizerRequest());
-        sink.sendRequest(new MovilizerRequest());
-        sink.sendRequest(new MovilizerRequest());
+        sink.sendRequest(request);
+        sink.sendRequest(request);
+        sink.sendRequest(request);
 
         Flux<String> messages = responses
                 .doOnNext(response -> logger.info(mds.responseToString(response)))

@@ -20,12 +20,12 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.movilizer.mds.connector.model.RequestConsolidationUtil.consolidateRequests;
+import static com.movilizer.mds.connector.model.consolidation.RequestConsolidationUtil.consolidateRequests;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class RequestConsolidationUtilMasterdataTest {
+public class RequestConsolidationUtilMasterdataTest extends RequestConsolidationBaseTest {
 
     @Test
     public void consolidate2MasterdataUpdatesDifferentPoolSameKey() {
@@ -36,7 +36,7 @@ public class RequestConsolidationUtilMasterdataTest {
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
-        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests, metrics);
 
         assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(2));
         MovilizerMasterdataPoolUpdate poolUpdateA;
@@ -69,7 +69,7 @@ public class RequestConsolidationUtilMasterdataTest {
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
-        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests, metrics);
 
         assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(1));
         MovilizerMasterdataPoolUpdate poolUpdateA;
@@ -95,7 +95,7 @@ public class RequestConsolidationUtilMasterdataTest {
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
-        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests, metrics);
 
         assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(1));
         assertThat(consolidatedRequest.getMasterdataPoolUpdate().get(0).getPool(), is(pool));
@@ -119,7 +119,7 @@ public class RequestConsolidationUtilMasterdataTest {
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2, request3, request4);
 
-        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests, metrics);
 
         assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(1));
         assertThat(consolidatedRequest.getMasterdataPoolUpdate().get(0).getPool(), is(pool));
@@ -141,7 +141,7 @@ public class RequestConsolidationUtilMasterdataTest {
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2, request3);
 
-        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests, metrics);
 
         assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(2));
 
@@ -179,7 +179,7 @@ public class RequestConsolidationUtilMasterdataTest {
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2, request3, request4);
 
-        MovilizerRequest consolidatedRequest = consolidateRequests(requests);
+        MovilizerRequest consolidatedRequest = consolidateRequests(requests, metrics);
 
         assertThat(consolidatedRequest.getMasterdataPoolUpdate().size(), is(2));
 

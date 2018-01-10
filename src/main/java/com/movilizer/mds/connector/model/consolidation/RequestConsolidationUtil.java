@@ -1,12 +1,10 @@
-package com.movilizer.mds.connector.model;
+package com.movilizer.mds.connector.model.consolidation;
 
 import com.movilitas.movilizer.v15.*;
-import com.movilizer.mds.connector.model.consolidation.MasterdataCache;
-import com.movilizer.mds.connector.model.consolidation.MoveletCache;
+import com.movilizer.mds.connector.MovilizerMetricService;
+import com.movilizer.mds.connector.model.consolidation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Holds all the utils needed to consolidate requests in the MovilizerRequestSink before sending
@@ -32,7 +30,7 @@ import java.util.Map;
  * IMPORTANT NOTE: the consolidation is not taking into account the SYSTEM ID since this are
  * overridden by the MovilizerRequestSink
  */
-class RequestConsolidationUtil {
+public class RequestConsolidationUtil {
 
     /**
      * Consolidates a list of requests into a single request or returns null if there's no updates.
@@ -40,10 +38,14 @@ class RequestConsolidationUtil {
      * @param requests list to be consolidated
      * @return single request containing all the items from the input list or null if there's no updates
      */
-    public static MovilizerRequest consolidateRequests(List<MovilizerRequest> requests) {
+    public static MovilizerRequest consolidateRequests(List<MovilizerRequest> requests,
+                                                       MovilizerMetricService metrics) {
 
-        MoveletCache moveletCache = new MoveletCache();
-        MasterdataCache masterdataCache = new MasterdataCache();
+        MoveletCache moveletCache = new MoveletCache(metrics);
+        AssignmentCache assignmentCache = new AssignmentCache(metrics);
+        MoveletAttributesCache moveletAttributesCache = new MoveletAttributesCache(metrics);
+        MasterdataCache masterdataCache = new MasterdataCache(metrics);
+        MasterdataAttributesCache masterdataAttributesCache = new MasterdataAttributesCache(metrics);
 
         for (MovilizerRequest request : requests) {
             for (MovilizerMoveletSet set : request.getMoveletSet()) {
@@ -52,27 +54,26 @@ class RequestConsolidationUtil {
             for (MovilizerMasterdataPoolUpdate poolUpdate : request.getMasterdataPoolUpdate()) {
                 masterdataCache.apply(poolUpdate);
             }
+            for (MovilizerMoveletAssignment assignment : request.getMoveletAssignment()) {
+                assignmentCache.apply(assignment);
+            }
+            for (MovilizerMoveletAssignmentDelete delete : request.getMoveletAssignmentDelete()) {
+                assignmentCache.apply(delete);
+            }
+            for (MovilizerMoveletAttributeUpdate attributes : request.getMoveletAttributeUpdate()) {
+                moveletAttributesCache.apply(attributes);
+            }
+            for (MovilizerMasterdataAttributeUpdate attributes : request.getMasterdataAttributeUpdate()) {
+                masterdataAttributesCache.apply(attributes);
+            }
         }
 
         MovilizerRequest outputRequest = new MovilizerRequest();
-        Long consolidatedUpdates = 0L;
 
-        List<MovilizerMoveletSet> moveletSets = moveletCache.getMoveletSets();
-        if (!moveletSets.isEmpty()) {
-            outputRequest.getMoveletSet().addAll(moveletSets);
-            consolidatedUpdates += moveletSets.size();
-        }
+        boolean isCallToCloudNeeded = moveletCache.addToRequest(outputRequest);
+        isCallToCloudNeeded = isCallToCloudNeeded || masterdataCache.addToRequest(outputRequest);
+        isCallToCloudNeeded = isCallToCloudNeeded || assignmentCache.addToRequest(outputRequest);
 
-        List<MovilizerMasterdataPoolUpdate> poolUpdates = masterdataCache.getPoolUpdates();
-        if (!poolUpdates.isEmpty()) {
-            outputRequest.getMasterdataPoolUpdate().addAll(poolUpdates);
-            consolidatedUpdates += poolUpdates.size();
-        }
-
-        // Clear caches
-        moveletCache.clear();
-        masterdataCache.clear();
-
-        return consolidatedUpdates == 0? null : outputRequest;
+        return isCallToCloudNeeded? outputRequest : null;
     }
 }

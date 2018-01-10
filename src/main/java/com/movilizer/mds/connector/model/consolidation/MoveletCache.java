@@ -1,12 +1,8 @@
 package com.movilizer.mds.connector.model.consolidation;
 
-import com.movilitas.movilizer.v15.MovilizerMovelet;
-import com.movilitas.movilizer.v15.MovilizerMoveletDelete;
 import com.movilitas.movilizer.v15.MovilizerMoveletSet;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.movilitas.movilizer.v15.MovilizerRequest;
+import com.movilizer.mds.connector.MovilizerMetricService;
 
 /**
  * The consolidation of the moveletsets has to mirror the behavior expected in the MDS.
@@ -24,25 +20,25 @@ import java.util.Map;
  *     <li>Movelet needs to be updated -> increase the version</li>
  * </ul>
  */
-public class MoveletCache {
+class MoveletCache extends ListJoinCache<MovilizerMoveletSet> {
 
-    private List<MovilizerMoveletSet> moveletSets = new ArrayList<>();
 
-    public List<MovilizerMoveletSet> getMoveletSets() {
-        return moveletSets;
+    MoveletCache(MovilizerMetricService metrics) {
+        super(metrics);
     }
 
-    public void apply(MovilizerMoveletSet set) {
-        moveletSets.add(set);
+    protected void addListToRequest(MovilizerRequest request) {
+        request.getMoveletSet().addAll(items);
     }
 
-    public void clear() {
-        moveletSets.clear();
-    }
-
-    public Long size() {
+    /**
+     * Number of movelets in the current cache (mainly used for metrics).
+     *
+     * @return number of movelets in cache
+     */
+    protected Long size() {
         Long acc = 0L;
-        for (MovilizerMoveletSet set: moveletSets) {
+        for (MovilizerMoveletSet set: items) {
             acc += set.getMovelet().size();
         }
         return acc;

@@ -1,10 +1,19 @@
 package com.movilizer.mds.connector.model.consolidation;
 
 import com.movilitas.movilizer.v15.*;
+import com.movilizer.mds.connector.MovilizerMetricService;
 
 import java.util.*;
 
-public class MasterdataCache {
+/**
+ * The consolidation of the masterdata has to mirror the behavior expected in the MDS.
+ *
+ * This means that any delete masterdata is performed on the current cache but it also passed to the cloud since there's
+ * no warranty that there was not an existing masterdata entry/reference in the cloud already.
+ */
+class MasterdataCache {
+
+    private final MovilizerMetricService metrics;
 
     private Map<String, Map<String, MovilizerMasterdataUpdate>> updates = new HashMap<>();
     private Map<String, Set<String>> updateGroups = new HashMap<>();
@@ -12,39 +21,15 @@ public class MasterdataCache {
     private Map<String, Set<String>> referenceGroups = new HashMap<>();
     private Map<String, Map<String, MovilizerMasterdataDelete>> deletes = new HashMap<>();
 
-    public List<MovilizerMasterdataPoolUpdate> getPoolUpdates() {
-        List<MovilizerMasterdataPoolUpdate> poolUpdates = new ArrayList<>();
-
-        for (Map.Entry<String, Map<String, MovilizerMasterdataUpdate>> entry : updates.entrySet()) {
-            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
-            poolUpdate.setPool(entry.getKey());
-            for (MovilizerMasterdataUpdate update : entry.getValue().values()) {
-                poolUpdate.getUpdate().add(update);
-            }
-            poolUpdates.add(poolUpdate);
-        }
-
-        for (Map.Entry<String, Map<String, MovilizerMasterdataReference>> entry : references.entrySet()) {
-            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
-            poolUpdate.setPool(entry.getKey());
-            for (MovilizerMasterdataReference reference : entry.getValue().values()) {
-                poolUpdate.getReference().add(reference);
-            }
-            poolUpdates.add(poolUpdate);
-        }
-
-        for (Map.Entry<String, Map<String, MovilizerMasterdataDelete>> entry : deletes.entrySet()) {
-            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
-            poolUpdate.setPool(entry.getKey());
-            for (MovilizerMasterdataDelete delete : entry.getValue().values()) {
-                poolUpdate.getDelete().add(delete);
-            }
-            poolUpdates.add(poolUpdate);
-        }
-
-        return poolUpdates;
+    MasterdataCache(MovilizerMetricService metrics) {
+        this.metrics = metrics;
     }
 
+    /**
+     * Applies the masterdata changes to the current cache.
+     *
+     * @param poolUpdate to be added to the cache
+     */
     public void apply(MovilizerMasterdataPoolUpdate poolUpdate) {
         // The order is important as in the MDS the deletes are processed first
         poolUpdate.getDelete().forEach(delete -> apply(delete, poolUpdate.getPool()));
@@ -52,7 +37,23 @@ public class MasterdataCache {
         poolUpdate.getReference().forEach(reference -> apply(reference, poolUpdate.getPool()));
     }
 
-    public void apply(MovilizerMasterdataUpdate update, String poolName) {
+    /**
+     * Add current cache to the outbound request and clears the cache.
+     *
+     * @param request to add the movelets to
+     * @return if there's a need to send
+     */
+    public boolean addToRequest(MovilizerRequest request) {
+        List<MovilizerMasterdataPoolUpdate> poolUpdates = getPoolUpdates();
+        if (!poolUpdates.isEmpty()) {
+            request.getMasterdataPoolUpdate().addAll(poolUpdates);
+            return true;
+        }
+        clear();
+        return false;
+    }
+
+    private void apply(MovilizerMasterdataUpdate update, String poolName) {
         Map<String, MovilizerMasterdataUpdate> keyUpdateMap;
         if (updates.containsKey(poolName)) {
             keyUpdateMap = updates.get(poolName);
@@ -65,7 +66,7 @@ public class MasterdataCache {
         updateGroupCache(update.getKey(), update.getGroup(), poolName, updateGroups);
     }
 
-    public void apply(MovilizerMasterdataReference reference, String poolName) {
+    private void apply(MovilizerMasterdataReference reference, String poolName) {
         Map<String, MovilizerMasterdataReference> keyReferenceMap;
         if (references.containsKey(poolName)) {
             keyReferenceMap = references.get(poolName);
@@ -165,15 +166,45 @@ public class MasterdataCache {
         return delete.getKey() == null || "".equals(delete.getKey());
     }
 
-    public void clear() {
-        updates.clear();
-        deletes.clear();
-        references.clear();
-        updateGroups.clear();
-        referenceGroups.clear();
+    private List<MovilizerMasterdataPoolUpdate> getPoolUpdates() {
+        List<MovilizerMasterdataPoolUpdate> poolUpdates = new ArrayList<>();
+
+        for (Map.Entry<String, Map<String, MovilizerMasterdataUpdate>> entry : updates.entrySet()) {
+            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+            poolUpdate.setPool(entry.getKey());
+            for (MovilizerMasterdataUpdate update : entry.getValue().values()) {
+                poolUpdate.getUpdate().add(update);
+            }
+            poolUpdates.add(poolUpdate);
+        }
+
+        for (Map.Entry<String, Map<String, MovilizerMasterdataReference>> entry : references.entrySet()) {
+            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+            poolUpdate.setPool(entry.getKey());
+            for (MovilizerMasterdataReference reference : entry.getValue().values()) {
+                poolUpdate.getReference().add(reference);
+            }
+            poolUpdates.add(poolUpdate);
+        }
+
+        for (Map.Entry<String, Map<String, MovilizerMasterdataDelete>> entry : deletes.entrySet()) {
+            MovilizerMasterdataPoolUpdate poolUpdate = new MovilizerMasterdataPoolUpdate();
+            poolUpdate.setPool(entry.getKey());
+            for (MovilizerMasterdataDelete delete : entry.getValue().values()) {
+                poolUpdate.getDelete().add(delete);
+            }
+            poolUpdates.add(poolUpdate);
+        }
+
+        return poolUpdates;
     }
 
-    public Long size() {
+    /**
+     * Number of masterdata changes in the current cache (mainly used for metrics).
+     *
+     * @return number of masterdata changes in cache
+     */
+    private Long size() {
         Long acc = 0L;
         for (Map<String, MovilizerMasterdataUpdate> map : updates.values()) {
             acc += map.size();
@@ -185,5 +216,13 @@ public class MasterdataCache {
             acc += map.size();
         }
         return acc;
+    }
+
+    private void clear() {
+        updates.clear();
+        deletes.clear();
+        references.clear();
+        updateGroups.clear();
+        referenceGroups.clear();
     }
 }
