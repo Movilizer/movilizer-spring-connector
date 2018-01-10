@@ -1,4 +1,4 @@
-package com.movilizer.mds.connector.model;
+package com.movilizer.mds.connector.model.consolidation;
 
 import com.movilizer.mds.connector.MovilizerMetricService;
 import org.junit.Before;
