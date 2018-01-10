@@ -24,8 +24,10 @@ class SystemConfigurationCache implements ConsolidationCache {
 
     @Override
     public void apply(MovilizerRequest request) {
-        items.addAll(request.getSystemConfiguration().getConfigurationContact());
-        configuration = request.getSystemConfiguration();
+        if (request.getSystemConfiguration() != null) {
+            items.addAll(request.getSystemConfiguration().getConfigurationContact());
+            configuration = request.getSystemConfiguration();
+        }
     }
 
     @Override
