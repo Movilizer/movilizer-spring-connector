@@ -1,6 +1,5 @@
 package com.movilizer.mds.connector.model;
 
-import com.movilitas.movilizer.v15.MovilizerMoveletReset;
 import com.movilitas.movilizer.v15.MovilizerRequest;
 import com.movilitas.movilizer.v15.MovilizerResponse;
 import com.movilitas.movilizer.v15.MovilizerStatusMessage;

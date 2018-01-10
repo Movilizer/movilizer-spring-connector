@@ -3,9 +3,12 @@ package com.movilizer.mds.connector.model;
 import com.movilitas.movilizer.v15.MovilizerResponse;
 import com.movilizer.mds.connector.MovilizerConnectorConfig;
 import com.movilizer.mds.connector.MovilizerMetricService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.TopicProcessor;
 
-class PassThroughSink extends MovilizerRequestSink {
+class PassThroughSink extends MovilizerRequestSinkBase {
+    private static final Logger logger = LoggerFactory.getLogger(PassThroughSink.class);
 
     PassThroughSink(MovilizerConnectorConfig config, String name,
                     MovilizerMetricService metrics) {

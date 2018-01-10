@@ -5,12 +5,16 @@ import com.movilitas.movilizer.v15.MovilizerResponse;
 import com.movilizer.mds.connector.MovilizerConnectorConfig;
 import com.movilizer.mds.connector.MovilizerMetricService;
 import com.movilizer.mds.connector.model.consolidation.RequestConsolidationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.TopicProcessor;
 
 import java.util.List;
 
-class ConsolidationSink extends MovilizerRequestSink {
+class ConsolidationSink extends MovilizerRequestSinkBase {
+
+    private static final Logger logger = LoggerFactory.getLogger(ConsolidationSink.class);
 
     ConsolidationSink(MovilizerConnectorConfig config, String name,
                       MovilizerMetricService metrics) {
