@@ -21,7 +21,7 @@ public class RequestConsolidationUtilMoveletAttributesTest extends RequestConsol
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
-        MovilizerRequest consolidatedRequest = RequestConsolidationUtil.consolidateRequests(requests, metrics);
+        MovilizerRequest consolidatedRequest = consolidationUtil.consolidateRequests(requests);
 
         assertThat(consolidatedRequest.getMoveletAttributeUpdate().size(), is(2));
         assertThat(consolidatedRequest.getMoveletAttributeUpdate().get(0).getAttributeUpdate().size(), is(1));

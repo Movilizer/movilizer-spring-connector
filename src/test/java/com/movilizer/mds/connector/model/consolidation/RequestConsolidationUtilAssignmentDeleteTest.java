@@ -20,7 +20,7 @@ public class RequestConsolidationUtilAssignmentDeleteTest extends RequestConsoli
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
-        MovilizerRequest consolidatedRequest = RequestConsolidationUtil.consolidateRequests(requests, metrics);
+        MovilizerRequest consolidatedRequest = consolidationUtil.consolidateRequests(requests);
 
         assertThat(consolidatedRequest.getMoveletAssignmentDelete().size(), is(2));
 

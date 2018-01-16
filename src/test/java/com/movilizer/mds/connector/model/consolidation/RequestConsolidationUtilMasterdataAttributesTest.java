@@ -19,7 +19,7 @@ public class RequestConsolidationUtilMasterdataAttributesTest extends RequestCon
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
-        MovilizerRequest consolidatedRequest = RequestConsolidationUtil.consolidateRequests(requests, metrics);
+        MovilizerRequest consolidatedRequest = consolidationUtil.consolidateRequests(requests);
 
         assertThat(consolidatedRequest.getMasterdataAttributeUpdate().size(), is(2));
         assertThat(consolidatedRequest.getMasterdataAttributeUpdate().get(0).getAttributeUpdate().size(), is(1));

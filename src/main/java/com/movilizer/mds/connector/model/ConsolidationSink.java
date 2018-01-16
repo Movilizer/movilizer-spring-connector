@@ -16,10 +16,12 @@ import java.util.List;
 class ConsolidationSink extends MovilizerRequestSinkBase {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsolidationSink.class);
+    private RequestConsolidationUtil consolidationUtil;
 
     ConsolidationSink(MovilizerConnectorConfig config, String name, Boolean isSynchronous,
                       MovilizerMetricService metrics) {
         super(config, name, isSynchronous, metrics);
+        consolidationUtil = new RequestConsolidationUtil(metrics);
         upstream = TopicProcessor.share(name, config.getPushConsolidatedElementsSize());
         downstream = upstream
                 .doOnNext(request -> {
@@ -41,7 +43,7 @@ class ConsolidationSink extends MovilizerRequestSinkBase {
                     }
                 })
                 .flatMap((List<MovilizerRequest> requests) ->
-                        Mono.justOrEmpty(RequestConsolidationUtil.consolidateRequests(requests, metrics))
+                        Mono.justOrEmpty(consolidationUtil.consolidateRequests(requests))
                 )
                 .doOnNext(request -> {
                     if (request != null) {

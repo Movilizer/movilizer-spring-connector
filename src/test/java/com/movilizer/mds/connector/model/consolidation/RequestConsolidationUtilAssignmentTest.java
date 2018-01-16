@@ -19,7 +19,7 @@ public class RequestConsolidationUtilAssignmentTest extends RequestConsolidation
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
-        MovilizerRequest consolidatedRequest = RequestConsolidationUtil.consolidateRequests(requests, metrics);
+        MovilizerRequest consolidatedRequest = consolidationUtil.consolidateRequests(requests);
 
         assertThat(consolidatedRequest.getMoveletAssignment().size(), is(2));
 

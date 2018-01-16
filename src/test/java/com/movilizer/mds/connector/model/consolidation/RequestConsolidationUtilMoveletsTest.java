@@ -23,7 +23,7 @@ public class RequestConsolidationUtilMoveletsTest extends RequestConsolidationBa
 
         List<MovilizerRequest> requests = Arrays.asList(request1, request2);
 
-        MovilizerRequest consolidatedRequest = RequestConsolidationUtil.consolidateRequests(requests, metrics);
+        MovilizerRequest consolidatedRequest = consolidationUtil.consolidateRequests(requests);
 
         assertThat(consolidatedRequest.getMoveletSet().size(), is(2));
         assertThat(consolidatedRequest.getMoveletSet().get(0).getMovelet().size(), is(1));
