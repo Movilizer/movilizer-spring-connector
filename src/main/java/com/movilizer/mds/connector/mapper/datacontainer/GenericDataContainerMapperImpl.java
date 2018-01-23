@@ -63,7 +63,7 @@ public class GenericDataContainerMapperImpl implements GenericDataContainerMappe
     }
 
     @Override
-    public <T> boolean isType(MovilizerGenericDataContainer dataContainer, Class<T> objectType) throws MovilizerMappingException {
+    public <T> boolean isType(MovilizerGenericDataContainer dataContainer, Class<T> objectType) {
         boolean isType = false;
         String className = getTypeCanonicalName(dataContainer);
         if (objectType.getName().equals(className)) {
@@ -86,7 +86,11 @@ public class GenericDataContainerMapperImpl implements GenericDataContainerMappe
                 return entry.getValstr();
             }
         }
-        throw new MovilizerMappingException("Java class entry (\"" + JAVA_CLASS_ENTRY + "\") not found in dataContainer");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Could not determinate class of data container. Java class entry (\"" + JAVA_CLASS_ENTRY +
+                    "\") not found in dataContainer");
+        }
+        return "";
     }
 
     @Override
