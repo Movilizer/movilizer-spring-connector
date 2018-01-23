@@ -35,6 +35,11 @@ public class MovilizerCoreUtilsImpl implements MovilizerCoreUtils {
 
     @Override
     public Flux<MovilizerResponse> responsesSource(String sourceName) {
+        return responsesSource(sourceName, null);
+    }
+
+    @Override
+    public Flux<MovilizerResponse> responsesSource(String sourceName, String responseQueue) {
         MovilizerDistributionService mds = config.createMdsInstance();
         if (logger.isDebugEnabled()) {
             logger.debug(String.format("Created new Movilizer response source %s", sourceName));
@@ -47,16 +52,20 @@ public class MovilizerCoreUtilsImpl implements MovilizerCoreUtils {
                                 subscription.toString(), sourceName));
                     }
                 })
-                .map(time -> mds.prepareDownloadRequest(config.getSystemId(), config.getPassword(),
-                        config.getPushConsolidatedElementsSize(), new MovilizerRequest()))
+                .map(time -> {
+                    MovilizerRequest request = mds.prepareDownloadRequest(config.getSystemId(), config.getPassword(),
+                            config.getPushConsolidatedElementsSize(), new MovilizerRequest());
+                    request.setResponseQueue(responseQueue);
+                    return request;
+                })
                 .flatMap(request ->
-                    Mono.fromFuture(mds.getReplyFromCloud(request))
-                            .doOnError(throwable -> metrics.sourceRequestErrorSubmit(sourceName))
-                            .elapsed()
-                            .map(tuple -> {
-                                metrics.sourceResponseTimeSubmit(sourceName, tuple.getT1());
-                                return tuple.getT2();
-                            })
+                        Mono.fromFuture(mds.getReplyFromCloud(request))
+                                .doOnError(throwable -> metrics.sourceRequestErrorSubmit(sourceName))
+                                .elapsed()
+                                .map(tuple -> {
+                                    metrics.sourceResponseTimeSubmit(sourceName, tuple.getT1());
+                                    return tuple.getT2();
+                                })
                 )
                 .doOnNext(response -> {
                     if (logger.isDebugEnabled()) {
@@ -90,5 +99,21 @@ public class MovilizerCoreUtilsImpl implements MovilizerCoreUtils {
     @Override
     public MovilizerRequestSink createRequestSink(String name) {
         return MovilizerRequestSink.create(config, name, metrics);
+    }
+
+    @Override
+    public MovilizerRequestSink createRequestSink(String name, MovilizerRequestSink.Strategy strategy) {
+        return MovilizerRequestSink.create(config, name, metrics, strategy);
+    }
+
+    @Override
+    public MovilizerRequestSink createRequestSink(String name, String responseQueue) {
+        return MovilizerRequestSink.create(config, name, responseQueue, metrics);
+    }
+
+    @Override
+    public MovilizerRequestSink createRequestSink(String name, String responseQueue,
+                                                  MovilizerRequestSink.Strategy strategy) {
+        return MovilizerRequestSink.create(config, name, responseQueue, metrics, strategy);
     }
 }

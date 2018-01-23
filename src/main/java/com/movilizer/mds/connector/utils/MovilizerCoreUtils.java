@@ -14,5 +14,13 @@ public interface MovilizerCoreUtils {
 
     Flux<MovilizerResponse> responsesSource(String sourceName);
 
+    Flux<MovilizerResponse> responsesSource(String sourceName, String responseQueue);
+
     MovilizerRequestSink createRequestSink(String name);
+
+    MovilizerRequestSink createRequestSink(String name, MovilizerRequestSink.Strategy strategy);
+
+    MovilizerRequestSink createRequestSink(String name, String responseQueue);
+
+    MovilizerRequestSink createRequestSink(String name, String responseQueue, MovilizerRequestSink.Strategy strategy);
 }

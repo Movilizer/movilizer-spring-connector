@@ -34,6 +34,11 @@ public interface MovilizerRequestSink {
     }
 
     static MovilizerRequestSink create(MovilizerConnectorConfig config, String name, String responseQueue,
+                                       MovilizerMetricService metrics) {
+        return create(config, name, responseQueue, metrics, Strategy.PASS_THROUGH);
+    }
+
+    static MovilizerRequestSink create(MovilizerConnectorConfig config, String name, String responseQueue,
                                        MovilizerMetricService metrics, Strategy strategy) {
         switch (strategy) {
             case CONSOLIDATE_SYNC:
