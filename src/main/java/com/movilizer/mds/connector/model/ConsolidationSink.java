@@ -4,7 +4,7 @@ import com.movilitas.movilizer.v15.MovilizerRequest;
 import com.movilitas.movilizer.v15.MovilizerResponse;
 import com.movilizer.mds.connector.MovilizerConnectorConfig;
 import com.movilizer.mds.connector.MovilizerMetricService;
-import com.movilizer.mds.connector.model.consolidation.RequestConsolidationUtil;
+import com.movilizer.mds.connector.model.consolidation.RequestConsolidationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -16,12 +16,22 @@ import java.util.List;
 class ConsolidationSink extends MovilizerRequestSinkBase {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsolidationSink.class);
-    private RequestConsolidationUtil consolidationUtil;
+    private RequestConsolidationService consolidationUtil;
 
     ConsolidationSink(MovilizerConnectorConfig config, String name, Boolean isSynchronous,
                       MovilizerMetricService metrics) {
         super(config, name, isSynchronous, metrics);
-        consolidationUtil = new RequestConsolidationUtil(metrics);
+        setup(config, isSynchronous, metrics);
+    }
+
+    ConsolidationSink(MovilizerConnectorConfig config, String name, String responseQueue, Boolean isSynchronous,
+                      MovilizerMetricService metrics) {
+        super(config, name, responseQueue, isSynchronous, metrics);
+        setup(config, isSynchronous, metrics);
+    }
+
+    private void setup(MovilizerConnectorConfig config, Boolean isSynchronous, MovilizerMetricService metrics) {
+        consolidationUtil = new RequestConsolidationService(metrics);
         upstream = TopicProcessor.share(name, config.getPushConsolidatedElementsSize());
         downstream = upstream
                 .doOnNext(request -> {

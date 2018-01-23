@@ -11,7 +11,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class RequestConsolidationUtilMoveletsTest extends RequestConsolidationBaseTest {
+public class RequestConsolidationServiceMoveletsTest extends RequestConsolidationBaseTest {
 
     @Test
     public void consolidate2MoveletsSameVersion() {

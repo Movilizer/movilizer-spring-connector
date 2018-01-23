@@ -8,15 +8,18 @@ import reactor.core.publisher.Flux;
 
 public interface MovilizerRequestSink {
     enum Strategy {PASS_THROUGH, CONSOLIDATE, PASS_THROUGH_SYNC, CONSOLIDATE_SYNC}
+
     Flux<MovilizerResponse> sendRequest(MovilizerRequest request);
+
     Flux<MovilizerResponse> responses();
+
     static MovilizerRequestSink create(MovilizerConnectorConfig config, String name,
-                                              MovilizerMetricService metrics) {
+                                       MovilizerMetricService metrics) {
         return create(config, name, metrics, Strategy.PASS_THROUGH);
     }
 
     static MovilizerRequestSink create(MovilizerConnectorConfig config, String name,
-                                              MovilizerMetricService metrics, Strategy strategy) {
+                                       MovilizerMetricService metrics, Strategy strategy) {
         switch (strategy) {
             case CONSOLIDATE_SYNC:
                 return new ConsolidationSink(config, name, true, metrics);
@@ -27,6 +30,21 @@ public interface MovilizerRequestSink {
             case PASS_THROUGH:
             default:
                 return new PassThroughSink(config, name, false, metrics);
+        }
+    }
+
+    static MovilizerRequestSink create(MovilizerConnectorConfig config, String name, String responseQueue,
+                                       MovilizerMetricService metrics, Strategy strategy) {
+        switch (strategy) {
+            case CONSOLIDATE_SYNC:
+                return new ConsolidationSink(config, name, responseQueue, true, metrics);
+            case CONSOLIDATE:
+                return new ConsolidationSink(config, name, responseQueue, false, metrics);
+            case PASS_THROUGH_SYNC:
+                return new PassThroughSink(config, name, responseQueue, true, metrics);
+            case PASS_THROUGH:
+            default:
+                return new PassThroughSink(config, name, responseQueue, false, metrics);
         }
     }
 }

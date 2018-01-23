@@ -9,7 +9,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class RequestConsolidationUtilAssignmentTest extends RequestConsolidationBaseTest {
+public class RequestConsolidationServiceAssignmentTest extends RequestConsolidationBaseTest {
 
     @Test
     public void consolidate2Assignments() {

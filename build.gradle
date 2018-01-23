@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'com.movilizer.mds.connector'
-version = '3.0.6-SNAPSHOT'
+version = '3.0.8-SNAPSHOT'
 
 repositories {
     jcenter()

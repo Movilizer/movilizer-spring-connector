@@ -15,6 +15,16 @@ class PassThroughSink extends MovilizerRequestSinkBase {
     PassThroughSink(MovilizerConnectorConfig config, String name, Boolean isSynchronous,
                     MovilizerMetricService metrics) {
         super(config, name, isSynchronous, metrics);
+        setup(config, isSynchronous, metrics);
+    }
+
+    PassThroughSink(MovilizerConnectorConfig config, String name, String responseQueue, Boolean isSynchronous,
+                    MovilizerMetricService metrics) {
+        super(config, name, responseQueue, isSynchronous, metrics);
+        setup(config, isSynchronous, metrics);
+    }
+
+    private void setup(MovilizerConnectorConfig config, Boolean isSynchronous, MovilizerMetricService metrics) {
         upstream = TopicProcessor.share(name, config.getPushConsolidatedElementsSize());
         downstream = upstream
                 .doOnNext(request -> {

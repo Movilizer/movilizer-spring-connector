@@ -18,6 +18,7 @@ public abstract class MovilizerRequestSinkBase implements MovilizerRequestSink {
     private final String ownerThreadId;
     private final Boolean isSynchronous;
     private final MovilizerMetricService metrics;
+    private final String responseQueue;
     final Counter queueSize;
     protected final MovilizerDistributionService mds;
     TopicProcessor<MovilizerRequest> upstream;
@@ -28,6 +29,19 @@ public abstract class MovilizerRequestSinkBase implements MovilizerRequestSink {
                              MovilizerMetricService metrics) {
         this.config = config;
         this.name = name;
+        this.isSynchronous = isSynchronous;
+        this.ownerThreadId = String.valueOf(Thread.currentThread().getId());
+        this.responseQueue = name + CONNECTOR_UPLOAD_QUEUE_SUFFIX + ownerThreadId;
+        this.metrics = metrics;
+        mds = config.createMdsInstance();
+        queueSize = metrics.createSinkQueueSizeCounter(name);
+    }
+
+    MovilizerRequestSinkBase(MovilizerConnectorConfig config, String name, String responseQueue, Boolean isSynchronous,
+                             MovilizerMetricService metrics) {
+        this.config = config;
+        this.name = name;
+        this.responseQueue = responseQueue;
         this.isSynchronous = isSynchronous;
         this.ownerThreadId = String.valueOf(Thread.currentThread().getId());
         this.metrics = metrics;
@@ -77,6 +91,6 @@ public abstract class MovilizerRequestSinkBase implements MovilizerRequestSink {
     }
 
     private String getResponseQueue() {
-        return name + CONNECTOR_UPLOAD_QUEUE_SUFFIX + ownerThreadId;
+        return responseQueue;
     }
 }

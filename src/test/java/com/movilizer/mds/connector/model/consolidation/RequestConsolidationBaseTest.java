@@ -10,11 +10,11 @@ public abstract class RequestConsolidationBaseTest {
     @Mock
     MovilizerMetricService metrics;
 
-    RequestConsolidationUtil consolidationUtil;
+    RequestConsolidationService consolidationUtil;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        consolidationUtil = new RequestConsolidationUtil(metrics);
+        consolidationUtil = new RequestConsolidationService(metrics);
     }
 }

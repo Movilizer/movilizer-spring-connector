@@ -10,7 +10,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class RequestConsolidationUtilAssignmentDeleteTest extends RequestConsolidationBaseTest {
+public class RequestConsolidationServiceAssignmentDeleteTest extends RequestConsolidationBaseTest {
 
     @Test
     public void consolidate2AssignmentDeletes() {

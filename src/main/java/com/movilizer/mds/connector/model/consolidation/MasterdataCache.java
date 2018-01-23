@@ -49,9 +49,9 @@ class MasterdataCache implements ConsolidationCache {
         List<MovilizerMasterdataPoolUpdate> poolUpdates = getPoolUpdates();
         if (!poolUpdates.isEmpty()) {
             request.getMasterdataPoolUpdate().addAll(poolUpdates);
+            clear();
             return true;
         }
-        clear();
         return false;
     }
 

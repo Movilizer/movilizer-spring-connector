@@ -10,7 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-public class RequestConsolidationUtilMasterdataTest extends RequestConsolidationBaseTest {
+public class RequestConsolidationServiceMasterdataTest extends RequestConsolidationBaseTest {
 
     @Test
     public void consolidate2MasterdataUpdatesDifferentPoolSameKey() {

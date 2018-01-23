@@ -9,7 +9,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class RequestConsolidationUtilMasterdataAttributesTest extends RequestConsolidationBaseTest {
+public class RequestConsolidationServiceMasterdataAttributesTest extends RequestConsolidationBaseTest {
 
     @Test
     public void consolidate2MasterdataAttributes() {

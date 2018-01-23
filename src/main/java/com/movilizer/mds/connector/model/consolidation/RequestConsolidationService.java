@@ -31,12 +31,12 @@ import java.util.stream.Collectors;
  * IMPORTANT NOTE: the consolidation is not taking into account the SYSTEM ID since this are
  * overridden by the MovilizerRequestSink
  */
-public class RequestConsolidationUtil {
+public class RequestConsolidationService {
 
     private final MovilizerMetricService metrics;
     private final List<ConsolidationCache> consolidationCaches;
 
-    public RequestConsolidationUtil(MovilizerMetricService metrics) {
+    public RequestConsolidationService(MovilizerMetricService metrics) {
         this.metrics = metrics;
         consolidationCaches = new ArrayList<>();
         consolidationCaches.add(new MoveletCache(metrics));
@@ -62,7 +62,7 @@ public class RequestConsolidationUtil {
      */
     public MovilizerRequest consolidateRequests(List<MovilizerRequest> requests) {
 
-        consolidationCaches.parallelStream()
+        consolidationCaches.stream()
                 .forEach(cache -> requests.forEach(cache::apply));
 
         MovilizerRequest outputRequest = new MovilizerRequest();

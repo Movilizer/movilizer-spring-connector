@@ -34,10 +34,9 @@ abstract class ListJoinCache<T> implements ConsolidationCache {
     public boolean addToRequest(MovilizerRequest request) {
         if (!items.isEmpty()) {
             addListToRequest(request);
+            items.clear();
             return true;
         }
-
-        items.clear();
         return false;
     }
 
