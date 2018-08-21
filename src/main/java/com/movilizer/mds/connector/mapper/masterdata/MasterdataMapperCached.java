@@ -93,7 +93,7 @@ class MasterdataMapperCached {
             }
 
             if (field.getAnnotation(MafAppSpace.class) != null) {
-                assert field.getType().equals(Long.class);
+                assert field.getType().equals(String.class);
                 mafAppSpaceField = field;
             }
         }
@@ -159,7 +159,7 @@ class MasterdataMapperCached {
             }
 
             if (method.getAnnotation(MafAppSpace.class) != null) {
-                assert method.getReturnType().equals(Long.class);
+                assert method.getReturnType().equals(String.class);
                 assert method.getParameterCount() == 0;
                 mafAppSpaceMethod = method;
             }
