@@ -8,12 +8,19 @@ plugins {
 }
 
 group = 'com.movilizer.mds.connector'
-version = '3.0.8-SNAPSHOT'
+version = '3.0.10-SNAPSHOT'
 
 repositories {
+    mavenLocal()
+    maven {
+        credentials {
+            username movilizerUsername
+            password movilizerPassword
+        }
+        url 'https://nexus.tools.movilizer.cloud/repository/maven-public/'
+    }
     jcenter()
     mavenCentral()
-    mavenLocal()
 }
 
 sourceCompatibility = 1.8
@@ -89,10 +96,15 @@ publishing {
     repositories {
         maven {
             credentials {
-                username movilizerArtifactoryUsername
-                password movilizerArtifactoryPassword
+                username movilizerUsername
+                password movilizerPassword
             }
-            url 'https://source.movilizer.com/artifactory/lighthouse'
+
+            if (project.version.endsWith('-SNAPSHOT')) {
+                url 'https://nexus.tools.movilizer.cloud/repository/maven-snapshots/'
+            } else {
+                url 'https://nexus.tools.movilizer.cloud/repository/maven-releases/'
+            }
         }
     }
 }

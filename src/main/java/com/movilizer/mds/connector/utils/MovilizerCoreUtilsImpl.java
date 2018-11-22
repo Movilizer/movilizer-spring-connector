@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 @Component
 public class MovilizerCoreUtilsImpl implements MovilizerCoreUtils {
     private static Log logger = LogFactory.getLog(MovilizerCoreUtilsImpl.class);
@@ -44,6 +46,8 @@ public class MovilizerCoreUtilsImpl implements MovilizerCoreUtils {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format("Created new Movilizer response source %s", sourceName));
         }
+        AtomicReference<String> requestAcknowledgeKey = new AtomicReference<>();
+        requestAcknowledgeKey.set("");
         return Flux.interval(config.getPollingInterval())
                 .doOnSubscribe(subscription -> {
                     metrics.sourceSubscribersIncrement(sourceName);
@@ -56,6 +60,8 @@ public class MovilizerCoreUtilsImpl implements MovilizerCoreUtils {
                     MovilizerRequest request = mds.prepareDownloadRequest(config.getSystemId(), config.getPassword(),
                             config.getPushConsolidatedElementsSize(), new MovilizerRequest());
                     request.setResponseQueue(responseQueue);
+                    request.setRequestAcknowledgeKey(requestAcknowledgeKey.get());
+                    request.setUseAutoAcknowledge(false);
                     return request;
                 })
                 .flatMap(request ->
@@ -71,6 +77,7 @@ public class MovilizerCoreUtilsImpl implements MovilizerCoreUtils {
                     if (logger.isDebugEnabled()) {
                         logger.debug(String.format("New response from %s source", sourceName));
                     }
+                    requestAcknowledgeKey.set(response.getRequestAcknowledgeKey());
                     if (mds.responseHasErrors(response)) {
                         metrics.sourceWebserviceErrorSubmit(sourceName,
                                 response.getDocumentError().size() +
@@ -88,6 +95,18 @@ public class MovilizerCoreUtilsImpl implements MovilizerCoreUtils {
                     }
                 })
                 .doAfterTerminate(() -> {
+                    // Do a final acknowledge to avoid double processing of replies
+                    MovilizerRequest request = mds.prepareUploadRequest(config.getSystemId(), config.getPassword(),
+                            new MovilizerRequest());
+                    request.setUseAutoAcknowledge(true);
+                    request.setRequestAcknowledgeKey(requestAcknowledgeKey.get());
+                    Mono.fromFuture(mds.getReplyFromCloud(request))
+                            .subscribe(response -> {
+                                if (logger.isDebugEnabled()) {
+                                    logger.debug(String.format("Closing request from %s source sent and acknowledged",
+                                            sourceName));
+                                }
+                            });
                     metrics.sourceSubscribersReset(sourceName);
                     if (logger.isDebugEnabled()) {
                         logger.debug(String.format("Terminated Movilizer response source %s",
